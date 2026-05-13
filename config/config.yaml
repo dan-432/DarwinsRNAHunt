@@ -1,0 +1,42 @@
+
+databases:
+  # UPDATE THESE IF URLS CHANGE OR TO SET SPECIFIC VERSIONS
+  interpro:
+    tax_base_url: "https://www.ebi.ac.uk:443/interpro/api/taxonomy/uniprot/protein/entry/InterPro/{prot_id}/?page_size=200"
+  riboswitch:
+    # not currenlty used
+    base_url: "https://riboswitch.ribocentre.org/downloads/sequences"
+  gtdb:
+    gtdb_bacteria_tree_url: "https://data.gtdb.ecogenomic.org/releases/latest/bac120.tree"
+    gtdb_bacteria_metadata_url: "https://data.gtdb.ecogenomic.org/releases/latest/bac120_metadata.tsv.gz"
+  ncbi:
+    batch_size: 50
+
+dirs:
+  data: "resources"
+  results: "results"
+
+# InterPro
+interpro:
+  target_interpro_ids: 
+  - "IPR007024"
+
+# Taxonomy filtering
+taxonomy:
+  target_taxonomic_node: "36.0:f__Burkholderiaceae_C"
+  completeness_threshold: 99.9
+  contamination_threshold: 1
+
+# HMMER
+hmmer:
+  e: "1e-5"
+
+flanking:
+  upstream: -1
+  downstream: -1
+  length_threshold: 35 # find biological reasoning
+  gc_content_threshold: 0.4
+
+cmfinder:
+  evalue_threshold: 0.01
+  min_sequence_count: 5  # Minimum sequences needed to run CMfinder

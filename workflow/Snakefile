@@ -1,0 +1,337 @@
+configfile: "config/config.yaml"
+
+include: "rules/cmfinder_analysis.smk"
+
+DOMAINS = config["interpro"]["target_interpro_ids"]
+
+def get_accessions(wildcards):
+    from json import load
+    # Pass the target_domain wildcard to the checkpoint
+    checkpoint_output = checkpoints.download_genomes.get(target_domain=wildcards.target_domain)
+    with open(checkpoint_output.output.metadata) as f:
+        metadata = load(f)
+    return metadata["accessions"]
+
+
+rule all:
+    input:
+        # update to where we're currently up to
+        expand("results/03_motif_discovery/{target_domain}/06_reports/analysis_summary.txt",
+               target_domain=config["interpro"]["target_interpro_ids"]),
+        expand("results/03_motif_discovery/{target_domain}/06_reports/report.html",
+               target_domain=config["interpro"]["target_interpro_ids"])
+
+rule download_interpro_taxonomy:
+    output:
+        taxonomy = "resources/interpro/{target_domain}_taxonomy.json"
+    params:
+        interpro_id = "{target_domain}",
+        interpro_base_url = lambda wildcards: config["databases"]["interpro"]["tax_base_url"],
+        script = "workflow/src/download_interpro_taxonomy.py"
+    log:
+        "logs/{target_domain}_taxonomy/download_interpro_taxonomy_{target_domain}.log"
+    conda:
+        "envs/domain_taxonomy_env.yaml"
+    shell:
+        """
+        python {params.script} \
+            --interpro-id {params.interpro_id} \
+            --interpro-tax-base-url {params.interpro_base_url} \
+            --output {output.taxonomy} \
+            2>&1 | tee {log}
+        """
+
+rule download_gtdb_data:
+    output:
+        tree = "resources/gtdb/bac120.tree",
+        metadata = "resources/gtdb/bac120_metadata.tsv.gz"
+    params:
+        tree_url = config["databases"]["gtdb"]["gtdb_bacteria_tree_url"],
+        metadata_url = config["databases"]["gtdb"]["gtdb_bacteria_metadata_url"],
+        script = "workflow/src/download_gtdb.py"
+    log:
+        "logs/gtdb/download_gtdb_data.log"
+    conda:
+        "envs/domain_taxonomy_env.yaml"
+    shell:
+        """
+        python {params.script} \
+            --tree-url {params.tree_url} \
+            --metadata-url {params.metadata_url} \
+            --tree-output {output.tree} \
+            --metadata-output {output.metadata} \
+            2>&1 | tee {log}
+        """
+
+rule select_genomes:
+    input:
+        tree = "resources/gtdb/bac120.tree",
+        metadata = "resources/gtdb/bac120_metadata.tsv.gz",
+        to_keep = "resources/interpro/{target_domain}_taxonomy.json"
+    output:
+        tree = "results/01_species_selection/{target_domain}_taxonomy/filtered_tree.tree",
+        metadata = "results/01_species_selection/{target_domain}_taxonomy/filtered_metadata.tsv.gz",
+        genomes = "results/01_species_selection/{target_domain}_taxonomy/select_genome_accessions.json"
+        # image = "results/taxonomy/filtered_tree.png"
+    params:
+        script = "workflow/src/extract_subtree.py",
+        target_order = config["taxonomy"]["target_taxonomic_node"],
+        completeness = config["taxonomy"]["completeness_threshold"],
+        contamination = config["taxonomy"]["contamination_threshold"]
+    log:
+        "logs/{target_domain}_taxonomy/select_genomes_{target_domain}.log"
+    conda:
+        "envs/domain_taxonomy_env.yaml"
+    shell:
+        """
+        python {params.script} \
+            --input-tree {input.tree} \
+            --metadata {input.metadata} \
+            --to-keep {input.to_keep} \
+            --target-taxanomic-order "{params.target_order}" \
+            --completeness {params.completeness} \
+            --contamination {params.contamination} \
+            --output-tree {output.tree} \
+            --output-metadata {output.metadata} \
+            --output-genomes {output.genomes} \
+            2>&1 | tee {log}
+        """
+
+checkpoint download_genomes:
+    input:
+        genome_accessions = "results/{target_domain}_taxonomy/select_genome_accessions.json"
+    output:
+        metadata = "resources/{target_domain}_genomes/download_metadata.json",
+        flag = "resources/{target_domain}_genomes/.ncbi_download_complete.flag"
+    params:
+        script = "workflow/src/download_ncbi_genomes.sh",
+        outdir = "resources/{target_domain}_genomes",
+        formats = "gff3,genome,protein",
+        batch_size = config["databases"]["ncbi"]["batch_size"]
+    log:
+        "logs/genomes/download_genomes_{target_domain}.log"
+    conda:
+        "envs/genome_download_env.yaml"
+    shell:
+        """
+        bash {params.script} \
+            {input.genome_accessions} \
+            {params.outdir} \
+            {params.formats} \
+            {params.batch_size} \
+            2>&1 | tee {log}
+        
+        touch {output.flag}
+        """
+
+# rule validate_downloaded_genome_files:
+#     input:
+#         flag = lambda wildcards: checkpoints.download_genomes.get().output.flag
+#     output:
+#         protein = "resources/genomes/{genome}/protein.faa",
+#         genome = "resources/genomes/{genome}/genomic.fna",
+#         annotation = "resources/genomes/{genome}/geneannotation.gff"
+#     run:
+#         # might be worth doing other validations here too, but for now just check that the expected files exist after the download step
+#         import os
+#         for path in [output.protein, output.genome, output.annotation]:
+#             if not os.path.exists(path):
+#                 raise FileNotFoundError(f"Expected genome file missing after download: {path}")
+
+rule locate_domains:
+    input:
+        hmm = "resources/profiles/{target_domain}_domain_profile.hmm",
+        protein = "resources/{target_domain}_genomes/{genome}/protein.faa",
+        flag = lambda wildcards: checkpoints.download_genomes.get(target_domain=wildcards.target_domain).output.flag
+    output:
+        hits = "results/02_sequence_selection/01_domain_hits/{target_domain}/{genome}_protdomain_hits.tsv"
+    params:
+        e = config["hmmer"]["e"],
+        script = "workflow/src/scripts/search_for_domain.py"
+    log:
+        "logs/02_sequence_selection/01_domain_hits/{target_domain}_{genome}_protdomain_search.log"
+    conda:
+        "envs/domain_analysis_env.yaml"
+    threads: 2
+    resources:
+        mem_mb=2000,
+        runtime=60
+    shell:
+        """
+        hmmsearch --tblout {output.hits} \
+                  -E {params.e} \
+                  --cpu {threads} \
+                  {input.hmm} \
+                  {input.protein} \
+                  2>&1 | tee {log}
+        """
+
+rule extract_flanking_sequences:
+    input: 
+        domain_hit = "results/02_sequence_selection/01_domain_hits/{target_domain}/{genome}_protdomain_hits.tsv",
+        genome = "resources/{target_domain}_genomes/{genome}/genomic.fna",
+        annotation = "resources/{target_domain}_genomes/{genome}/geneannotation.gff"
+    output:
+        utr5 = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_upstream.fasta",
+        cds = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_cds.fasta",
+        utr3 = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_downstream.fasta",
+        coords = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_domain_flanking_coords.bed"
+    params:
+        script = "workflow/src/extract_flanking.py",
+        upstream = config["flanking"]["upstream"],
+        downstream = config["flanking"]["downstream"]
+    log:
+        "logs/02_sequence_selection/02_flanking_seqs/{target_domain}_{genome}_flanking_sequence_extraction.log"
+    conda:
+        "envs/domain_analysis_env.yaml"
+    resources:
+        mem_mb=1000,
+        runtime=30
+    shell:
+        """
+        mkdir -p .temp
+        python {params.script} \
+            --input-hits {input.domain_hit} \
+            --genome {input.genome} \
+            --annotation {input.annotation} \
+            --output-upstream {output.utr5} \
+            --output-cds {output.cds} \
+            --output-downstream {output.utr3} \
+            --output-coords {output.coords} \
+            --upstream {params.upstream} \
+            --downstream {params.downstream} \
+            2>&1 | tee {log}
+        """
+
+rule combine_flanking_sequences:
+    input:
+        utr5 = lambda wildcards: expand(
+            "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{accession}_upstream.fasta",
+            accession=get_accessions(wildcards),
+            target_domain=wildcards.target_domain
+        ),
+        cds = lambda wildcards: expand(
+            "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{accession}_cds.fasta",
+            accession=get_accessions(wildcards),
+            target_domain=wildcards.target_domain
+        ),
+        utr3 = lambda wildcards: expand(
+            "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{accession}_downstream.fasta",
+            accession=get_accessions(wildcards),
+            target_domain=wildcards.target_domain
+        )
+    output:
+        utr5 = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream.fasta",
+        cds = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_cds.fasta",
+        utr3 = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_downstream.fasta"
+    log:
+        "logs/02_sequence_selection/03_combined/{target_domain}_flanking_sequence_combination.log"
+    conda:
+        "envs/domain_analysis_env.yaml"
+    resources:
+        mem_mb=1000,
+        runtime=10
+    shell:
+        """
+        cat {input.utr5} > {output.utr5}
+        cat {input.cds} > {output.cds}
+        cat {input.utr3} > {output.utr3}
+        """
+
+rule filter_flanking_sequences:
+    input:
+        sequences = "results/02_sequence_selection/03_combined/{seq_file}.fasta"
+    output:
+        filtered = "results/02_sequence_selection/03_combined/{seq_file}_filtered.fasta"
+    params:
+        script = "workflow/src/filter_seqs.py",
+        length_threshold = config["flanking"]["length_threshold"],
+        gc_content_threshold = config["flanking"]["gc_content_threshold"]
+    log:
+        "logs/02_sequence_selection/03_combined/filter_flanking_sequences_{seq_file}.log"
+    conda:
+        "envs/domain_analysis_env.yaml"
+    resources:
+        mem_mb=1000,
+        runtime=10
+    shell:
+        """
+        python {params.script} \
+            --input {input.sequences} \
+            --output {output.filtered} \
+            --length-threshold {params.length_threshold} \
+            --gc-threshold {params.gc_content_threshold} \
+            2>&1 | tee {log}
+        """
+
+rule motif_discovery:
+    input:
+        sequences = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream.fasta"
+    output:
+        motifs = "results/02_sequence_selection/04_motif_discovery/{target_domain}_upstream_motifs"
+    log:
+        "logs/02_sequence_selection/04_motif_discovery/motif_discovery_{target_domain}.log"
+    conda:
+        "envs/rna_motif_env.yaml"
+    shell:
+        """
+        meme {input.sequences} -dna -mod zoops -nmotifs 3 -o {output.motifs} 2>&1 | tee {log}
+        """
+
+rule meme_motif_discovery:
+    input:
+        fasta = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
+    output:
+        directory("results/02_sequence_selection/04_motif_discovery/meme_out/{target_domain}")
+    conda:
+        "envs/rna_motif_env.yaml"
+    shell:
+        """
+        meme {input.fasta} -dna -oc {output} -mod zoops -nmotifs 10 -minw 6 -maxw 20
+        """
+
+rule scan_motif:
+    input:
+        meme_out = "results/03_motif_discovery/meme_out/{target_domain}",
+        fasta = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
+    output:
+        directory("results/fimo_out/{target_domain}")
+    conda:
+        "envs/rna_motif_env.yaml"
+    shell:
+        """
+        fimo --oc {output} {input.meme_out}/meme.txt {input.fasta}
+        """
+
+rule multiple_sequence_alignment:
+    input:
+        fasta = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
+    output:
+        alignment = "results/03_motif_discovery/alignments/{target_domain}_upstream_alignment.sto"
+    conda:
+        "envs/rna_motif_env.yaml"
+    shell:
+        """
+        clustalo -i {input.fasta} -o {output.alignment} --force --outfmt=stockholm
+        """
+
+
+rule cmfinder_motif_discovery:
+    input:
+        fasta = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
+    output:
+        sto="results/03_motif_discovery/cmfinder_results_simple/{target_domain}.sto"
+    threads: 4
+    resources:
+        mem_mb=8000
+    log:
+        "logs/03_motif_discovery/cmfinder_simple/{target_domain}.log"
+    shell:
+        """
+        docker run --rm --platform linux/amd64 -v "$(pwd)":/data \
+        --entrypoint /bin/bash \
+        cmfinder:latest \
+        -c "cd /opt/cmfinder-0.4.1.18/bin && ./cmfinder.pl /data/{input.fasta}"
+        --
+        2> {log}
+        """

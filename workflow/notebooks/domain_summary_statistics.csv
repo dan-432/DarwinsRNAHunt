@@ -1,0 +1,2 @@
+query_name,total_hits,full_evalue_mean,full_evalue_median,full_evalue_min,full_evalue_max,full_score_mean,full_score_median,full_score_min,full_score_max
+BLUF,488,0.0,0.0,0.0,0.0,93.8701,100.05,24.6,114.1

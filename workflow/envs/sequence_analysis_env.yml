@@ -1,0 +1,19 @@
+name: sequence_analysis
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.10
+  - jupyter
+  - notebook
+  - biopython
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - scipy
+  - ipykernel
+  - plotly
+  - glob2
+  - openpyxl

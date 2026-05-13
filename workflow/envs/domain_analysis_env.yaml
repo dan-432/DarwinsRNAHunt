@@ -1,0 +1,29 @@
+name: domain-analysis
+
+channel_priority: strict
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+ 
+dependencies:
+  - python=3.11
+  - pip
+
+  # BLUF domain identification
+  - hmmer  # For Pfam BLUF domain search
+  - biopython  # Parse sequences/annotations
+  - pandas  # Handle data
+  - gffutils  # For working with GFF annotations
+  
+  # Region extraction
+  - bedtools  # Extract flanking sequences
+  - samtools  # Index FASTA files
+
+  - unzip  # For extracting downloads
+  
+  # Utilities
+  - curl  # For downloading
+  - wget  # Alternative downloader
+  - unzip  # For extracting archives

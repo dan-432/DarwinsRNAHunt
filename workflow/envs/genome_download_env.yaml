@@ -1,0 +1,23 @@
+name: ncbi-download
+
+channel_priority: strict
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+ 
+dependencies:
+  - ncbi-datasets-cli  # Official NCBI datasets CLI
+  - python=3.11
+  - pip
+
+  - unzip  # For extracting downloads
+  # Bioinformatics tools for downstream analysis
+  - biopython  # For parsing sequences and annotations
+  - pandas  # For working with metadata/tables
+  
+  # Utilities
+  - curl  # For downloading
+  - wget  # Alternative downloader
+  - unzip  # For extracting archives

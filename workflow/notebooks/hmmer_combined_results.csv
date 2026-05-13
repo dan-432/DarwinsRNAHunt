@@ -1,0 +1,489 @@
+target_name,target_accession,query_name,query_accession,full_evalue,full_score,full_bias,best_evalue,best_score,best_bias,exp,reg,clu,ov,env,dom,rep,inc,description,genome_id
+ALS64648.1,-,BLUF,PF04940.19,4.1e-18,63.5,0.0,5.2e-18,63.1,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein AT395_06320 [Pandoraea apista],GCA_001465595.2
+VVD71553.1,-,BLUF,PF04940.19,2.1e-19,67.6,0.0,3.5e-19,66.8,0.0,1.4,1,0,0,1,1,1,1,hypothetical protein PMO31116_00637 [Pandoraea morbifera],GCA_902459575.1
+MBQ0961028.1,-,BLUF,PF04940.19,4.3e-33,111.4,0.0,5.3e-33,111.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ideonella sp. 4Y11],GCA_018069755.1
+MBQ0961153.1,-,BLUF,PF04940.19,2.1e-27,93.2,0.0,2.5e-27,93.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ideonella sp. 4Y11],GCA_018069755.1
+MBQ0958927.1,-,BLUF,PF04940.19,6.5e-26,88.4,0.0,9.6e-26,87.9,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Ideonella sp. 4Y11],GCA_018069755.1
+WMW81103.1,-,BLUF,PF04940.19,3.8e-31,104.9,0.0,4.9e-31,104.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Affinundibacterium cyanobacteriorum],GCA_031326225.1
+WMW80492.1,-,BLUF,PF04940.19,9.4e-29,97.2,0.1,1.2e-28,96.9,0.1,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Affinundibacterium cyanobacteriorum],GCA_031326225.1
+SFE24517.1,-,BLUF,PF04940.19,2.5e-32,108.9,0.0,3.2e-32,108.5,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Paracidovorax konjaci],GCA_900112675.1
+SFD44044.1,-,BLUF,PF04940.19,4.4e-24,82.5,0.0,5.4e-24,82.2,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Paracidovorax konjaci],GCA_900112675.1
+CAA2108047.1,-,BLUF,PF04940.19,3e-30,102.8,0.0,3.9e-30,102.5,0.0,1.1,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Variovorax paradoxus],GCA_902712855.1
+CAA2109517.1,-,BLUF,PF04940.19,2e-28,97.0,0.0,3.7e-28,96.1,0.0,1.5,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Variovorax paradoxus],GCA_902712855.1
+CAA2109672.1,-,BLUF,PF04940.19,7.2e-27,92.0,0.0,8.8e-27,91.7,0.0,1.1,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Variovorax paradoxus],GCA_902712855.1
+CAA2102067.1,-,BLUF,PF04940.19,7.9e-27,91.9,0.0,1.5e-26,91.0,0.0,1.4,2,0,0,2,2,2,1,Blue light- and temperature-regulated antirepressor BluF [Variovorax paradoxus],GCA_902712855.1
+MFG6447534.1,-,BLUF,PF04940.19,2.7e-32,108.4,0.0,3.6e-32,108.0,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles sp. BYS180W],GCA_043555845.1
+AWB33816.1,-,BLUF,PF04940.19,4.7e-30,101.3,0.0,5.9e-30,101.0,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Orrella marina],GCA_003058465.1
+OOV05941.1,-,BLUF,PF04940.19,1.7e-30,102.9,0.0,2.2e-30,102.5,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Rhodoferax fermentans],GCA_002017865.1
+OOV05532.1,-,BLUF,PF04940.19,1.8e-28,96.4,0.0,2.3e-28,96.1,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein RF819_01370 [Rhodoferax fermentans],GCA_002017865.1
+TDP13403.1,-,BLUF,PF04940.19,5.7e-33,110.8,0.0,7.2e-33,110.4,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Roseateles asaccharophilus],GCA_004362405.1
+CAG2142283.1,-,BLUF,PF04940.19,7.9e-32,107.6,0.0,1e-31,107.3,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein LMG19282_02208 [Cupriavidus campinensis],GCA_905397395.1
+MDN8611709.1,-,BLUF,PF04940.19,2e-30,103.6,0.0,2.6e-30,103.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax ginsengisoli],GCA_030486595.1
+MDN8611954.1,-,BLUF,PF04940.19,2.7e-22,77.5,0.0,3.4e-22,77.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax ginsengisoli],GCA_030486595.1
+MDH6166601.1,-,BLUF,PF04940.19,3e-30,102.7,0.0,4e-30,102.3,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein M2282_001748 [Variovorax boronicumulans],GCA_029892485.1
+MDH6167794.1,-,BLUF,PF04940.19,2.6e-27,93.3,0.0,3.8e-27,92.7,0.0,1.3,1,0,0,1,1,1,1,hypothetical protein M2282_002944 [Variovorax boronicumulans],GCA_029892485.1
+MDH6165506.1,-,BLUF,PF04940.19,8.2e-26,88.5,0.0,1e-25,88.1,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein M2282_000634 [Variovorax boronicumulans],GCA_029892485.1
+MDM0043709.1,-,BLUF,PF04940.19,1.2e-31,106.7,0.0,1.6e-31,106.3,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax dokdonensis],GCA_030316895.1
+MDM0043227.1,-,BLUF,PF04940.19,1.5e-23,80.8,0.0,2e-23,80.4,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax dokdonensis],GCA_030316895.1
+BCO27033.1,-,BLUF,PF04940.19,5.3e-31,104.7,0.0,6.9e-31,104.4,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein MIZ03_1920 [Rhodoferax lithotrophicus],GCA_019973615.1
+MBB6577644.1,-,BLUF,PF04940.19,1.7e-25,86.9,0.0,2.3e-25,86.5,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein HNP33_001701 [Comamonas odontotermitis],GCA_014207855.1
+MBK0394425.1,-,BLUF,PF04940.19,5.3e-30,101.3,0.0,6.9e-30,100.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter sp. CrO1],GCA_016641735.1
+AKD25702.1,-,BLUF,PF04940.19,2.3e-26,88.7,0.0,2.8e-26,88.5,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Polynucleobacter duraquae],GCA_000973625.1
+PVE44513.1,-,BLUF,PF04940.19,3.3e-31,105.2,0.1,4.5e-31,104.7,0.1,1.1,1,0,0,1,1,1,1,hypothetical protein H663_000370 [Limnohabitans planktonicus II-D5],GCA_001270065.2
+PVE42378.1,-,BLUF,PF04940.19,2.1e-30,102.6,0.0,2.8e-30,102.2,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Limnohabitans planktonicus II-D5],GCA_001270065.2
+MDR7305566.1,-,BLUF,PF04940.19,2.1e-29,99.4,0.0,2.8e-29,99.1,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein J2X15_000844 [Rhodoferax saidenbachensis],GCA_031457975.1
+SPA56789.1,-,BLUF,PF04940.19,3.9e-31,105.7,0.0,5e-31,105.3,0.0,1.1,1,0,0,1,1,1,1,"putative blue-light sensor, BluF domain [Cupriavidus taiwanensis]",GCA_900250075.1
+SMC79606.1,-,BLUF,PF04940.19,3.4e-27,91.8,0.1,4.1e-27,91.5,0.1,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Polynucleobacter kasalickyi],GCA_900176405.1
+SMC43971.1,-,BLUF,PF04940.19,5.2e-27,91.2,0.0,7.2e-27,90.7,0.0,1.2,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Polynucleobacter kasalickyi],GCA_900176405.1
+AZG15721.1,-,BLUF,PF04940.19,8.5e-32,107.5,0.0,1.1e-31,107.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Cupriavidus pauculus],GCA_003854935.1
+MFG6429822.1,-,BLUF,PF04940.19,5.5e-32,108.1,0.0,6.8e-32,107.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles sp. LYH14W],GCA_043555835.1
+MFG6432028.1,-,BLUF,PF04940.19,1.7e-30,103.3,0.1,4.7e-30,102.0,0.0,1.6,2,0,0,2,2,2,1,BLUF domain-containing protein [Roseateles sp. LYH14W],GCA_043555835.1
+ALR35875.1,-,BLUF,PF04940.19,5.6e-20,69.4,0.0,6.9e-20,69.1,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein LV28_04245 [Pandoraea pnomenusa],GCA_000767615.3
+OWQ88811.1,-,BLUF,PF04940.19,1.5e-26,90.6,0.0,2.2e-26,90.1,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein CDN99_15140 [Roseateles aquatilis],GCA_002205645.1
+MDR6212512.1,-,BLUF,PF04940.19,3.6e-31,105.1,0.0,4.6e-31,104.8,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein QE399_000201 [Paracidovorax wautersii],GCA_031453675.1
+MDR6214316.1,-,BLUF,PF04940.19,4.6e-26,88.7,0.0,5.6e-26,88.5,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein QE399_002005 [Paracidovorax wautersii],GCA_031453675.1
+MDR6213567.1,-,BLUF,PF04940.19,5.9e-26,88.4,0.0,7e-26,88.1,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein QE399_001256 [Paracidovorax wautersii],GCA_031453675.1
+MDD0839268.1,-,BLUF,PF04940.19,4.8e-31,104.7,0.0,6.2e-31,104.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Curvibacter sp. HBC61],GCA_028649475.1
+MDD0838710.1,-,BLUF,PF04940.19,1.4e-26,90.4,0.0,1.9e-26,89.9,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Curvibacter sp. HBC61],GCA_028649475.1
+SNX28349.1,-,BLUF,PF04940.19,1.5e-27,92.4,0.1,1.8e-27,92.2,0.1,1.0,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Polynucleobacter meluiroseus],GCA_900205755.1
+SNX28415.1,-,BLUF,PF04940.19,1.2e-21,73.5,0.0,1.5e-21,73.2,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Polynucleobacter meluiroseus],GCA_900205755.1
+MTV54043.1,-,BLUF,PF04940.19,4.1e-30,102.1,0.0,7.4e-30,101.3,0.0,1.4,2,0,0,2,2,2,1,blue light sensor protein [Massilia buxea],GCA_009720835.1
+MBD8049354.1,-,BLUF,PF04940.19,3.3e-31,104.8,0.0,4.4e-31,104.4,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Limnohabitans sp. JUR4],GCA_014837235.1
+MBD8050590.1,-,BLUF,PF04940.19,1.3e-28,96.5,0.0,1.5e-28,96.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Limnohabitans sp. JUR4],GCA_014837235.1
+VVD75563.1,-,BLUF,PF04940.19,3.9e-18,63.7,0.0,4.9e-18,63.3,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein PCO31010_00859 [Pandoraea commovens],GCA_902459615.1
+QDG70107.1,-,BLUF,PF04940.19,1.5e-29,100.3,0.0,1.8e-29,100.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Janthinobacterium tructae],GCA_006517255.1
+QKM60192.1,-,BLUF,PF04940.19,1e-27,93.0,0.0,1.3e-27,92.7,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Polynucleobacter arcticus],GCA_013307205.1
+QKM59881.1,-,BLUF,PF04940.19,6.6e-27,90.5,0.0,8.7e-27,90.1,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Polynucleobacter arcticus],GCA_013307205.1
+ALS61287.1,-,BLUF,PF04940.19,1.5e-17,61.8,0.0,2e-17,61.4,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein AT302_17410 [Pandoraea norimbergensis],GCA_001465545.3
+AYR26811.1,-,BLUF,PF04940.19,1.9e-32,109.4,0.0,2.5e-32,109.0,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Herbaspirillum rubrisubalbicans],GCA_003719195.1
+AKM29091.1,-,BLUF,PF04940.19,4e-18,63.5,0.0,5.1e-18,63.2,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein AB870_01560 [Pandoraea faecigallinarum],GCA_001029105.3
+OZI44690.1,-,BLUF,PF04940.19,7.1e-26,88.2,0.0,1.4e-25,87.3,0.0,1.5,1,0,0,1,1,1,1,hypothetical protein CEK29_08265 [Bordetella genomosp. 5],GCA_002261475.1
+GAA4424328.1,-,BLUF,PF04940.19,1.6e-30,102.7,0.0,2.1e-30,102.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Acidovorax lacteus],GCA_039540375.1
+GAA4428704.1,-,BLUF,PF04940.19,5.5e-30,100.9,0.0,7.4e-30,100.5,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein GCM10023090_27890 [Acidovorax lacteus],GCA_039540375.1
+MDT8999558.1,-,BLUF,PF04940.19,9.8e-33,110.3,0.0,1.2e-32,110.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Paucibacter sp. APW11],GCA_032337115.1
+MDT9000786.1,-,BLUF,PF04940.19,2.3e-28,96.3,0.0,2.8e-28,96.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Paucibacter sp. APW11],GCA_032337115.1
+QBQ36775.1,-,BLUF,PF04940.19,3.3e-30,102.2,0.0,6.2e-30,101.4,0.0,1.4,2,0,0,2,2,2,1,BLUF domain-containing protein [Pseudoduganella plicata],GCA_004421005.1
+MCK9689569.1,-,BLUF,PF04940.19,5.6e-31,104.9,0.0,7e-31,104.6,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonadaceae bacterium BS-T2-15],GCA_023231945.1
+MCK9686663.1,-,BLUF,PF04940.19,9.6e-28,94.5,0.0,1.3e-27,94.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonadaceae bacterium BS-T2-15],GCA_023231945.1
+AOW12338.1,-,BLUF,PF04940.19,7.1e-32,107.5,0.0,9.1e-32,107.1,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Hydrogenophaga crassostreae],GCA_001761385.1
+AOW12717.1,-,BLUF,PF04940.19,6e-23,78.8,0.0,8e-23,78.4,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein LPB072_07540 [Hydrogenophaga crassostreae],GCA_001761385.1
+AOW12682.1,-,BLUF,PF04940.19,8.1e-17,59.2,0.0,1.4e-16,58.4,0.0,1.4,1,0,0,1,1,1,1,hypothetical protein LPB072_07320 [Hydrogenophaga crassostreae],GCA_001761385.1
+TDP85751.1,-,BLUF,PF04940.19,1.1e-32,109.8,0.0,1.4e-32,109.5,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Aquabacterium commune],GCA_004362855.1
+PYE79056.1,-,BLUF,PF04940.19,4e-29,98.2,0.0,5e-29,97.9,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Xylophilus ampelinus],GCA_003217575.1
+XUL14944.1,-,BLUF,PF04940.19,1.4e-26,90.8,0.0,2.1e-26,90.3,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles chitinivorans],GCA_050632145.1
+RVU49059.1,-,BLUF,PF04940.19,1.1e-32,110.0,0.0,1.4e-32,109.6,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Rubrivivax rivuli],GCA_004016505.1
+RVU49022.1,-,BLUF,PF04940.19,7.8e-30,100.8,0.0,9.6e-30,100.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Rubrivivax rivuli],GCA_004016505.1
+RVU49505.1,-,BLUF,PF04940.19,1.3e-27,93.7,0.0,2.3e-27,92.9,0.0,1.4,1,0,0,1,1,1,1,hypothetical protein EOE66_02760 [Rubrivivax rivuli],GCA_004016505.1
+RVU49124.1,-,BLUF,PF04940.19,1.7e-27,93.4,0.0,2.2e-27,93.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Rubrivivax rivuli],GCA_004016505.1
+MUI15619.1,-,BLUF,PF04940.19,3.9e-28,95.8,0.0,6.7e-28,95.1,0.0,1.3,2,0,0,2,2,2,1,blue light sensor protein [Massilia dura],GCA_009727155.1
+TFZ01473.1,-,BLUF,PF04940.19,3.6e-30,101.9,0.0,4.7e-30,101.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter rhizophilus],GCA_004681965.1
+TFY99992.1,-,BLUF,PF04940.19,1.7e-24,83.7,0.0,2.3e-24,83.3,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter rhizophilus],GCA_004681965.1
+TFY96532.1,-,BLUF,PF04940.19,3.8e-15,53.8,0.0,6.5e-15,53.0,0.0,1.4,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter rhizophilus],GCA_004681965.1
+SNC72252.1,-,BLUF,PF04940.19,6.4e-25,83.8,0.0,8.3e-25,83.4,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Polynucleobacter victoriensis],GCA_900187875.1
+PXW98834.1,-,BLUF,PF04940.19,4.5e-31,104.7,0.0,5.7e-31,104.4,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Sphaerotilus hippei],GCA_003201595.1
+VVE20680.1,-,BLUF,PF04940.19,1.7e-17,61.7,0.0,2.2e-17,61.3,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein PIN31009_03112 [Pandoraea iniqua],GCA_902459685.1
+MBC3812510.1,-,BLUF,PF04940.19,9.1e-31,103.5,0.0,1.1e-30,103.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Undibacterium aquatile],GCA_014699135.1
+KAF3996003.1,-,BLUF,PF04940.19,1.9e-29,99.6,0.0,2.4e-29,99.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Glaciimonas immobilis],GCA_011947285.1
+UBB18386.1,-,BLUF,PF04940.19,2.4e-25,86.5,0.0,2.9e-25,86.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas odontotermitis],GCA_020080045.1
+QTD44735.1,-,BLUF,PF04940.19,6.3e-29,97.8,0.0,8.3e-29,97.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ottowia testudinis],GCA_017498525.1
+MBB6135234.1,-,BLUF,PF04940.19,1.2e-29,100.4,0.0,2.7e-29,99.3,0.0,1.5,2,0,0,2,2,2,1,hypothetical protein HD842_003392 [Massilia aurea],GCA_014200505.1
+OLP04926.1,-,BLUF,PF04940.19,8.9e-32,107.1,0.1,1.1e-31,106.8,0.1,1.1,1,0,0,1,1,1,1,sensors of blue-light using FAD family protein [Rhodoferax antarcticus ANT.BR],GCA_001938565.1
+OLP04724.1,-,BLUF,PF04940.19,1.4e-30,103.3,0.0,1.9e-30,102.8,0.0,1.2,1,0,0,1,1,1,1,sensors of blue-light using FAD family protein [Rhodoferax antarcticus ANT.BR],GCA_001938565.1
+OLP06432.1,-,BLUF,PF04940.19,1.9e-26,90.0,0.0,2.5e-26,89.6,0.0,1.1,1,0,0,1,1,1,1,sensors of blue-light using FAD family protein [Rhodoferax antarcticus ANT.BR],GCA_001938565.1
+PUE52152.1,-,BLUF,PF04940.19,1.1e-30,103.0,0.0,1.5e-30,102.6,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Limnohabitans parvus II-B4],GCA_003063455.1
+PUE54112.1,-,BLUF,PF04940.19,2e-28,95.7,0.0,2.6e-28,95.4,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein B9Z37_05975 [Limnohabitans parvus II-B4],GCA_003063455.1
+CAD6523307.1,-,BLUF,PF04940.19,2.3e-24,84.1,0.0,3.1e-24,83.7,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein LMG28727_01867 [Paraburkholderia kirstenboschensis],GCA_904848585.1
+MTW34725.1,-,BLUF,PF04940.19,3.1e-31,105.4,0.0,3.9e-31,105.1,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Pseudoduganella danionis],GCA_009720775.1
+MBG9388139.1,-,BLUF,PF04940.19,3e-30,102.2,0.0,3.9e-30,101.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Caenimonas sp. DR4.4],GCA_015831345.1
+MBG9386599.1,-,BLUF,PF04940.19,6.9e-27,91.4,0.0,8.4e-27,91.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Caenimonas sp. DR4.4],GCA_015831345.1
+MBG9387826.1,-,BLUF,PF04940.19,3.7e-07,28.2,0.0,7.9e-07,27.1,0.0,1.5,1,0,0,1,1,1,1,BLUF domain-containing protein [Caenimonas sp. DR4.4],GCA_015831345.1
+SDO65541.1,-,BLUF,PF04940.19,5e-31,104.9,0.0,6.4e-31,104.6,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Paracidovorax cattleyae],GCA_900104515.1
+SDO88131.1,-,BLUF,PF04940.19,2.5e-22,77.0,0.0,3e-22,76.8,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Paracidovorax cattleyae],GCA_900104515.1
+MDD0810420.1,-,BLUF,PF04940.19,5.7e-31,104.5,0.0,7.4e-31,104.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Curvibacter sp. RS43],GCA_028649435.1
+MDD0808827.1,-,BLUF,PF04940.19,6.2e-27,91.6,0.0,8.6e-27,91.1,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Curvibacter sp. RS43],GCA_028649435.1
+OZI77039.1,-,BLUF,PF04940.19,4.8e-26,88.6,0.0,1.1e-25,87.4,0.0,1.7,1,0,0,1,1,1,1,hypothetical protein CAL22_00335 [Bordetella genomosp. 12],GCA_002261355.1
+TSE37293.1,-,BLUF,PF04940.19,1.2e-31,106.1,0.0,1.5e-31,105.7,0.0,1.1,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Tepidimonas fonticaldi],GCA_007556755.1
+MYN45890.1,-,BLUF,PF04940.19,4.3e-31,104.9,0.0,5.3e-31,104.6,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Pseudoduganella sp. FT93W],GCA_009857835.1
+RZT36317.1,-,BLUF,PF04940.19,7.6e-32,107.5,0.0,9.7e-32,107.2,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Cupriavidus agavae],GCA_004217045.1
+MBA5606084.1,-,BLUF,PF04940.19,3.8e-30,102.1,0.0,5.6e-30,101.6,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Duganella sp. FT3S],GCA_014042365.1
+RAR84192.1,-,BLUF,PF04940.19,5.9e-31,104.6,0.0,7.6e-31,104.3,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Paracidovorax anthurii],GCA_003269065.1
+RAR77307.1,-,BLUF,PF04940.19,7.4e-25,85.1,0.0,9.1e-25,84.8,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Paracidovorax anthurii],GCA_003269065.1
+MBC3885772.1,-,BLUF,PF04940.19,2e-30,102.3,0.0,2.6e-30,102.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Undibacterium sp. FT31W],GCA_014284195.1
+MBE7941371.1,-,BLUF,PF04940.19,7.6e-31,104.0,0.0,9.7e-31,103.6,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter aquaticus],GCA_015159745.1
+MBE7941229.1,-,BLUF,PF04940.19,9.2e-29,97.3,0.0,1.3e-28,96.9,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter aquaticus],GCA_015159745.1
+MBE7941247.1,-,BLUF,PF04940.19,4.1e-27,92.0,0.0,5.5e-27,91.6,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter aquaticus],GCA_015159745.1
+NZD44793.1,-,BLUF,PF04940.19,2.5e-32,108.7,0.0,3.2e-32,108.4,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Sphaerotilus natans subsp. sulfidivorans],GCA_013426975.1
+NZD45352.1,-,BLUF,PF04940.19,4.5e-31,104.7,0.0,6e-31,104.3,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Sphaerotilus natans subsp. sulfidivorans],GCA_013426975.1
+MDA7416687.1,-,BLUF,PF04940.19,3.2e-31,105.4,0.0,4.2e-31,105.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Xenophilus arseniciresistens],GCA_028023875.1
+MDA7416351.1,-,BLUF,PF04940.19,8.2e-21,72.0,0.0,1.1e-20,71.6,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Xenophilus arseniciresistens],GCA_028023875.1
+MDA7415326.1,-,BLUF,PF04940.19,9.6e-08,30.1,0.0,1.2e-07,29.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Xenophilus arseniciresistens],GCA_028023875.1
+MDA7414904.1,-,BLUF,PF04940.19,4.9e-06,24.6,0.0,7.5e-06,24.1,0.0,1.3,1,0,0,1,1,1,1,hypothetical protein PGB34_00875 [Xenophilus arseniciresistens],GCA_028023875.1
+MBQ0933926.1,-,BLUF,PF04940.19,5e-33,111.1,0.0,6.6e-33,110.7,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ideonella paludis],GCA_018069865.1
+MBQ0937143.1,-,BLUF,PF04940.19,1e-27,94.1,0.0,1.2e-27,93.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ideonella paludis],GCA_018069865.1
+MBQ0934718.1,-,BLUF,PF04940.19,1.6e-26,90.2,0.0,2e-26,89.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ideonella paludis],GCA_018069865.1
+QKM62449.1,-,BLUF,PF04940.19,8.1e-30,99.8,0.0,1.7e-29,98.8,0.0,1.5,2,0,0,2,2,2,1,blue light sensor protein [Polynucleobacter antarcticus],GCA_013307245.1
+QKM62184.1,-,BLUF,PF04940.19,4.7e-29,97.4,0.0,6.3e-29,97.0,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein DCO16_03285 [Polynucleobacter antarcticus],GCA_013307245.1
+PIL46609.1,-,BLUF,PF04940.19,1.4e-29,100.3,0.0,3.1e-29,99.2,0.0,1.5,2,0,0,2,2,2,1,blue light sensor protein [Massilia eurypsychrophila],GCA_002760655.1
+GLR25209.1,-,BLUF,PF04940.19,1.9e-29,99.1,0.0,2.3e-29,98.8,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein GCM10007875_02970 [Limnobacter litoralis],GCA_030160455.1
+GLR26189.1,-,BLUF,PF04940.19,1.5e-27,93.0,0.0,2.2e-27,92.5,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein GCM10007875_12770 [Limnobacter litoralis],GCA_030160455.1
+KAB0596910.1,-,BLUF,PF04940.19,8e-31,104.3,0.0,1e-30,104.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Cupriavidus gilardii],GCA_008801915.1
+MDT7519728.1,-,BLUF,PF04940.19,7.5e-30,100.7,0.0,9.8e-30,100.3,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Rhodoferax sp. TBRC 17660],GCA_032193805.1
+CDN89272.1,-,BLUF,PF04940.19,1.2e-31,106.8,0.0,1.6e-31,106.5,0.0,1.1,1,0,0,1,1,1,1,Bluf domain-containing protein [Hydrogenophaga intermedia],GCA_000723405.1
+MEO3693579.1,-,BLUF,PF04940.19,3e-33,111.7,0.0,3.7e-33,111.4,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles sp. DJS-2-20],GCA_039872745.1
+WBY03400.1,-,BLUF,PF04940.19,1.9e-29,99.6,0.0,3.1e-29,98.9,0.0,1.3,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter tataouinensis],GCA_027941915.1
+WBY01784.1,-,BLUF,PF04940.19,8.5e-15,52.6,0.0,1.3e-14,52.0,0.0,1.3,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter tataouinensis],GCA_027941915.1
+ART52804.1,-,BLUF,PF04940.19,7.4e-31,103.8,0.0,9.6e-31,103.5,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Acidovorax carolinensis],GCA_002157145.1
+ART52318.1,-,BLUF,PF04940.19,1.8e-30,102.6,0.0,2.7e-30,102.0,0.0,1.3,1,0,0,1,1,1,1,blue light sensor protein [Acidovorax carolinensis],GCA_002157145.1
+ART52923.1,-,BLUF,PF04940.19,1.1e-25,87.2,0.0,1.4e-25,86.9,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Acidovorax carolinensis],GCA_002157145.1
+APW43854.1,-,BLUF,PF04940.19,7.9e-30,100.7,0.0,1e-29,100.3,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Rhodoferax saidenbachensis],GCA_001955715.1
+QQB37234.1,-,BLUF,PF04940.19,1.3e-23,81.4,0.0,2.5e-23,80.5,0.0,1.5,1,0,0,1,1,1,1,diguanylate phosphodiesterase [Achromobacter deleyi],GCA_016127315.1
+QDL53771.1,-,BLUF,PF04940.19,1.1e-30,103.5,0.1,1.4e-30,103.3,0.1,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Rhodoferax aquaticus],GCA_006974105.1
+QDL53749.1,-,BLUF,PF04940.19,1.8e-28,96.5,0.0,2.3e-28,96.1,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Rhodoferax aquaticus],GCA_006974105.1
+QDL54763.1,-,BLUF,PF04940.19,3.3e-27,92.4,0.0,5.3e-27,91.8,0.0,1.3,1,0,0,1,1,1,1,BLUF domain-containing protein [Rhodoferax aquaticus],GCA_006974105.1
+QDL53308.1,-,BLUF,PF04940.19,3.1e-09,34.8,0.0,4e-09,34.5,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein EXZ61_03470 [Rhodoferax aquaticus],GCA_006974105.1
+MCW5288074.1,-,BLUF,PF04940.19,1.1e-30,103.4,0.0,1.5e-30,103.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Verminephrobacter aporrectodeae subsp. tuberculatae],GCA_026127385.1
+KIQ31573.1,-,BLUF,PF04940.19,3.1e-30,102.6,0.0,4e-30,102.2,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Variovorax paradoxus],GCA_000834655.1
+KIQ16287.1,-,BLUF,PF04940.19,9.1e-26,88.3,0.0,2.1e-25,87.2,0.0,1.5,2,0,0,2,2,2,1,blue light sensor protein [Variovorax paradoxus],GCA_000834655.1
+UZD54269.1,-,BLUF,PF04940.19,9.9e-34,112.8,0.0,1.2e-33,112.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Schlegelella aquatica],GCA_026013905.1
+ADX47446.1,-,BLUF,PF04940.19,1.5e-31,106.5,0.0,1.9e-31,106.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain protein [Paracidovorax avenae ATCC 19860],GCA_000176855.2
+ADX47840.1,-,BLUF,PF04940.19,2.1e-23,80.4,0.0,2.5e-23,80.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain protein [Paracidovorax avenae ATCC 19860],GCA_000176855.2
+XUL58549.1,-,BLUF,PF04940.19,6.8e-27,91.8,0.0,1e-26,91.3,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles chitinivorans],GCA_050632235.1
+VVD60429.1,-,BLUF,PF04940.19,1.6e-17,61.7,0.0,2.1e-17,61.3,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein PPN31114_00067 [Pandoraea pneumonica],GCA_902459645.1
+ROR50793.1,-,BLUF,PF04940.19,8.2e-32,106.9,0.0,1.1e-31,106.5,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Diaphorobacter nitroreducens],GCA_003755025.1
+MBL0426337.1,-,BLUF,PF04940.19,3.5e-30,102.3,0.0,4.5e-30,102.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter alkalitolerans],GCA_016722765.1
+MBL0426125.1,-,BLUF,PF04940.19,2.5e-15,54.7,0.0,4.2e-15,54.0,0.0,1.4,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter alkalitolerans],GCA_016722765.1
+MFG6416085.1,-,BLUF,PF04940.19,2.2e-31,106.1,0.0,2.7e-31,105.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles sp. DC23W],GCA_043555865.1
+MFG6413779.1,-,BLUF,PF04940.19,1.4e-23,81.0,0.0,2.4e-23,80.3,0.0,1.4,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles sp. DC23W],GCA_043555865.1
+TDQ44855.1,-,BLUF,PF04940.19,2.5e-32,108.2,0.0,3.3e-32,107.8,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Tepidicella xavieri],GCA_004363315.1
+ACB34096.1,-,BLUF,PF04940.19,1.4e-31,106.5,0.0,1.8e-31,106.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain protein [Leptothrix cholodnii SP-6],GCA_000019785.1
+ARU06219.1,-,BLUF,PF04940.19,1.5e-09,35.7,0.0,1.9e-09,35.3,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein CCO03_17415 [Comamonas serinivorans],GCA_002158865.1
+MFD1581161.1,-,BLUF,PF04940.19,3e-30,102.5,0.0,3.9e-30,102.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter ginsenosidimutans],GCA_042678185.1
+MCD2165032.1,-,BLUF,PF04940.19,9.3e-24,81.5,0.0,1.1e-23,81.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas koreensis],GCA_021026195.1
+MCD2166259.1,-,BLUF,PF04940.19,1.4e-22,77.7,0.0,1.8e-22,77.4,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas koreensis],GCA_021026195.1
+MRD46247.1,-,BLUF,PF04940.19,3.4e-30,102.0,0.0,4.4e-30,101.6,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Caenimonas koreensis DSM 17982],GCA_009646335.1
+MRD47783.1,-,BLUF,PF04940.19,3e-09,34.9,0.0,6.3e-09,33.8,0.0,1.5,2,0,0,2,2,2,1,hypothetical protein GHT07_10880 [Caenimonas koreensis DSM 17982],GCA_009646335.1
+MBH9577155.1,-,BLUF,PF04940.19,6.5e-31,104.4,0.0,8.6e-31,104.0,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Inhella sp. 1Y17],GCA_016093275.1
+MBH9575941.1,-,BLUF,PF04940.19,1.1e-25,87.6,0.0,2e-25,86.8,0.0,1.4,1,0,0,1,1,1,1,diguanylate phosphodiesterase [Inhella sp. 1Y17],GCA_016093275.1
+MBC3909540.1,-,BLUF,PF04940.19,3.5e-30,102.4,0.0,4.3e-30,102.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Undibacterium sp. NL8W],GCA_014284125.1
+RSZ43163.1,-,BLUF,PF04940.19,1.3e-30,103.9,0.0,1.7e-30,103.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax beijingensis],GCA_003951285.1
+RSZ33999.1,-,BLUF,PF04940.19,4.8e-26,89.3,0.0,5.8e-26,89.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax beijingensis],GCA_003951285.1
+MYM67605.1,-,BLUF,PF04940.19,3.5e-30,102.3,0.0,4.3e-30,102.0,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Pseudoduganella sp. FT55W],GCA_009857435.1
+MDR7377664.1,-,BLUF,PF04940.19,4.1e-29,98.8,0.0,5.4e-29,98.4,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein J2X19_002343 [Rhodoferax ferrireducens],GCA_031458075.1
+PZP29101.1,-,BLUF,PF04940.19,5.7e-24,82.1,0.0,9.2e-24,81.5,0.0,1.3,1,0,0,1,1,1,1,MAG: hypothetical protein DI603_17980 [Roseateles depolymerans],GCA_003241055.1
+CAB3688463.1,-,BLUF,PF04940.19,2.4e-24,83.8,0.0,4.5e-24,82.9,0.0,1.4,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Achromobacter ruhlandii],GCA_902859695.1
+MDL5031176.1,-,BLUF,PF04940.19,1.3e-33,113.0,0.0,1.7e-33,112.7,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Pelomonas sp. APW6],GCA_030285365.1
+ABM94036.1,-,BLUF,PF04940.19,2.3e-31,105.8,0.0,2.9e-31,105.5,0.0,1.1,1,0,0,1,1,1,1,conserved hypothetical protein [Methylibium petroleiphilum PM1],GCA_000015725.1
+ABM95156.1,-,BLUF,PF04940.19,4.1e-23,79.4,0.0,4.5e-23,79.2,0.0,1.0,1,0,0,1,1,1,1,conserved hypothetical protein [Methylibium petroleiphilum PM1],GCA_000015725.1
+AOZ10118.1,-,BLUF,PF04940.19,3.1e-31,106.0,0.0,4e-31,105.6,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Cupriavidus malaysiensis],GCA_001854325.1
+QKM64091.1,-,BLUF,PF04940.19,8.4e-28,93.3,0.1,1.1e-27,93.0,0.1,1.1,1,0,0,1,1,1,1,blue light sensor protein [Polynucleobacter tropicus],GCA_013307225.1
+QKM64387.1,-,BLUF,PF04940.19,7.4e-26,87.1,0.0,9.4e-26,86.7,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Polynucleobacter tropicus],GCA_013307225.1
+BDT57387.1,-,BLUF,PF04940.19,4.4e-29,98.6,0.0,6.4e-29,98.1,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein MasN3_08810 [Massilia varians],GCA_027923905.1
+TFZ03919.1,-,BLUF,PF04940.19,8.3e-30,100.7,0.0,1.1e-29,100.4,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter humi],GCA_004681975.1
+TFY96659.1,-,BLUF,PF04940.19,2.9e-15,54.1,0.0,4e-15,53.7,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein EZ216_19940 [Ramlibacter humi],GCA_004681975.1
+RFP76795.1,-,BLUF,PF04940.19,1.5e-29,99.9,0.0,1.9e-29,99.6,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga borbori],GCA_003417535.1
+MBE7369466.1,-,BLUF,PF04940.19,1.4e-29,100.0,0.0,1.9e-29,99.6,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter sp. HM2],GCA_015070875.1
+RVT52372.1,-,BLUF,PF04940.19,2.5e-32,109.0,0.0,3.2e-32,108.7,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Rubrivivax albus],GCA_004016515.1
+RVT52285.1,-,BLUF,PF04940.19,1e-29,100.7,0.0,1.4e-29,100.2,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Rubrivivax albus],GCA_004016515.1
+MBO4122408.1,-,BLUF,PF04940.19,1.6e-31,106.3,0.0,2.1e-31,106.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Cupriavidus gilardii],GCA_017598945.1
+MDT7522909.1,-,BLUF,PF04940.19,7.5e-30,100.7,0.0,9.9e-30,100.3,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Rhodoferax sp. TBRC 17198],GCA_032193765.1
+MDT7521009.1,-,BLUF,PF04940.19,6.7e-28,94.5,0.0,8.9e-28,94.1,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Rhodoferax sp. TBRC 17198],GCA_032193765.1
+CAB3699604.1,-,BLUF,PF04940.19,4e-25,86.1,0.0,1.7e-24,84.1,0.0,2.0,2,0,0,2,2,2,1,Blue light- and temperature-regulated antirepressor BluF [Achromobacter animicus],GCA_902859585.1
+KKW68564.1,-,BLUF,PF04940.19,8.7e-28,93.6,0.0,1.1e-27,93.3,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Lampropedia cohaerens],GCA_001005215.1
+KKW67711.1,-,BLUF,PF04940.19,5.2e-23,78.3,0.0,7.4e-23,77.8,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein AAV94_08685 [Lampropedia cohaerens],GCA_001005215.1
+TCP00931.1,-,BLUF,PF04940.19,6.4e-34,114.1,0.0,8.1e-34,113.8,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Rubrivivax gelatinosus],GCA_004340905.1
+TCO97185.1,-,BLUF,PF04940.19,1.2e-31,106.8,0.0,1.5e-31,106.5,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Rubrivivax gelatinosus],GCA_004340905.1
+MYM26101.1,-,BLUF,PF04940.19,3.2e-28,96.1,0.0,3.9e-28,95.8,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Duganella sp. FT135W],GCA_009857445.1
+QIM54512.1,-,BLUF,PF04940.19,3.6e-31,105.1,0.0,4.7e-31,104.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga crocea],GCA_011388215.1
+PUE58963.1,-,BLUF,PF04940.19,4e-30,101.2,0.0,5.1e-30,100.9,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Limnohabitans curvus],GCA_003063475.1
+MCT9813404.1,-,BLUF,PF04940.19,6e-31,104.5,0.0,7.9e-31,104.1,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Acidovorax sp. Be4],GCA_025421555.1
+APD11313.1,-,BLUF,PF04940.19,3.6e-19,66.9,0.0,4.7e-19,66.5,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein UC34_25345 [Pandoraea vervacti],GCA_000934605.2
+GLS15074.1,-,BLUF,PF04940.19,5e-31,104.7,0.0,6.5e-31,104.4,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein GCM10007935_25070 [Hydrogenophaga electricum],GCA_030160815.1
+GLS14614.1,-,BLUF,PF04940.19,8.9e-17,59.0,0.0,1.6e-16,58.3,0.0,1.3,1,0,0,1,1,1,1,hypothetical protein GCM10007935_20460 [Hydrogenophaga electricum],GCA_030160815.1
+MFD1711980.1,-,BLUF,PF04940.19,1.3e-30,103.2,0.0,1.7e-30,102.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ottowia flava],GCA_042680565.1
+MBL0394205.1,-,BLUF,PF04940.19,3.3e-30,102.5,0.0,4.3e-30,102.1,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter monticola],GCA_016722785.1
+MBL0394459.1,-,BLUF,PF04940.19,6.5e-15,53.5,0.0,1e-14,52.8,0.0,1.3,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter monticola],GCA_016722785.1
+MFG6460446.1,-,BLUF,PF04940.19,1.8e-32,109.5,0.0,2.3e-32,109.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles sp. DXS20W],GCA_043555885.1
+MDY0743404.1,-,BLUF,PF04940.19,1.6e-31,106.8,0.0,2.1e-31,106.4,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Paucibacter sp. R3-3],GCA_034043675.1
+MYN02012.1,-,BLUF,PF04940.19,2.9e-31,105.7,0.0,3.7e-31,105.4,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Pseudoduganella sp. DS3],GCA_009857475.1
+TSE30863.1,-,BLUF,PF04940.19,3.3e-31,104.5,0.0,4.3e-31,104.2,0.0,1.1,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Tepidimonas thermarum],GCA_007556705.1
+GIZ52569.1,-,BLUF,PF04940.19,5.2e-29,98.2,0.0,7.1e-29,97.7,0.0,1.2,1,0,0,1,1,1,1,blue-light sensor BLUF [Noviherbaspirillum aridicola],GCA_019656455.1
+MBH9551682.1,-,BLUF,PF04940.19,1.1e-32,109.6,0.0,1.4e-32,109.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Inhella sp. 4Y17],GCA_016093295.1
+MBB4842933.1,-,BLUF,PF04940.19,6.7e-32,107.6,0.0,8.3e-32,107.3,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein HNP55_001448 [Paucibacter oligotrophus],GCA_014204525.1
+MBB4846023.1,-,BLUF,PF04940.19,1.4e-27,93.8,0.0,1.8e-27,93.4,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein HNP55_004577 [Paucibacter oligotrophus],GCA_014204525.1
+WGT66342.1,-,BLUF,PF04940.19,1.4e-30,103.6,0.0,1.8e-30,103.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax paradoxus],GCA_029919115.1
+WGT62518.1,-,BLUF,PF04940.19,1.5e-26,90.7,0.0,2.2e-26,90.1,0.0,1.3,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax paradoxus],GCA_029919115.1
+BDR09502.1,-,BLUF,PF04940.19,3e-25,86.5,0.0,3.8e-25,86.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas thiooxydans],GCA_002157685.2
+BDR09752.1,-,BLUF,PF04940.19,1.2e-22,78.1,0.0,1.9e-22,77.5,0.0,1.3,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas thiooxydans],GCA_002157685.2
+RVT85989.1,-,BLUF,PF04940.19,8.8e-32,106.8,0.0,1.1e-31,106.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Inhella crocodyli],GCA_004004565.1
+THJ35623.1,-,BLUF,PF04940.19,1e-26,90.6,0.0,1.3e-26,90.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Lampropedia aestuarii],GCA_004803635.1
+THJ33008.1,-,BLUF,PF04940.19,2.8e-23,79.5,0.0,3.7e-23,79.1,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Lampropedia aestuarii],GCA_004803635.1
+GHC84046.1,-,BLUF,PF04940.19,3.6e-30,102.5,0.0,4.7e-30,102.2,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein GCM10007320_28120 [Pseudorhodoferax aquiterrae],GCA_014652235.1
+QET04908.1,-,BLUF,PF04940.19,9.4e-30,101.1,0.0,1.2e-29,100.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Cupriavidus pauculus],GCA_008693385.1
+MRX18228.1,-,BLUF,PF04940.19,2.1e-27,93.5,0.0,3.8e-27,92.6,0.0,1.5,1,0,0,1,1,1,1,EAL domain-containing protein [Pseudoduganella sp. FT9W],GCA_009674495.1
+TPG24150.1,-,BLUF,PF04940.19,1.1e-29,100.4,0.0,1.4e-29,100.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax ginsengisoli],GCA_006438845.1
+TPG26503.1,-,BLUF,PF04940.19,6.4e-29,97.9,0.0,8.2e-29,97.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax ginsengisoli],GCA_006438845.1
+TPG23078.1,-,BLUF,PF04940.19,4.8e-26,88.7,0.0,6e-26,88.4,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax ginsengisoli],GCA_006438845.1
+TPG24334.1,-,BLUF,PF04940.19,7.8e-25,84.8,0.0,1.1e-24,84.3,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax ginsengisoli],GCA_006438845.1
+TPG26511.1,-,BLUF,PF04940.19,1e-20,71.6,0.0,1.4e-20,71.2,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax ginsengisoli],GCA_006438845.1
+MEO3715184.1,-,BLUF,PF04940.19,1.2e-33,113.3,0.0,1.5e-33,113.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles sp. 2.12],GCA_039872765.1
+ABD69036.1,-,BLUF,PF04940.19,3.4e-30,102.0,0.0,4.5e-30,101.7,0.0,1.1,1,0,0,1,1,1,1,BLUF [Rhodoferax ferrireducens T118],GCA_000013605.1
+KAB0587986.1,-,BLUF,PF04940.19,4.8e-26,88.3,0.0,6.9e-26,87.8,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas kerstersii],GCA_008801935.1
+AVR95069.1,-,BLUF,PF04940.19,3.4e-30,102.3,0.0,5.1e-30,101.7,0.0,1.3,1,0,0,1,1,1,1,blue light sensor protein [Pseudoduganella armeniaca],GCA_003028855.1
+CAQ72263.1,-,BLUF,PF04940.19,2.7e-31,106.0,0.0,3.4e-31,105.7,0.0,1.1,1,0,0,1,1,1,1,"putative blue-light sensor, BluF domain [Cupriavidus taiwanensis LMG 19424]",GCA_000069785.1
+MBD7962306.1,-,BLUF,PF04940.19,3.4e-23,79.3,0.0,4.2e-23,79.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas sp. Sa2CVA6],GCA_014836675.1
+WEF31413.1,-,BLUF,PF04940.19,6.3e-31,104.7,0.0,1e-30,104.0,0.0,1.3,1,0,0,1,1,1,1,BLUF domain-containing protein [Pseudoduganella chitinolytica],GCA_029028125.1
+SFL90412.1,-,BLUF,PF04940.19,1.1e-30,104.1,0.0,1.6e-30,103.5,0.0,1.2,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Rugamonas rubra],GCA_900114705.1
+QMV72398.1,-,BLUF,PF04940.19,5.5e-24,82.2,0.0,7.1e-24,81.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas piscis],GCA_014109725.1
+MCS0706985.1,-,BLUF,PF04940.19,9.4e-30,100.7,0.0,2.1e-29,99.6,0.0,1.5,2,0,0,2,2,2,1,BLUF domain-containing protein [Massilia aurea],GCA_024753205.1
+OZI18690.1,-,BLUF,PF04940.19,1.3e-26,90.8,0.0,2.6e-26,89.9,0.0,1.5,1,0,0,1,1,1,1,diguanylate phosphodiesterase [Bordetella genomosp. 9],GCA_002261425.1
+UOD49629.1,-,BLUF,PF04940.19,5.4e-29,97.4,0.0,6.9e-29,97.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Orrella daihaiensis],GCA_022811525.1
+UOD49785.1,-,BLUF,PF04940.19,5.3e-15,52.6,0.0,7e-15,52.2,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Orrella daihaiensis],GCA_022811525.1
+PND38413.1,-,BLUF,PF04940.19,9.3e-33,110.3,0.0,1.2e-32,110.0,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Paucibacter aquatile],GCA_002885975.1
+BAO80690.1,-,BLUF,PF04940.19,4.1e-30,100.9,0.0,5.3e-30,100.6,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein SRAA_0836 [Serpentinimonas raichei],GCA_000828895.1
+OXL15058.1,-,BLUF,PF04940.19,5.7e-26,87.2,0.0,8.4e-26,86.7,0.0,1.3,1,0,0,1,1,1,1,hypothetical protein AOC33_07040 [Polynucleobacter cosmopolitanus],GCA_002224225.1
+RQP22456.1,-,BLUF,PF04940.19,6.8e-32,107.9,0.0,8.6e-32,107.6,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Albitalea terrae],GCA_003852895.1
+VVD76098.1,-,BLUF,PF04940.19,5.5e-18,63.2,0.0,6.9e-18,62.8,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein PAQ31011_00879 [Pandoraea aquatica],GCA_902459565.1
+MBK6008587.1,-,BLUF,PF04940.19,2.9e-30,102.5,0.0,3.8e-30,102.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter ginsenosidimutans],GCA_016654015.1
+MCM5681308.1,-,BLUF,PF04940.19,2.3e-33,112.4,0.0,3e-33,112.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Schlegelella sp. S2-27],GCA_023721835.1
+MCV2371014.1,-,BLUF,PF04940.19,4e-32,108.4,0.0,4.9e-32,108.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Paucibacter oligotrophus],GCA_025717515.1
+RZS56796.1,-,BLUF,PF04940.19,6.6e-31,104.2,0.0,8.4e-31,103.9,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Sphaerotilus mobilis],GCA_004216565.1
+BAL97802.1,-,BLUF,PF04940.19,6.3e-34,114.1,0.0,8.1e-34,113.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain protein [Rubrivivax gelatinosus IL144],GCA_000284255.1
+BAL94547.1,-,BLUF,PF04940.19,7.3e-33,110.7,0.0,9.1e-33,110.4,0.0,1.1,1,0,0,1,1,1,1,BLUF domain protein [Rubrivivax gelatinosus IL144],GCA_000284255.1
+BAL97195.1,-,BLUF,PF04940.19,5.3e-21,72.7,0.0,7.3e-21,72.2,0.0,1.2,1,0,0,1,1,1,1,BLUF domain protein [Rubrivivax gelatinosus IL144],GCA_000284255.1
+GAA0742139.1,-,BLUF,PF04940.19,1.5e-32,110.1,0.0,1.9e-32,109.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ideonella azotifigens],GCA_039523215.1
+QRQ90889.1,-,BLUF,PF04940.19,1.8e-31,106.6,0.0,2.3e-31,106.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Cupriavidus oxalaticus],GCA_016894385.1
+SOY67693.1,-,BLUF,PF04940.19,2.7e-31,106.0,0.0,3.4e-31,105.6,0.0,1.1,1,0,0,1,1,1,1,"putative blue-light sensor, BluF domain [Cupriavidus taiwanensis]",GCA_900249755.1
+OQW88359.1,-,BLUF,PF04940.19,4.6e-31,104.7,0.0,6e-31,104.3,0.0,1.2,1,0,0,1,1,1,1,MAG: blue light sensor protein [Rhodoferax ferrireducens],GCA_002083775.1
+OQW87690.1,-,BLUF,PF04940.19,7.8e-31,104.0,0.0,9.6e-31,103.7,0.0,1.1,1,0,0,1,1,1,1,MAG: hypothetical protein BWK72_12340 [Rhodoferax ferrireducens],GCA_002083775.1
+OQW88536.1,-,BLUF,PF04940.19,9.9e-31,103.7,0.2,2.9e-30,102.2,0.1,1.7,2,0,0,2,2,2,1,MAG: hypothetical protein BWK72_09290 [Rhodoferax ferrireducens],GCA_002083775.1
+OQW86437.1,-,BLUF,PF04940.19,1.2e-28,96.9,0.0,1.5e-28,96.6,0.0,1.1,1,0,0,1,1,1,1,MAG: hypothetical protein BWK72_17535 [Rhodoferax ferrireducens],GCA_002083775.1
+PJI83354.1,-,BLUF,PF04940.19,1.5e-24,82.9,0.0,1.9e-24,82.5,0.0,1.2,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Polynucleobacter brandtiae],GCA_002797575.1
+MDP9899808.1,-,BLUF,PF04940.19,1.9e-29,99.9,0.0,2.5e-29,99.5,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein J2W36_002059 [Variovorax ginsengisoli],GCA_030811835.1
+MDP9902269.1,-,BLUF,PF04940.19,4.5e-28,95.5,0.0,1e-27,94.4,0.0,1.6,1,0,0,1,1,1,1,EAL domain-containing protein (putative c-di-GMP-specific phosphodiesterase class I) [Variovorax ginsengisoli],GCA_030811835.1
+MDP9898397.1,-,BLUF,PF04940.19,2.1e-21,74.1,0.0,2.6e-21,73.9,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein J2W36_000632 [Variovorax ginsengisoli],GCA_030811835.1
+SEA59132.1,-,BLUF,PF04940.19,1.6e-31,106.1,0.0,2.1e-31,105.8,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Acidovorax soli],GCA_900107605.1
+BAO83462.1,-,BLUF,PF04940.19,7.8e-31,103.3,0.0,1e-30,102.9,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein SMCB_1234 [Serpentinimonas maccroryi],GCA_000828915.1
+ASM76347.1,-,BLUF,PF04940.19,1e-33,113.1,0.0,1.4e-33,112.6,0.0,1.2,1,0,0,1,1,1,1,blue-light sensor BLUF [Vitreoscilla filiformis],GCA_002222655.1
+ASM76496.1,-,BLUF,PF04940.19,4.9e-14,50.0,0.0,7.5e-14,49.4,0.0,1.3,1,0,0,1,1,1,1,blue-light sensor BLUF [Vitreoscilla filiformis],GCA_002222655.1
+EOA04658.1,-,BLUF,PF04940.19,8.3e-32,107.4,0.0,1.1e-31,107.0,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein HFRIS_010903 [Herbaspirillum frisingense GSF30],GCA_000300975.2
+MRW84886.1,-,BLUF,PF04940.19,4e-27,92.6,0.0,7.6e-27,91.7,0.0,1.5,1,0,0,1,1,1,1,EAL domain-containing protein [Pseudoduganella sp. FT26W],GCA_009674565.1
+OWF66585.1,-,BLUF,PF04940.19,3.6e-32,107.3,0.3,4.4e-32,107.0,0.3,1.1,1,0,0,1,1,1,1,hypothetical protein B6A14_00970 [Polynucleobacter hirudinilacicola],GCA_002192535.1
+OWF65196.1,-,BLUF,PF04940.19,1.2e-28,95.9,0.1,1.5e-28,95.6,0.1,1.1,1,0,0,1,1,1,1,hypothetical protein B6A14_05130 [Polynucleobacter hirudinilacicola],GCA_002192535.1
+OWF66264.1,-,BLUF,PF04940.19,3.7e-27,91.2,0.1,4.6e-27,90.9,0.1,1.1,1,0,0,1,1,1,1,blue light sensor protein [Polynucleobacter hirudinilacicola],GCA_002192535.1
+WQH06946.1,-,BLUF,PF04940.19,3.5e-29,99.1,0.0,4.3e-29,98.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Duganella zoogloeoides],GCA_034479515.1
+TSE19020.1,-,BLUF,PF04940.19,1.9e-31,105.2,0.0,2.4e-31,104.8,0.0,1.1,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Tepidimonas alkaliphilus],GCA_007556595.1
+VVD97315.1,-,BLUF,PF04940.19,5.8e-19,66.1,0.0,7.4e-19,65.8,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein PEP31012_01923 [Pandoraea eparura],GCA_902459725.1
+MDQ7743387.1,-,BLUF,PF04940.19,1.5e-30,103.3,0.0,2e-30,102.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga pseudoflava],GCA_031020795.1
+MDQ7743377.1,-,BLUF,PF04940.19,8.3e-15,52.8,0.0,1.6e-14,52.0,0.0,1.4,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga pseudoflava],GCA_031020795.1
+CAB3633515.1,-,BLUF,PF04940.19,3.7e-25,86.2,0.0,7.9e-25,85.1,0.0,1.6,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Achromobacter mucicolens],GCA_902859725.1
+OWY32601.1,-,BLUF,PF04940.19,3.3e-32,108.6,0.0,4.4e-32,108.2,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Herbaspirillum aquaticum],GCA_002213425.1
+OLY95164.1,-,BLUF,PF04940.19,9.9e-28,93.1,0.1,1.2e-27,92.8,0.1,1.1,1,0,0,1,1,1,1,hypothetical protein BOQ04_09225 [Polynucleobacter sphagniphilus],GCA_001953355.1
+MDR7151134.1,-,BLUF,PF04940.19,5.4e-31,104.8,0.0,7.2e-31,104.4,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein J2W49_003107 [Hydrogenophaga palleronii],GCA_031457455.1
+NRT55582.1,-,BLUF,PF04940.19,2.2e-32,109.0,0.0,2.9e-32,108.7,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein HNQ01_001294 [Leptothrix sp. C29],GCA_013294065.1
+NRT56160.1,-,BLUF,PF04940.19,1.2e-31,106.7,0.0,1.6e-31,106.3,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein HNQ01_001896 [Leptothrix sp. C29],GCA_013294065.1
+TSE36202.1,-,BLUF,PF04940.19,2.5e-31,105.0,0.0,3.2e-31,104.6,0.0,1.1,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Tepidimonas charontis],GCA_007556685.1
+AVO35675.1,-,BLUF,PF04940.19,4.9e-30,101.2,0.0,6.5e-30,100.8,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Ottowia oryzae],GCA_003008535.1
+AVO35388.1,-,BLUF,PF04940.19,3.9e-24,82.3,0.0,4.7e-24,82.0,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Ottowia oryzae],GCA_003008535.1
+CAG9170321.1,-,BLUF,PF04940.19,4.4e-32,108.4,0.0,5.6e-32,108.1,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein LMG23992_01547 [Cupriavidus laharis],GCA_914271435.1
+AVO40514.1,-,BLUF,PF04940.19,1.4e-30,103.0,0.0,1.8e-30,102.7,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Simplicispira suum],GCA_003008595.1
+AVO41686.1,-,BLUF,PF04940.19,3.1e-25,85.9,0.0,4.2e-25,85.5,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Simplicispira suum],GCA_003008595.1
+KAA6117362.1,-,BLUF,PF04940.19,1.6e-31,106.5,0.0,2e-31,106.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Cupriavidus cauae],GCA_008632125.1
+NWF48361.1,-,BLUF,PF04940.19,1.1e-30,103.9,0.0,1.4e-30,103.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga sp. D2P1],GCA_013387465.1
+NWF44399.1,-,BLUF,PF04940.19,1.9e-16,58.3,0.0,3.5e-16,57.4,0.0,1.4,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga sp. D2P1],GCA_013387465.1
+MDC8787238.1,-,BLUF,PF04940.19,8.8e-32,106.9,0.0,1.1e-31,106.6,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Paucibacter sp. hw1],GCA_028595305.1
+QJD93392.1,-,BLUF,PF04940.19,1.5e-30,103.5,0.0,1.9e-30,103.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Duganella dendranthematis],GCA_012849375.1
+QJD92634.1,-,BLUF,PF04940.19,1.2e-26,91.0,0.1,2.2e-26,90.2,0.1,1.4,1,0,0,1,1,1,1,EAL domain-containing protein [Duganella dendranthematis],GCA_012849375.1
+UXH80333.1,-,BLUF,PF04940.19,1.6e-30,103.3,0.1,2.2e-30,102.8,0.1,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles amylovorans],GCA_025398155.2
+UXH78053.1,-,BLUF,PF04940.19,3.5e-30,102.2,0.0,4.4e-30,101.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles amylovorans],GCA_025398155.2
+ABP33587.1,-,BLUF,PF04940.19,3e-27,91.6,0.0,3.8e-27,91.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain protein [Polynucleobacter asymbioticus QLW-P1DMWA-1],GCA_000016345.1
+SDC72628.1,-,BLUF,PF04940.19,4.7e-31,104.9,0.0,6.1e-31,104.5,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Paracidovorax valerianellae],GCA_900102625.1
+SDE24575.1,-,BLUF,PF04940.19,3.3e-26,89.4,0.0,4.2e-26,89.0,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Paracidovorax valerianellae],GCA_900102625.1
+SDM20924.1,-,BLUF,PF04940.19,2.3e-30,102.2,0.0,3e-30,101.9,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Oryzisolibacter propanilivorax],GCA_900103645.1
+SDM52859.1,-,BLUF,PF04940.19,3.1e-22,76.2,0.0,4.1e-22,75.8,0.0,1.2,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Oryzisolibacter propanilivorax],GCA_900103645.1
+QPC32564.1,-,BLUF,PF04940.19,6.2e-33,110.5,0.0,7.9e-33,110.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Caldimonas thermodepolymerans],GCA_015476235.1
+SDJ83058.1,-,BLUF,PF04940.19,1.4e-31,106.5,0.0,1.8e-31,106.1,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Paracidovorax citrulli],GCA_900100305.1
+SDJ10676.1,-,BLUF,PF04940.19,1.4e-22,77.7,0.0,1.6e-22,77.4,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Paracidovorax citrulli],GCA_900100305.1
+QHF13535.1,-,BLUF,PF04940.19,1.1e-18,65.2,0.0,1.5e-18,64.9,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein PI93_013455 [Pandoraea fibrosis],GCA_000807775.2
+MFC5498331.1,-,BLUF,PF04940.19,3.1e-29,99.1,0.0,4e-29,98.7,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Caenimonas terrae],GCA_042655405.1
+MFC5497760.1,-,BLUF,PF04940.19,2.3e-27,93.1,0.0,2.8e-27,92.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Caenimonas terrae],GCA_042655405.1
+OWR02918.1,-,BLUF,PF04940.19,1.7e-31,106.5,0.0,2.1e-31,106.2,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Roseateles puraquae],GCA_002205845.1
+RZU02302.1,-,BLUF,PF04940.19,5e-31,104.4,0.0,6.4e-31,104.1,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Rivibacter subsaxonicus],GCA_004217215.1
+PXX41847.1,-,BLUF,PF04940.19,6.8e-31,104.7,0.1,8.5e-31,104.3,0.1,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Undibacterium pigrum],GCA_003201815.1
+NKE67262.1,-,BLUF,PF04940.19,2.1e-30,102.9,0.0,2.9e-30,102.5,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter sp. RBP-2],GCA_012184415.1
+KGH26147.1,-,BLUF,PF04940.19,1.4e-25,87.6,0.0,1.7e-25,87.3,0.0,1.1,1,0,0,1,1,1,1,blue-light sensor BLUF [Comamonas testosteroni],GCA_000761245.1
+XCC56895.1,-,BLUF,PF04940.19,1e-27,92.9,0.0,1.2e-27,92.7,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Polynucleobacter sp. UK-FUSCHL-C3],GCA_040409815.1
+XCC58402.1,-,BLUF,PF04940.19,4e-24,81.4,0.1,4.9e-24,81.1,0.1,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Polynucleobacter sp. UK-FUSCHL-C3],GCA_040409815.1
+QGW83898.1,-,BLUF,PF04940.19,1.3e-30,103.6,0.0,1.7e-30,103.2,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Variovorax paradoxus],GCA_009755665.1
+QGW80928.1,-,BLUF,PF04940.19,1.8e-25,87.1,0.0,2.7e-25,86.5,0.0,1.3,1,0,0,1,1,1,1,blue light sensor protein [Variovorax paradoxus],GCA_009755665.1
+SFF15609.1,-,BLUF,PF04940.19,3.7e-31,105.2,0.0,4.8e-31,104.9,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Paracidovorax wautersii],GCA_900113035.1
+SFE62088.1,-,BLUF,PF04940.19,4.1e-25,85.9,0.0,5.2e-25,85.5,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Paracidovorax wautersii],GCA_900113035.1
+SFE43512.1,-,BLUF,PF04940.19,5.5e-23,79.0,0.0,6.6e-23,78.8,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Paracidovorax wautersii],GCA_900113035.1
+MFG6467508.1,-,BLUF,PF04940.19,9.4e-30,100.6,0.0,1.2e-29,100.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Roseateles sp. BYS87W],GCA_043555935.1
+PPE65538.1,-,BLUF,PF04940.19,2e-33,112.0,0.0,2.5e-33,111.7,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Caldimonas caldifontis],GCA_002930615.1
+OWY26420.1,-,BLUF,PF04940.19,8e-32,107.4,0.0,1e-31,107.1,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Herbaspirillum robiniae],GCA_002213415.1
+SEN88865.1,-,BLUF,PF04940.19,6.3e-31,103.6,0.0,8.9e-31,103.1,0.0,1.2,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Allobrachymonas denitrificans DSM 15123],GCA_900110225.1
+SEM99591.1,-,BLUF,PF04940.19,5.2e-25,84.6,0.0,6.9e-25,84.2,0.0,1.2,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Allobrachymonas denitrificans DSM 15123],GCA_900110225.1
+SOE52110.1,-,BLUF,PF04940.19,1.6e-24,83.9,0.0,3.5e-24,82.8,0.0,1.6,1,0,0,1,1,1,1,diguanylate cyclase/phosphodiesterase (GGDEF & EAL domains) with PAS/PAC sensor(s) [Orrella dioscoreae],GCA_900089455.2
+RUR70605.1,-,BLUF,PF04940.19,2e-30,103.3,0.0,2.7e-30,102.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax guangxiensis],GCA_003952165.1
+RUR67149.1,-,BLUF,PF04940.19,3.2e-26,89.9,0.0,3.9e-26,89.6,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax guangxiensis],GCA_003952165.1
+MCC8397632.1,-,BLUF,PF04940.19,5.9e-26,89.1,0.0,1.3e-25,88.0,0.0,1.5,1,0,0,1,1,1,1,BLUF domain-containing protein [Paraburkholderia sp. MMS20-SJTR3],GCA_020880815.1
+MCC8396856.1,-,BLUF,PF04940.19,1.2e-24,84.9,0.0,1.6e-24,84.5,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Paraburkholderia sp. MMS20-SJTR3],GCA_020880815.1
+AWW49517.1,-,BLUF,PF04940.19,1.6e-27,92.3,0.1,1.8e-27,92.1,0.1,1.0,1,0,0,1,1,1,1,hypothetical protein Pas1_03430 [Polynucleobacter paneuropaeus],GCA_003261235.1
+CAB3646756.1,-,BLUF,PF04940.19,3.1e-24,83.2,0.0,5.1e-24,82.5,0.0,1.4,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Achromobacter pulmonis],GCA_902859765.1
+APW37197.1,-,BLUF,PF04940.19,3e-29,99.3,0.0,3.8e-29,98.9,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Rhodoferax koreense],GCA_001955695.1
+VVE62787.1,-,BLUF,PF04940.19,1.7e-17,61.6,0.0,2.1e-17,61.3,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein PAN31117_01008 [Pandoraea anapnoica],GCA_902459765.1
+QNN58216.1,-,BLUF,PF04940.19,1.4e-30,103.3,0.0,1.8e-30,102.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Diaphorobacter ruginosibacter],GCA_014395975.1
+QNN59294.1,-,BLUF,PF04940.19,1.1e-25,87.6,0.0,1.5e-25,87.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Diaphorobacter ruginosibacter],GCA_014395975.1
+QNN58376.1,-,BLUF,PF04940.19,3e-12,44.6,0.0,5.2e-12,43.8,0.0,1.4,1,0,0,1,1,1,1,BLUF domain-containing protein [Diaphorobacter ruginosibacter],GCA_014395975.1
+UXC19299.1,-,BLUF,PF04940.19,2.5e-25,86.5,0.0,3.1e-25,86.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas sp. PR12],GCA_025309455.1
+UXC17953.1,-,BLUF,PF04940.19,2e-22,77.2,0.0,2.6e-22,76.8,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas sp. PR12],GCA_025309455.1
+UXC20516.1,-,BLUF,PF04940.19,4.3e-22,76.1,0.0,5.3e-22,75.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas sp. PR12],GCA_025309455.1
+MYN27963.1,-,BLUF,PF04940.19,2.8e-27,93.1,0.1,4.9e-27,92.3,0.1,1.4,1,0,0,1,1,1,1,EAL domain-containing protein [Duganella sp. CY42W],GCA_009857605.1
+MBC5781757.1,-,BLUF,PF04940.19,3.3e-31,105.5,0.0,4.3e-31,105.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter sp. USB13],GCA_014297465.1
+MBC5781944.1,-,BLUF,PF04940.19,2.4e-16,57.9,0.0,4.2e-16,57.1,0.0,1.4,1,0,0,1,1,1,1,BLUF domain-containing protein [Ramlibacter sp. USB13],GCA_014297465.1
+OWS72707.1,-,BLUF,PF04940.19,2.9e-27,91.7,0.2,3.5e-27,91.4,0.2,1.1,1,0,0,1,1,1,1,hypothetical protein CBI30_00065 [Polynucleobacter aenigmaticus],GCA_002206635.1
+OWS71846.1,-,BLUF,PF04940.19,6.3e-27,90.5,0.0,7.4e-27,90.3,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein CBI30_05185 [Polynucleobacter aenigmaticus],GCA_002206635.1
+AVP58597.1,-,BLUF,PF04940.19,7.1e-31,103.7,0.0,9.1e-31,103.3,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Pulveribacter suum],GCA_003013695.1
+AVP58056.1,-,BLUF,PF04940.19,1.1e-24,83.8,0.0,1.5e-24,83.4,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Pulveribacter suum],GCA_003013695.1
+MDC8769983.1,-,BLUF,PF04940.19,6.5e-33,110.8,0.0,8.1e-33,110.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Paucibacter sp. hw8],GCA_028595345.1
+CAL62550.2,-,BLUF,PF04940.19,2.7e-28,95.5,0.0,4.2e-28,94.9,0.0,1.3,1,0,0,1,1,1,1,Hypothetical protein HEAR2419 [Herminiimonas arsenicoxydans],GCA_000026125.1
+MEB5964487.1,-,BLUF,PF04940.19,4.1e-25,85.7,0.0,5.1e-25,85.4,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas testosteroni],GCA_035784015.1
+RRS03342.1,-,BLUF,PF04940.19,9.6e-32,107.1,0.0,1.2e-31,106.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Aquabacterium soli],GCA_003933735.1
+RRS02482.1,-,BLUF,PF04940.19,1.1e-26,90.9,0.0,1.5e-26,90.4,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Aquabacterium soli],GCA_003933735.1
+MFC7434640.1,-,BLUF,PF04940.19,6.2e-32,107.4,0.0,8e-32,107.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga bisanensis],GCA_042665135.1
+MFC7436354.1,-,BLUF,PF04940.19,7.8e-30,100.7,0.0,1.1e-29,100.2,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga bisanensis],GCA_042665135.1
+MFC7435508.1,-,BLUF,PF04940.19,2.5e-28,95.8,0.0,3.3e-28,95.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga bisanensis],GCA_042665135.1
+MFC7433646.1,-,BLUF,PF04940.19,4.2e-16,56.7,0.0,6.9e-16,56.0,0.0,1.3,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga bisanensis],GCA_042665135.1
+AVO50082.1,-,BLUF,PF04940.19,6.9e-31,103.9,0.0,8.9e-31,103.6,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Melaminivora suipulveris],GCA_003008575.1
+ABM58830.1,-,BLUF,PF04940.19,2.2e-27,93.2,0.0,2.9e-27,92.8,0.0,1.2,1,0,0,1,1,1,1,BLUF domain protein [Verminephrobacter eiseniae EF01-2],GCA_000015565.1
+ABM57097.1,-,BLUF,PF04940.19,1.3e-10,39.5,0.1,2.3e-10,38.7,0.0,1.4,1,1,0,1,1,1,1,hypothetical protein Veis_1330 [Verminephrobacter eiseniae EF01-2],GCA_000015565.1
+UBQ04365.1,-,BLUF,PF04940.19,1.6e-31,105.5,0.0,2.1e-31,105.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Tepidimonas taiwanensis],GCA_020162115.1
+ADU38947.1,-,BLUF,PF04940.19,2.9e-30,102.7,0.0,3.8e-30,102.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain protein [Variovorax paradoxus EPS],GCA_000184745.1
+ADU35281.1,-,BLUF,PF04940.19,1.7e-25,87.4,0.0,2.6e-25,86.8,0.0,1.3,1,0,0,1,1,1,1,BLUF domain protein [Variovorax paradoxus EPS],GCA_000184745.1
+ADU37818.1,-,BLUF,PF04940.19,3.4e-25,86.4,0.0,4.2e-25,86.1,0.0,1.1,1,0,0,1,1,1,1,BLUF domain protein [Variovorax paradoxus EPS],GCA_000184745.1
+RDI21978.1,-,BLUF,PF04940.19,3.8e-31,105.4,0.0,4.7e-31,105.1,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Pseudacidovorax intermedius],GCA_003350475.1
+RDI26300.1,-,BLUF,PF04940.19,1.2e-29,100.5,0.0,1.6e-29,100.2,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Pseudacidovorax intermedius],GCA_003350475.1
+RDI28267.1,-,BLUF,PF04940.19,1.2e-23,81.3,0.0,1.5e-23,81.0,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Pseudacidovorax intermedius],GCA_003350475.1
+MET3417934.1,-,BLUF,PF04940.19,1.4e-30,103.6,0.0,1.8e-30,103.2,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein ABIC93_002705 [Variovorax paradoxus],GCA_040544695.1
+MET3420612.1,-,BLUF,PF04940.19,1.1e-26,91.2,0.0,1.6e-26,90.6,0.0,1.3,1,0,0,1,1,1,1,hypothetical protein ABIC93_005415 [Variovorax paradoxus],GCA_040544695.1
+SAI69589.1,-,BLUF,PF04940.19,5.2e-24,82.5,0.0,9.8e-24,81.7,0.0,1.5,1,0,0,1,1,1,1,signaling protein [Bordetella ansorpii],GCA_900078705.1
+MCD2518247.1,-,BLUF,PF04940.19,7.6e-29,97.9,0.0,1e-28,97.5,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Massilia sp. G4R7],GCA_021044825.1
+PRY99358.1,-,BLUF,PF04940.19,4e-30,101.3,0.0,5.2e-30,100.9,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Jezberella montanilacus],GCA_003003055.1
+SPD57901.1,-,BLUF,PF04940.19,2.8e-31,106.2,0.0,3.5e-31,105.9,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD (plasmid) [Cupriavidus taiwanensis],GCA_900250115.1
+TQN04027.1,-,BLUF,PF04940.19,1.2e-31,106.7,0.0,1.5e-31,106.3,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Acidovorax temperans],GCA_006716905.1
+TQN03737.1,-,BLUF,PF04940.19,1.2e-25,87.4,0.0,1.5e-25,87.1,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Acidovorax temperans],GCA_006716905.1
+TQN07049.1,-,BLUF,PF04940.19,6e-11,40.3,0.0,9.9e-11,39.6,0.0,1.4,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Acidovorax temperans],GCA_006716905.1
+TFW16646.1,-,BLUF,PF04940.19,5.8e-29,98.2,0.0,1e-28,97.4,0.0,1.4,2,0,0,2,2,2,1,BLUF domain-containing protein [Massilia arenosa],GCA_004614185.1
+AMR81654.1,-,BLUF,PF04940.19,3.6e-31,105.7,0.0,4.7e-31,105.3,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Cupriavidus nantongensis],GCA_001598055.1
+MYM39788.1,-,BLUF,PF04940.19,1.7e-31,106.2,0.0,2.1e-31,105.9,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Pseudoduganella sp. CY13W],GCA_009857915.1
+MFC0594254.1,-,BLUF,PF04940.19,2.9e-30,102.0,0.0,3.6e-30,101.7,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ottowia pentelensis],GCA_042434355.1
+CAG2148900.1,-,BLUF,PF04940.19,1.3e-28,97.3,0.0,1.6e-28,97.1,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein LMG26296_04438 [Cupriavidus plantarum],GCA_905397285.1
+MET3440720.1,-,BLUF,PF04940.19,1.8e-30,103.2,0.0,2.3e-30,102.9,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein ABIC94_001474 [Variovorax paradoxus],GCA_040544635.1
+MET3443946.1,-,BLUF,PF04940.19,7e-26,88.5,0.0,1.1e-25,87.9,0.0,1.3,1,0,0,1,1,1,1,hypothetical protein ABIC94_004755 [Variovorax paradoxus],GCA_040544635.1
+GAA4341702.1,-,BLUF,PF04940.19,6.6e-31,104.7,0.0,9.1e-31,104.2,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Variovorax defluvii],GCA_039541515.1
+GAA4352005.1,-,BLUF,PF04940.19,1.8e-24,84.0,0.0,2.2e-24,83.7,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein GCM10023165_40690 [Variovorax defluvii],GCA_039541515.1
+TCS99739.1,-,BLUF,PF04940.19,1.3e-31,105.8,0.0,1.7e-31,105.4,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Tepidimonas ignava],GCA_004342625.1
+MDP4299597.1,-,BLUF,PF04940.19,1.6e-30,103.0,0.0,2e-30,102.7,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Leptothrix discophora],GCA_030705305.1
+OWS70429.1,-,BLUF,PF04940.19,3.7e-27,91.2,0.0,4.4e-27,91.0,0.0,1.0,1,0,0,1,1,1,1,hypothetical protein CBI31_03060 [Polynucleobacter campilacus],GCA_002206625.1
+MCE4539424.1,-,BLUF,PF04940.19,1.1e-31,107.1,0.0,1.4e-31,106.7,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Pelomonas sp. P7],GCA_021353235.1
+GCL66260.1,-,BLUF,PF04940.19,2e-30,103.1,0.0,2.5e-30,102.8,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein AQPW35_53410 [Rubrivivax pictus],GCA_005403045.1
+GCL65410.1,-,BLUF,PF04940.19,2.6e-30,102.7,0.0,3.1e-30,102.5,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein AQPW35_44910 [Rubrivivax pictus],GCA_005403045.1
+GCL61970.1,-,BLUF,PF04940.19,4.5e-29,98.8,0.0,8.2e-29,97.9,0.0,1.4,2,0,0,2,2,2,1,hypothetical protein AQPW35_10510 [Rubrivivax pictus],GCA_005403045.1
+KAB0603613.1,-,BLUF,PF04940.19,1.6e-31,106.7,0.0,2.1e-31,106.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Cupriavidus pauculus],GCA_008801835.1
+CAC9685354.1,-,BLUF,PF04940.19,1.3e-23,81.3,0.0,1.6e-23,81.0,0.0,1.1,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor YcgF [Delftia tsuruhatensis],GCA_903815225.1
+RSZ56883.1,-,BLUF,PF04940.19,6.2e-30,101.7,0.0,7.7e-30,101.4,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Massilia atriviolacea],GCA_003953935.1
+OFA02107.1,-,BLUF,PF04940.19,3.1e-30,102.5,0.0,3.8e-30,102.2,0.0,1.1,1,0,0,1,1,1,1,blue light- and temperature-regulated antirepressor YcgF [Duganella phyllosphaerae],GCA_001758785.1
+VVE60935.1,-,BLUF,PF04940.19,4.1e-19,66.8,0.0,5.4e-19,66.4,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein PCA31118_00406 [Pandoraea captiosa],GCA_902459775.1
+AKC71120.1,-,BLUF,PF04940.19,4.1e-17,60.4,0.0,5.9e-17,59.9,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein MB84_19085 [Pandoraea oxalativorans],GCA_000972785.3
+MFC7462455.1,-,BLUF,PF04940.19,1.9e-30,102.8,0.0,2.4e-30,102.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga defluvii],GCA_042665235.1
+VVE87309.1,-,BLUF,PF04940.19,4.9e-19,66.4,0.0,6.3e-19,66.1,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein PBR20603_01238 [Pandoraea bronchicola],GCA_902459805.1
+AGX87613.1,-,BLUF,PF04940.19,1.7e-31,105.5,0.0,2e-31,105.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain protein [Candidatus Symbiobacter mobilis CR],GCA_000477435.1
+AGX88121.1,-,BLUF,PF04940.19,8.6e-31,103.2,0.0,1.2e-30,102.8,0.0,1.2,1,0,0,1,1,1,1,BLUF domain protein [Candidatus Symbiobacter mobilis CR],GCA_000477435.1
+AGX88020.1,-,BLUF,PF04940.19,1.7e-28,95.9,0.3,7e-28,93.9,0.1,2.2,2,0,0,2,2,2,1,signal transduction protein [Candidatus Symbiobacter mobilis CR],GCA_000477435.1
+XBP69439.1,-,BLUF,PF04940.19,1e-29,100.7,0.0,1.4e-29,100.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Polaromonas hydrogenivorans],GCA_040105105.1
+XBP69766.1,-,BLUF,PF04940.19,6.5e-28,94.9,0.0,8.7e-28,94.5,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Polaromonas hydrogenivorans],GCA_040105105.1
+ABM36230.1,-,BLUF,PF04940.19,3.3e-30,102.3,0.0,4.3e-30,101.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain protein [Polaromonas naphthalenivorans CJ2],GCA_000015505.1
+ABM35852.1,-,BLUF,PF04940.19,1.1e-27,94.2,0.0,1.5e-27,93.8,0.0,1.2,1,0,0,1,1,1,1,BLUF domain protein [Polaromonas naphthalenivorans CJ2],GCA_000015505.1
+REG10073.1,-,BLUF,PF04940.19,4.9e-32,108.1,0.0,6.1e-32,107.8,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Roseateles depolymerans],GCA_003387155.1
+RFO98055.1,-,BLUF,PF04940.19,7.7e-30,100.9,0.0,1e-29,100.5,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Rhodoferax lacus],GCA_003415675.1
+RFO95068.1,-,BLUF,PF04940.19,9.9e-28,94.2,0.0,1.2e-27,93.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain protein [Rhodoferax lacus],GCA_003415675.1
+RFO95324.1,-,BLUF,PF04940.19,9.4e-07,26.9,0.0,2e-06,25.9,0.0,1.5,2,0,0,2,2,2,1,hypothetical protein DIC66_19045 [Rhodoferax lacus],GCA_003415675.1
+AKJ27950.1,-,BLUF,PF04940.19,7.7e-32,107.6,0.0,9.7e-32,107.3,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Caldimonas brevitalea],GCA_001017435.1
+AKJ30249.1,-,BLUF,PF04940.19,3.3e-29,99.2,0.0,4.5e-29,98.8,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein AAW51_3558 [Caldimonas brevitalea],GCA_001017435.1
+AJC16802.1,-,BLUF,PF04940.19,1.4e-18,64.9,0.0,1.8e-18,64.6,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein NA29_13715 [Pandoraea sputorum],GCA_000814845.2
+AEG93152.1,-,BLUF,PF04940.19,1.1e-29,100.3,0.1,1.4e-29,99.9,0.1,1.1,1,0,0,1,1,1,1,hypothetical protein Rta_20590 [Ramlibacter tataouinensis TTB310],GCA_000215705.1
+AEG94216.1,-,BLUF,PF04940.19,2.2e-29,99.3,0.0,2.8e-29,99.0,0.0,1.1,1,0,0,1,1,1,1,conserved hypothetical protein [Ramlibacter tataouinensis TTB310],GCA_000215705.1
+AEG93709.1,-,BLUF,PF04940.19,9.9e-08,29.9,0.0,2.4e-07,28.7,0.0,1.6,1,0,0,1,1,1,1,Hypothetical protein Rta_26080 [Ramlibacter tataouinensis TTB310],GCA_000215705.1
+QWD85300.1,-,BLUF,PF04940.19,4.1e-29,97.3,0.0,5.5e-29,96.9,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Polynucleobacter asymbioticus],GCA_018687575.1
+MEK8051508.1,-,BLUF,PF04940.19,1.1e-29,100.6,0.0,1.4e-29,100.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ideonella sp. DXS22W],GCA_038066595.1
+TSE26353.1,-,BLUF,PF04940.19,5.8e-32,106.8,0.0,7.5e-32,106.5,0.0,1.1,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Tepidimonas sediminis],GCA_007556605.1
+KTT21455.1,-,BLUF,PF04940.19,2.7e-29,99.3,0.0,3.7e-29,98.9,0.0,1.2,1,0,0,1,1,1,1,blue light sensor protein [Pseudacidovorax intermedius],GCA_001476815.1
+KTT21770.1,-,BLUF,PF04940.19,4.4e-23,79.4,0.0,5.4e-23,79.1,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein NS331_11270 [Pseudacidovorax intermedius],GCA_001476815.1
+UFU09794.1,-,BLUF,PF04940.19,9.5e-33,110.1,0.0,1.2e-32,109.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ideonella dechloratans],GCA_021049305.1
+MFC3684452.1,-,BLUF,PF04940.19,1.2e-31,106.8,0.0,1.5e-31,106.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga luteola],GCA_042648585.1
+MFC3684848.1,-,BLUF,PF04940.19,1.5e-30,103.3,0.0,1.9e-30,103.0,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga luteola],GCA_042648585.1
+MFC3684857.1,-,BLUF,PF04940.19,8.6e-16,56.0,0.0,1.8e-15,55.0,0.0,1.5,1,0,0,1,1,1,1,BLUF domain-containing protein [Hydrogenophaga luteola],GCA_042648585.1
+ARN23278.1,-,BLUF,PF04940.19,1.3e-29,100.5,0.0,1.7e-29,100.2,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Piscinibacter gummiphilus],GCA_002116905.1
+NOV22881.1,-,BLUF,PF04940.19,7e-30,101.5,0.0,8.9e-30,101.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Cupriavidus necator],GCA_013141915.1
+MBB3195995.1,-,BLUF,PF04940.19,1.5e-31,106.5,0.0,1.8e-31,106.2,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein FHS28_003405 [Roseateles terrae],GCA_014192155.1
+MBB3193827.1,-,BLUF,PF04940.19,6.6e-29,98.0,0.2,8.5e-29,97.7,0.2,1.1,1,0,0,1,1,1,1,hypothetical protein FHS28_001192 [Roseateles terrae],GCA_014192155.1
+MDN3918743.1,-,BLUF,PF04940.19,7.7e-31,104.2,0.0,9.6e-31,103.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Pelomonas sp. PFR6],GCA_030410485.1
+MDN3919293.1,-,BLUF,PF04940.19,5.8e-25,85.4,0.0,8.7e-25,84.8,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Pelomonas sp. PFR6],GCA_030410485.1
+MBR7794065.1,-,BLUF,PF04940.19,1.6e-31,106.0,0.0,2e-31,105.7,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Undibacterium sp. FT147W],GCA_018139565.1
+NNG23823.1,-,BLUF,PF04940.19,1.7e-29,99.9,0.0,2.4e-29,99.4,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Massilia sp. ML15P13],GCA_013003915.1
+MET3496806.1,-,BLUF,PF04940.19,5.9e-30,101.6,0.0,7.7e-30,101.2,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein ABIC90_003871 [Variovorax boronicumulans],GCA_040544675.1
+MET3497568.1,-,BLUF,PF04940.19,1.2e-25,87.8,0.0,1.5e-25,87.5,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein ABIC90_004637 [Variovorax boronicumulans],GCA_040544675.1
+MFE1573408.1,-,BLUF,PF04940.19,2.9e-25,86.2,0.0,3.5e-25,85.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas odontotermitis],GCA_042748965.1
+NVO76422.1,-,BLUF,PF04940.19,5.8e-31,104.1,0.0,9.3e-31,103.5,0.0,1.3,1,0,0,1,1,1,1,BLUF domain-containing protein [Undibacterium oligocarboniphilum],GCA_013377855.1
+NVO76452.1,-,BLUF,PF04940.19,3.9e-30,101.5,0.0,4.9e-30,101.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Undibacterium oligocarboniphilum],GCA_013377855.1
+NVO79180.1,-,BLUF,PF04940.19,4.9e-30,101.2,0.0,6.3e-30,100.8,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Undibacterium oligocarboniphilum],GCA_013377855.1
+GGA94052.1,-,BLUF,PF04940.19,1.3e-31,106.4,0.0,1.7e-31,106.0,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein GCM10011496_13910 [Polaromonas eurypsychrophila],GCA_014641715.1
+GGA99993.1,-,BLUF,PF04940.19,3.7e-28,95.4,0.0,6e-28,94.7,0.0,1.3,1,0,0,1,1,1,1,hypothetical protein GCM10011496_21300 [Polaromonas eurypsychrophila],GCA_014641715.1
+GGA93318.1,-,BLUF,PF04940.19,9.6e-26,87.6,0.0,1.3e-25,87.2,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein GCM10011496_12930 [Polaromonas eurypsychrophila],GCA_014641715.1
+RCX08202.1,-,BLUF,PF04940.19,2.9e-31,104.8,0.0,4.8e-31,104.2,0.0,1.4,1,0,0,1,1,1,1,EAL domain-containing protein (putative c-di-GMP-specific phosphodiesterase class I) [Extensimonas vulgaris],GCA_003337425.1
+RCX11660.1,-,BLUF,PF04940.19,2.1e-29,98.9,0.0,2.7e-29,98.5,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Extensimonas vulgaris],GCA_003337425.1
+NYG31169.1,-,BLUF,PF04940.19,4.1e-32,108.2,0.0,5.2e-32,107.9,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein BDD16_000155 [Sphaerotilus montanus],GCA_013410775.1
+NYG34692.1,-,BLUF,PF04940.19,3.5e-31,105.2,0.0,5.2e-31,104.7,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein BDD16_003678 [Sphaerotilus montanus],GCA_013410775.1
+NYG33835.1,-,BLUF,PF04940.19,1.4e-29,100.1,0.0,2.2e-29,99.5,0.0,1.3,1,0,0,1,1,1,1,EAL domain-containing protein (putative c-di-GMP-specific phosphodiesterase class I) [Sphaerotilus montanus],GCA_013410775.1
+MDP9929690.1,-,BLUF,PF04940.19,1.3e-30,103.8,0.0,1.7e-30,103.4,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein J2X92_001914 [Variovorax paradoxus],GCA_030811855.1
+MDP9932990.1,-,BLUF,PF04940.19,1.5e-26,90.7,0.0,2.3e-26,90.2,0.0,1.3,1,0,0,1,1,1,1,hypothetical protein J2X92_005249 [Variovorax paradoxus],GCA_030811855.1
+TSE22083.1,-,BLUF,PF04940.19,1.6e-31,105.6,0.0,2e-31,105.2,0.0,1.1,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Tepidimonas aquatica],GCA_007556585.1
+MDQ0013554.1,-,BLUF,PF04940.19,3.1e-30,102.7,0.0,4e-30,102.3,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein J2W23_001936 [Variovorax boronicumulans],GCA_030812215.1
+MDQ0015878.1,-,BLUF,PF04940.19,1.7e-25,87.5,0.0,2.5e-25,86.9,0.0,1.3,1,0,0,1,1,1,1,hypothetical protein J2W23_004279 [Variovorax boronicumulans],GCA_030812215.1
+VVE51233.1,-,BLUF,PF04940.19,2.3e-18,64.3,0.0,3.1e-18,63.9,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein PCA20602_04717 [Pandoraea capi],GCA_902459735.1
+SCB18818.1,-,BLUF,PF04940.19,3.2e-31,105.7,0.0,4.1e-31,105.3,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Cupriavidus alkaliphilus],GCA_900094595.1
+PIM52918.1,-,BLUF,PF04940.19,1.3e-24,84.3,0.0,2.3e-24,83.5,0.0,1.4,1,0,0,1,1,1,1,hypothetical protein CS062_12320 [Roseateles chitinivorans],GCA_002761755.1
+RPE72995.1,-,BLUF,PF04940.19,6.5e-31,103.6,0.0,8.5e-31,103.2,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Tibeticola sediminis],GCA_003843835.1
+RPE70630.1,-,BLUF,PF04940.19,7.1e-14,49.0,0.0,1e-13,48.4,0.0,1.3,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Tibeticola sediminis],GCA_003843835.1
+MDQ0568695.1,-,BLUF,PF04940.19,1.9e-30,103.2,0.0,2.4e-30,102.9,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein QFZ42_000529 [Variovorax paradoxus],GCA_030815855.1
+MDQ0572204.1,-,BLUF,PF04940.19,7.8e-27,91.6,0.0,1e-26,91.2,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein QFZ42_004038 [Variovorax paradoxus],GCA_030815855.1
+TBO32958.1,-,BLUF,PF04940.19,3.4e-32,108.1,0.0,4.4e-32,107.7,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Aquabacterium lacunae],GCA_004310865.1
+RGE46412.1,-,BLUF,PF04940.19,2.1e-24,83.5,0.0,2.7e-24,83.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas testosteroni],GCA_003569915.1
+TWG38723.1,-,BLUF,PF04940.19,5.3e-31,104.7,0.0,6.9e-31,104.3,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Acidovorax delafieldii],GCA_007993815.1
+TWG32759.1,-,BLUF,PF04940.19,6.3e-31,104.4,0.0,9e-31,103.9,0.0,1.2,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Acidovorax delafieldii],GCA_007993815.1
+TWG40887.1,-,BLUF,PF04940.19,7e-26,88.3,0.0,8.7e-26,88.0,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Acidovorax delafieldii],GCA_007993815.1
+MYN41315.1,-,BLUF,PF04940.19,1.1e-30,104.0,0.0,1.3e-30,103.7,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Duganella sp. FT109W],GCA_009857535.1
+MYN40704.1,-,BLUF,PF04940.19,1.3e-26,90.9,0.1,2.2e-26,90.2,0.1,1.4,1,0,0,1,1,1,1,EAL domain-containing protein [Duganella sp. FT109W],GCA_009857535.1
+WKL15524.1,-,BLUF,PF04940.19,2.3e-25,86.9,0.0,2.8e-25,86.6,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas testosteroni],GCA_030505195.1
+WHS65601.1,-,BLUF,PF04940.19,4e-25,85.9,0.0,5e-25,85.6,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas resistens],GCA_030064165.1
+XKF30778.1,-,BLUF,PF04940.19,7.3e-30,100.9,0.0,9.5e-30,100.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Alicycliphilus denitrificans],GCA_044792555.1
+TDP72824.1,-,BLUF,PF04940.19,1.3e-33,113.3,0.0,1.6e-33,113.0,0.0,1.1,1,0,0,1,1,1,1,FAD-dependent sensor of blue light [Roseateles toxinivorans],GCA_004362525.1
+BDI05331.1,-,BLUF,PF04940.19,3.7e-31,105.4,0.0,4.7e-31,105.0,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein CATMQ487_23010 [Sphaerotilus microaerophilus],GCA_023734135.1
+MDR6537370.1,-,BLUF,PF04940.19,9.5e-31,104.2,0.0,1.3e-30,103.7,0.0,1.2,1,0,0,1,1,1,1,hypothetical protein J2739_003147 [Variovorax soli],GCA_031454625.1
+MDR6539138.1,-,BLUF,PF04940.19,9.9e-25,84.9,0.0,1.2e-24,84.5,0.0,1.1,1,0,0,1,1,1,1,hypothetical protein J2739_004934 [Variovorax soli],GCA_031454625.1
+MEK8028881.1,-,BLUF,PF04940.19,5.3e-30,101.6,0.0,6.6e-30,101.3,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ideonella sp. BYS139W],GCA_038066575.1
+MEK8026191.1,-,BLUF,PF04940.19,5.4e-21,72.7,0.0,6.9e-21,72.4,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Ideonella sp. BYS139W],GCA_038066575.1
+AVJ30188.1,-,BLUF,PF04940.19,9.9e-27,91.3,0.0,2.1e-26,90.2,0.0,1.6,1,0,0,1,1,1,1,hypothetical protein CLM73_25515 [Achromobacter spanius],GCA_002966795.1
+AVJ28670.1,-,BLUF,PF04940.19,6.4e-25,85.5,0.0,1.7e-24,84.2,0.0,1.7,2,0,0,2,2,2,1,hypothetical protein CLM73_16990 [Achromobacter spanius],GCA_002966795.1
+WUR13854.1,-,BLUF,PF04940.19,1.1e-30,104.0,0.0,1.5e-30,103.5,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [[Empedobacter] haloabium],GCA_008011715.2
+CAB3644984.1,-,BLUF,PF04940.19,4.3e-23,79.6,0.0,8.5e-23,78.7,0.0,1.5,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Achromobacter dolens],GCA_902859745.1
+RID98420.1,-,BLUF,PF04940.19,1.1e-30,103.3,0.0,1.4e-30,102.9,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Simplicispira hankyongi],GCA_003570885.1
+MEY2251556.1,-,BLUF,PF04940.19,3.1e-24,83.0,0.0,3.9e-24,82.7,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas sediminis],GCA_041107495.1
+MEY2251199.1,-,BLUF,PF04940.19,6.6e-23,78.8,0.0,7.9e-23,78.5,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Comamonas sediminis],GCA_041107495.1
+NSX04043.1,-,BLUF,PF04940.19,3.1e-31,105.5,0.0,3.9e-31,105.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Cupriavidus gilardii],GCA_013314895.1
+OYD51020.1,-,BLUF,PF04940.19,3.3e-31,105.3,0.0,4.4e-31,105.0,0.0,1.1,1,0,0,1,1,1,1,blue light sensor protein [Acidovorax kalamii],GCA_002245625.1
+MBC3918663.1,-,BLUF,PF04940.19,1.1e-28,97.5,0.0,1.4e-28,97.2,0.0,1.1,1,0,0,1,1,1,1,BLUF domain-containing protein [Undibacterium sp. CY18W],GCA_014284335.1
+WNO06304.1,-,BLUF,PF04940.19,7.2e-30,100.7,0.0,9.5e-30,100.3,0.0,1.2,1,0,0,1,1,1,1,BLUF domain-containing protein [Rhodoferax mekongensis],GCA_032191775.1
+WNO04219.1,-,BLUF,PF04940.19,4.1e-22,75.9,0.0,4.5e-22,75.8,0.0,1.0,1,0,0,1,1,1,1,BLUF domain-containing protein [Rhodoferax mekongensis],GCA_032191775.1
+VTY35044.1,-,BLUF,PF04940.19,3.8e-30,102.3,0.0,4.9e-30,101.9,0.0,1.1,1,0,0,1,1,1,1,Blue light- and temperature-regulated antirepressor BluF [Xylophilus ampelinus],GCA_901875635.1
+VTY27384.1,-,BLUF,PF04940.19,9.2e-26,88.2,0.0,1.1e-25,88.0,0.0,1.1,1,0,0,1,1,1,1,Sensors of blue-light using FAD [Xylophilus ampelinus],GCA_901875635.1

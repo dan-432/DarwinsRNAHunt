@@ -1,0 +1,55 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: extract subtree",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "python": "/Users/daniel/Documents/workspace/miniconda3/envs/domain-taxonomy/bin/python",
+            "args": ["--input-tree", "resources/gtdb/bac120.tree", "--metadata", "resources/gtdb/bac120_metadata.tsv.gz", "--to-keep", "resources/interpro/target_taxonomy.json", "--target-taxanomic-order", "36.0:f__Burkholderiaceae_C", "--completeness", "99.9", "--contamination", "1", "--output-tree", "results/taxonomy/filtered_tree.tree", "--output-metadata", "results/taxonomy/filtered_metadata.tsv.gz", "--output-genomes", "results/taxonomy/select_genome_accessions.json", "--output-image", "results/taxonomy/filtered_tree.png"]
+        },
+
+        {
+            "name": "Python Debugger: extract flanking",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": ["--input-hits", "results/domain_hits/GCA_000013605.1_protdomain_hits.tsv", "--genome", "resources/genomes/GCA_000013605.1/genomic.fna", "--annotation", "resources/genomes/GCA_000013605.1/geneannotation.gff", "--output-upstream", "results/utr5.fasta", "--output-cds", "results/cds.fasta", "--output-downstream", "results/utr3.fasta", "--output-coords", "results/coords.bed", "--upstream", "-1", "--downstream", "-1", "--evalue", "1e-5"]
+        },
+        {
+            "name": "Python: download interpo with args",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": [
+                "--input-tree",
+                "resources/gtdb/bac120.tree",
+                "--metadata",
+                "resources/gtdb/bac120_metadata.tsv.gz",
+                "--to-keep",
+                "resources/interpro/BLUF_taxonomy.json",
+                "--target-taxanomic-order",
+                "36.0:f__Burkholderiaceae",
+                "--completeness",
+                "99.9",
+                "--contamination",
+                "1",
+                "--output-tree",
+                "resources/taxonomy/domain_tax_filtered_genomes.tree",
+                "--output-genomes",
+                "resources/select_genome_accessions.json",
+                "--output-image",
+                "results/taxonomy/burkholderiales_bluf_tree.png",
+                "--output-metadata",
+                "results/taxonomy/select_genomes_metadata.tsv.gzip"
+            ]
+        }
+    ]
+}

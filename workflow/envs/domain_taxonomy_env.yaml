@@ -1,0 +1,21 @@
+name: domain-taxonomy
+
+channel_priority: strict
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+ 
+dependencies:
+  - python=3.11
+  - pandas
+  - matplotlib
+  - requests
+  - biopython
+  - pyqt  # This provides the Qt base and Python bindings
+  - ete3  # Moved from pip to conda-forge for better Qt integration
+  - pip
+  - pip:
+      - opencv-python-headless # Headless is good; it avoids adding a THIRD Qt version
+      

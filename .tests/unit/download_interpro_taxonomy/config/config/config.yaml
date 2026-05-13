@@ -1,0 +1,36 @@
+
+databases:
+  # UPDATE THESE IF URLS CHANGE OR TO SET SPECIFIC VERSIONS
+  interpro:
+    tax_base_url: "https://www.ebi.ac.uk:443/interpro/api/taxonomy/uniprot/protein/entry/InterPro/{prot_id}/?page_size=200"
+  riboswitch:
+    # not currenlty used
+    base_url: "https://riboswitch.ribocentre.org/downloads/sequences"
+  gtdb:
+    gtdb_bacteria_tree_url: "https://data.gtdb.ecogenomic.org/releases/latest/bac120.tree"
+    gtdb_bacteria_metadata_url: "https://data.gtdb.ecogenomic.org/releases/latest/bac120_metadata.tsv.gz"
+  ncbi:
+    batch_size: 50
+
+dirs:
+  data: "resources"
+  results: "results"
+
+# InterPro
+interpro:
+  target_interpro_ids: 
+  - "IPR007024"
+
+# Taxonomy filtering
+taxonomy:
+  target_taxonomic_node: "36.0:f__Burkholderiaceae_C"
+  completeness_threshold: 99.9
+  contamination_threshold: 1
+
+# HMMER
+hmmer:
+  e: "1e-5"
+
+# Flanking sequence extraction
+flanking_upstream: -1
+flanking_downstream: -1
