@@ -1,0 +1,229 @@
+# Newick format RNA evolutionary tree
+# Built by traversing parent chains from current population to root
+# Branch lengths represent mutation distances (Hamming distance from parent)
+# Leaf nodes (marked with *) are current population members
+# Total nodes in tree: 218
+# Current population size (leaves): 69
+# Number of roots: 1
+# 
+# Node information (seq_id: fitness, parent_dist, is_leaf):
+# seq0: fitness=0.8571, dist=16 *
+# seq1: fitness=0.8403, dist=15  
+# seq2: fitness=0.8739, dist=11  
+# seq3: fitness=0.8908, dist= 7  
+# seq4: fitness=0.8403, dist=13  
+# seq5: fitness=0.8403, dist= 8  
+# seq6: fitness=0.8067, dist=12  
+# seq7: fitness=0.7395, dist=10  
+# seq8: fitness=0.8571, dist=15  
+# seq9: fitness=0.8908, dist=17  
+# seq10: fitness=?, dist= 0  
+# seq11: fitness=0.9244, dist= 8 *
+# seq12: fitness=0.9748, dist=10 *
+# seq13: fitness=0.9412, dist=15  
+# seq14: fitness=0.9244, dist=11  
+# seq15: fitness=0.9412, dist=13  
+# seq16: fitness=0.9580, dist=12  
+# seq17: fitness=0.9076, dist=12 *
+# seq18: fitness=0.9748, dist=14 *
+# seq19: fitness=0.9748, dist=11  
+# seq20: fitness=0.8739, dist=15  
+# seq21: fitness=0.8235, dist=14  
+# seq22: fitness=0.7899, dist= 6  
+# seq23: fitness=0.8067, dist=16  
+# seq24: fitness=0.8067, dist=14  
+# seq25: fitness=0.8571, dist= 7 *
+# seq26: fitness=0.8403, dist= 6  
+# seq27: fitness=0.9748, dist=13  
+# seq28: fitness=0.8235, dist= 9  
+# seq29: fitness=0.7731, dist=14  
+# seq30: fitness=0.7899, dist=16  
+# seq31: fitness=0.7899, dist=16  
+# seq32: fitness=0.9076, dist=14 *
+# seq33: fitness=0.9412, dist= 7  
+# seq34: fitness=0.9916, dist=10  
+# seq35: fitness=0.9748, dist=12  
+# seq36: fitness=0.9580, dist=12 *
+# seq37: fitness=0.9748, dist=15  
+# seq38: fitness=0.9412, dist=11  
+# seq39: fitness=0.9244, dist=10 *
+# seq40: fitness=0.9412, dist=11  
+# seq41: fitness=0.9580, dist=15  
+# seq42: fitness=0.8571, dist= 7  
+# seq43: fitness=0.9412, dist=12  
+# seq44: fitness=0.9580, dist=13  
+# seq45: fitness=0.9580, dist=11  
+# seq46: fitness=0.9748, dist= 8  
+# seq47: fitness=0.9076, dist= 9  
+# seq48: fitness=0.9580, dist=12 *
+# seq49: fitness=0.9412, dist=12 *
+# seq50: fitness=0.7731, dist= 3  
+# seq51: fitness=0.9412, dist=12  
+# seq52: fitness=0.9580, dist=11  
+# seq53: fitness=0.7899, dist=13  
+# seq54: fitness=0.7731, dist=10  
+# seq55: fitness=0.8739, dist=10 *
+# seq56: fitness=0.9580, dist=11 *
+# seq57: fitness=0.9916, dist=14  
+# seq58: fitness=0.9748, dist= 8  
+# seq59: fitness=0.9580, dist= 6  
+# seq60: fitness=0.9916, dist= 6  
+# seq61: fitness=0.9748, dist=12 *
+# seq62: fitness=0.9412, dist=12  
+# seq63: fitness=0.9076, dist=12  
+# seq64: fitness=0.9244, dist= 7  
+# seq65: fitness=0.9580, dist=14  
+# seq66: fitness=0.9580, dist=11 *
+# seq67: fitness=0.9748, dist=11  
+# seq68: fitness=0.8739, dist=10  
+# seq69: fitness=0.9580, dist=11  
+# seq70: fitness=0.9076, dist=11 *
+# seq71: fitness=0.9412, dist=15  
+# seq72: fitness=0.9076, dist= 8  
+# seq73: fitness=0.8908, dist=14 *
+# seq74: fitness=0.8908, dist= 9  
+# seq75: fitness=0.8908, dist=15  
+# seq76: fitness=0.9412, dist= 7  
+# seq77: fitness=0.9916, dist= 6  
+# seq78: fitness=0.9916, dist=11 *
+# seq79: fitness=0.9580, dist=17  
+# seq80: fitness=0.8908, dist= 8 *
+# seq81: fitness=0.9916, dist= 7  
+# seq82: fitness=0.9076, dist= 7  
+# seq83: fitness=0.8908, dist=13 *
+# seq84: fitness=0.9076, dist= 8  
+# seq85: fitness=0.8067, dist=10  
+# seq86: fitness=0.9412, dist=11  
+# seq87: fitness=0.9244, dist=10 *
+# seq88: fitness=0.9748, dist=13  
+# seq89: fitness=0.9580, dist=14  
+# seq90: fitness=0.9412, dist=18  
+# seq91: fitness=0.9412, dist=12 *
+# seq92: fitness=0.9748, dist=10  
+# seq93: fitness=0.8908, dist=15  
+# seq94: fitness=0.8235, dist=10 *
+# seq95: fitness=0.8739, dist=13  
+# seq96: fitness=0.9748, dist=10  
+# seq97: fitness=0.9748, dist= 8  
+# seq98: fitness=0.9916, dist=15  
+# seq99: fitness=0.7395, dist= 8 *
+# seq100: fitness=0.8235, dist=10  
+# seq101: fitness=0.8571, dist=10  
+# seq102: fitness=0.9076, dist=15  
+# seq103: fitness=0.9916, dist=11  
+# seq104: fitness=0.9748, dist= 9 *
+# seq105: fitness=0.9412, dist= 9  
+# seq106: fitness=0.9244, dist= 8  
+# seq107: fitness=0.9076, dist=16  
+# seq108: fitness=0.9244, dist=11  
+# seq109: fitness=0.8067, dist=12  
+# seq110: fitness=0.7059, dist=13  
+# seq111: fitness=0.8235, dist=12 *
+# seq112: fitness=0.8235, dist=15  
+# seq113: fitness=0.8403, dist=24  
+# seq114: fitness=0.8739, dist=16  
+# seq115: fitness=0.9076, dist=12 *
+# seq116: fitness=0.9580, dist=16  
+# seq117: fitness=0.9244, dist= 8  
+# seq118: fitness=0.9412, dist=17 *
+# seq119: fitness=0.9916, dist= 6  
+# seq120: fitness=0.9916, dist=12  
+# seq121: fitness=0.8067, dist= 7 *
+# seq122: fitness=0.9412, dist=13  
+# seq123: fitness=0.9748, dist=16  
+# seq124: fitness=0.8235, dist=16 *
+# seq125: fitness=0.8739, dist=10 *
+# seq126: fitness=0.8908, dist= 9  
+# seq127: fitness=0.8739, dist=14 *
+# seq128: fitness=0.9580, dist=12  
+# seq129: fitness=0.9412, dist= 9  
+# seq130: fitness=0.9748, dist=10  
+# seq131: fitness=0.9580, dist=10  
+# seq132: fitness=0.9076, dist=13 *
+# seq133: fitness=0.8908, dist= 7  
+# seq134: fitness=0.9748, dist=12 *
+# seq135: fitness=0.8908, dist=10 *
+# seq136: fitness=0.9076, dist= 9 *
+# seq137: fitness=0.9580, dist=17  
+# seq138: fitness=0.9748, dist=15  
+# seq139: fitness=0.9580, dist= 6  
+# seq140: fitness=0.9076, dist=17 *
+# seq141: fitness=0.9244, dist=15  
+# seq142: fitness=0.9580, dist=14  
+# seq143: fitness=0.9748, dist=13  
+# seq144: fitness=0.9916, dist=11  
+# seq145: fitness=0.9916, dist= 6  
+# seq146: fitness=0.9748, dist= 6  
+# seq147: fitness=0.9076, dist=12  
+# seq148: fitness=0.9580, dist=10 *
+# seq149: fitness=0.9244, dist=13  
+# seq150: fitness=0.9076, dist=14 *
+# seq151: fitness=0.9076, dist=18  
+# seq152: fitness=0.8908, dist=12  
+# seq153: fitness=0.9244, dist= 7  
+# seq154: fitness=0.9916, dist=10  
+# seq155: fitness=0.8571, dist=13 *
+# seq156: fitness=0.9748, dist=10 *
+# seq157: fitness=0.9076, dist=13  
+# seq158: fitness=0.9076, dist=11  
+# seq159: fitness=0.8403, dist= 9 *
+# seq160: fitness=0.9412, dist=13 *
+# seq161: fitness=0.8067, dist=14  
+# seq162: fitness=0.9076, dist=12 *
+# seq163: fitness=0.8571, dist= 6 *
+# seq164: fitness=0.9076, dist=14  
+# seq165: fitness=0.9412, dist=11  
+# seq166: fitness=0.8571, dist= 9  
+# seq167: fitness=0.9580, dist=12 *
+# seq168: fitness=0.9244, dist=13 *
+# seq169: fitness=0.9412, dist=16 *
+# seq170: fitness=0.8908, dist=12  
+# seq171: fitness=0.9244, dist=11  
+# seq172: fitness=0.7395, dist=16  
+# seq173: fitness=0.7731, dist=19  
+# seq174: fitness=0.7731, dist= 9  
+# seq175: fitness=0.8739, dist=12 *
+# seq176: fitness=0.9412, dist=10 *
+# seq177: fitness=0.7395, dist=15  
+# seq178: fitness=0.9412, dist=16 *
+# seq179: fitness=0.9076, dist=13 *
+# seq180: fitness=0.8739, dist=14 *
+# seq181: fitness=0.8739, dist=15 *
+# seq182: fitness=0.8571, dist=11  
+# seq183: fitness=0.8908, dist=15  
+# seq184: fitness=0.9916, dist= 6 *
+# seq185: fitness=0.9748, dist=12 *
+# seq186: fitness=0.9580, dist=10  
+# seq187: fitness=0.9076, dist=18  
+# seq188: fitness=0.8571, dist=11 *
+# seq189: fitness=0.9748, dist=10 *
+# seq190: fitness=0.8908, dist=11  
+# seq191: fitness=0.8571, dist=11  
+# seq192: fitness=0.9748, dist=11  
+# seq193: fitness=0.9076, dist= 7 *
+# seq194: fitness=0.8571, dist=14  
+# seq195: fitness=0.9580, dist=11 *
+# seq196: fitness=0.9916, dist=10  
+# seq197: fitness=0.9580, dist=13  
+# seq198: fitness=0.8739, dist= 5  
+# seq199: fitness=0.9580, dist= 7 *
+# seq200: fitness=0.9916, dist=13  
+# seq201: fitness=0.9412, dist= 8 *
+# seq202: fitness=0.9748, dist=18 *
+# seq203: fitness=0.9580, dist=13  
+# seq204: fitness=0.9916, dist= 9 *
+# seq205: fitness=0.8739, dist=10  
+# seq206: fitness=0.9580, dist= 8 *
+# seq207: fitness=0.9580, dist=12  
+# seq208: fitness=0.9580, dist=12 *
+# seq209: fitness=0.9580, dist=10 *
+# seq210: fitness=0.9916, dist=12 *
+# seq211: fitness=0.9412, dist= 8  
+# seq212: fitness=0.9748, dist=15  
+# seq213: fitness=0.9580, dist=17  
+# seq214: fitness=0.9244, dist=14 *
+# seq215: fitness=0.8739, dist=17  
+# seq216: fitness=0.8403, dist=11  
+# seq217: fitness=0.8908, dist=10  
+
+((((((((((seq0:16)seq1:15)seq2:11,(seq160:13)seq161:14)seq3:7)seq4:13)seq5:8,(((((seq11:8,seq209:10)seq12:10)seq13:15)seq14:11,(((seq48:12)seq36:12)seq37:15)seq38:11,((seq80:8,(seq202:18)seq203:13)seq81:7)seq82:7)seq15:13,((((seq134:12)seq32:14)seq33:7)seq34:10,(((seq180:14)seq118:17)seq119:6)seq120:12,((seq121:7)seq122:13)seq123:16)seq35:12)seq16:12)seq6:12,((((((seq25:7,seq159:9)seq26:6,(seq188:11)seq155:13)seq27:13)seq28:9)seq29:14)seq30:16)seq31:16,((((((seq104:9)seq105:9)seq106:8)seq107:16,((seq115:12,(seq206:8)seq207:12)seq116:16)seq117:8)seq108:11)seq109:12)seq110:13,(((((seq169:16,(seq193:7)seq194:14)seq170:12)seq171:11)seq172:16)seq173:19)seq174:9)seq7:10,(((((((seq17:12,seq162:12)seq18:14,(seq78:11)seq79:17)seq19:11)seq20:15,((seq70:11,(seq148:10)seq149:13,(seq204:9)seq205:10)seq71:15)seq72:8,((seq91:12)seq92:10)seq93:15,(((seq210:12)seq211:8)seq212:15)seq213:17)seq21:14)seq22:6)seq23:16,((((((seq201:8)seq49:12,(seq125:10)seq126:9)seq50:3,(seq176:10)seq177:15)seq51:12,(((seq214:14)seq215:17)seq216:11)seq217:10)seq52:11,((((seq61:12,seq184:6)seq62:12)seq63:12)seq64:7,(((seq66:11)seq67:11)seq68:10,(seq199:7)seq200:13)seq69:11,(((seq87:10)seq88:13)seq89:14)seq90:18,(((seq111:12)seq112:15)seq113:24)seq114:16)seq65:14,((((seq175:12)seq163:6)seq164:14)seq165:11)seq166:9)seq53:13)seq54:10)seq24:14)seq8:15,((((((((seq39:10)seq40:11)seq41:15)seq42:7,(((seq189:10)seq190:11)seq191:11)seq192:11)seq43:12,((((seq94:10,seq124:16)seq95:13,(seq132:13)seq133:7)seq96:10,((seq181:15)seq182:11)seq183:15)seq97:8)seq98:15,((((seq99:8)seq100:10)seq101:10)seq102:15,((seq185:12)seq186:10)seq187:18)seq103:11,((((seq135:10,seq178:16)seq136:9)seq137:17)seq138:15)seq139:6)seq44:13,(((((seq55:10,seq208:12)seq56:11)seq57:14)seq58:8,((seq156:10)seq157:13)seq158:11)seq59:6,((((seq73:14)seq74:9,seq179:13)seq75:15)seq76:7)seq77:6,(((seq83:13)seq84:8)seq85:10)seq86:11,((((seq150:14)seq151:18)seq152:12)seq153:7,(((seq195:11)seq196:10)seq197:13)seq198:5)seq154:10)seq60:6,(((((seq168:13)seq127:14)seq128:12)seq129:9)seq130:10)seq131:10)seq45:11)seq46:8)seq47:9,((((((((seq167:12)seq140:17)seq141:15)seq142:14)seq143:13)seq144:11)seq145:6)seq146:6)seq147:12)seq9:17)seq10:0;

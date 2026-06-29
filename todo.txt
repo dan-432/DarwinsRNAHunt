@@ -1,0 +1,1 @@
+have shared genome directory and just keep metadata for each purpose seperately in /results. Update script to check if genome is already downloaded.

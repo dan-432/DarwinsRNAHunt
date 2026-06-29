@@ -11,7 +11,11 @@ databases:
     gtdb_bacteria_metadata_url: "https://data.gtdb.ecogenomic.org/releases/latest/bac120_metadata.tsv.gz"
   ncbi:
     batch_size: 50
-
+  rfam:
+    rfam_cm_url: "https://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/Rfam.cm.gz"
+    rfam_genome_index_url: "https://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/Rfam.full_region.gz"
+  entrez:
+    email: "dacda462@student.otago.ac.nz"
 dirs:
   data: "resources"
   results: "results"
@@ -19,11 +23,13 @@ dirs:
 # InterPro
 interpro:
   target_interpro_ids: 
-  - "IPR007024"
+  #- "IPR007024"
+  - "IPR010079"
 
 # Taxonomy filtering
 taxonomy:
-  target_taxonomic_node: "36.0:f__Burkholderiaceae_C"
+  #target_taxonomic_node: "36.0:f__Burkholderiaceae_C"
+  target_taxonomic_node: "74.0:f__Bacillaceae"
   completeness_threshold: 99.9
   contamination_threshold: 1
 
@@ -35,8 +41,36 @@ flanking:
   upstream: -1
   downstream: -1
   length_threshold: 35 # find biological reasoning
-  gc_content_threshold: 0.4
+  gc_content_threshold: 0 # 
 
 cmfinder:
-  evalue_threshold: 0.01
+  evalue_threshold: 0.1 # higher for now to be more inclusive, can be refined later
   min_sequence_count: 5  # Minimum sequences needed to run CMfinder
+  min_refinement_sequences: 3  # Minimum sequences needed for refinement step
+  docker_image: "cmfinder:latest"
+  docker_platform: "linux/amd64"
+  threads:
+    initial_discovery: 4
+    calibration: 4
+    homolog_search: 4
+    refinement: 4
+    annotation: 4
+  resources:
+    initial_discovery_mb: 8000
+    initial_discovery_runtime: 240
+    calibration_mb: 8000
+    calibration_runtime: 120
+    homolog_search_mb: 8000
+    homolog_search_runtime: 120
+    refinement_mb: 16000
+    refinement_runtime: 360
+    annotation_mb: 8000
+    annotation_runtime: 120
+
+clustering:
+  mmseqs2:
+    sensitivity: 7.5 # arbitrary for now, can be refined later
+    min_seq_id: 0.5
+
+controls:
+  cds_search_area: 1000

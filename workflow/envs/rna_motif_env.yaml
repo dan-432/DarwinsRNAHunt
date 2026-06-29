@@ -16,3 +16,7 @@ dependencies:
   - pandas  # For data handling
   - biopython  # For sequence handling
   - scikit-learn  # For any machine learning analyses
+  - mmseqs2  # For sequence clustering and searching
+  - infernal>=1.1.4
+  - reportlab  # For PDF generation
+  - mafft

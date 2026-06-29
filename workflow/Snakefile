@@ -1,6 +1,8 @@
 configfile: "config/config.yaml"
 
-include: "rules/cmfinder_analysis.smk"
+#include: "rules/cmfinder_alt.smk"
+#include: "rules/tests-and-controls.smk"
+include: "rules/rfam_positive_controls.smk"
 
 DOMAINS = config["interpro"]["target_interpro_ids"]
 
@@ -16,9 +18,9 @@ def get_accessions(wildcards):
 rule all:
     input:
         # update to where we're currently up to
-        expand("results/03_motif_discovery/{target_domain}/06_reports/analysis_summary.txt",
+        expand("results/03_motif_discovery/{target_domain}/07_reports/analysis_summary.txt",
                target_domain=config["interpro"]["target_interpro_ids"]),
-        expand("results/03_motif_discovery/{target_domain}/06_reports/report.html",
+        expand("results/03_motif_discovery/{target_domain}/07_reports/report.html",
                target_domain=config["interpro"]["target_interpro_ids"])
 
 rule download_interpro_taxonomy:
@@ -63,6 +65,28 @@ rule download_gtdb_data:
             2>&1 | tee {log}
         """
 
+rule download_rfam:
+    output:
+        cm = "resources/rfam/Rfam.cm",
+        genome_index = "resources/rfam/Rfam.full_region"
+    params:
+        rfam_cm_url = config["databases"]["rfam"]["rfam_cm_url"],
+        rfam_genome_index_url = config["databases"]["rfam"]["rfam_genome_index_url"],
+        script = "workflow/src/download_rfam.py"
+    log:
+        "logs/rfam/download_rfam.log"
+    conda:
+        "envs/domain_taxonomy_env.yaml"
+    shell:
+        """
+        python {params.script} \
+            --rfam-cm-url {params.rfam_cm_url} \
+            --rfam-genome-index-url {params.rfam_genome_index_url} \
+            --output-cm {output.cm} \
+            --output-genome-index {output.genome_index} \
+            2>&1 | tee {log}
+        """
+
 rule select_genomes:
     input:
         tree = "resources/gtdb/bac120.tree",
@@ -99,13 +123,13 @@ rule select_genomes:
 
 checkpoint download_genomes:
     input:
-        genome_accessions = "results/{target_domain}_taxonomy/select_genome_accessions.json"
+        genome_accessions = "results/01_species_selection/{target_domain}_taxonomy/select_genome_accessions.json"
     output:
-        metadata = "resources/{target_domain}_genomes/download_metadata.json",
-        flag = "resources/{target_domain}_genomes/.ncbi_download_complete.flag"
+        metadata = "resources/pfam_{target_domain}_genomes/download_metadata.json",
+        flag = "resources/pfam_{target_domain}_genomes/.ncbi_download_complete.flag"
     params:
         script = "workflow/src/download_ncbi_genomes.sh",
-        outdir = "resources/{target_domain}_genomes",
+        outdir = "resources/pfam_{target_domain}_genomes",
         formats = "gff3,genome,protein",
         batch_size = config["databases"]["ncbi"]["batch_size"]
     log:
@@ -128,9 +152,9 @@ checkpoint download_genomes:
 #     input:
 #         flag = lambda wildcards: checkpoints.download_genomes.get().output.flag
 #     output:
-#         protein = "resources/genomes/{genome}/protein.faa",
-#         genome = "resources/genomes/{genome}/genomic.fna",
-#         annotation = "resources/genomes/{genome}/geneannotation.gff"
+#         protein = "resources/pfam_{target_domain}_genomes/{genome}/protein.faa",
+#         genome = "resources/pfam_{target_domain}_genomes/{genome}/genomic.fna",
+#         annotation = "resources/pfam_{target_domain}_genomes/{genome}/geneannotation.gff"
 #     run:
 #         # might be worth doing other validations here too, but for now just check that the expected files exist after the download step
 #         import os
@@ -141,7 +165,7 @@ checkpoint download_genomes:
 rule locate_domains:
     input:
         hmm = "resources/profiles/{target_domain}_domain_profile.hmm",
-        protein = "resources/{target_domain}_genomes/{genome}/protein.faa",
+        protein = "resources/pfam_{target_domain}_genomes/{genome}/protein.faa",
         flag = lambda wildcards: checkpoints.download_genomes.get(target_domain=wildcards.target_domain).output.flag
     output:
         hits = "results/02_sequence_selection/01_domain_hits/{target_domain}/{genome}_protdomain_hits.tsv"
@@ -169,17 +193,18 @@ rule locate_domains:
 rule extract_flanking_sequences:
     input: 
         domain_hit = "results/02_sequence_selection/01_domain_hits/{target_domain}/{genome}_protdomain_hits.tsv",
-        genome = "resources/{target_domain}_genomes/{genome}/genomic.fna",
-        annotation = "resources/{target_domain}_genomes/{genome}/geneannotation.gff"
+        genome = "resources/pfam_{target_domain}_genomes/{genome}/genomic.fna",
+        annotation = "resources/pfam_{target_domain}_genomes/{genome}/geneannotation.gff"
     output:
         utr5 = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_upstream.fasta",
         cds = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_cds.fasta",
         utr3 = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_downstream.fasta",
         coords = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_domain_flanking_coords.bed"
     params:
-        script = "workflow/src/extract_flanking.py",
+        script = "workflow/src/extract_flanking_intergenic.py",
         upstream = config["flanking"]["upstream"],
-        downstream = config["flanking"]["downstream"]
+        downstream = config["flanking"]["downstream"],
+        temp_dir = ".temp"
     log:
         "logs/02_sequence_selection/02_flanking_seqs/{target_domain}_{genome}_flanking_sequence_extraction.log"
     conda:
@@ -200,6 +225,7 @@ rule extract_flanking_sequences:
             --output-coords {output.coords} \
             --upstream {params.upstream} \
             --downstream {params.downstream} \
+            --temp-dir {params.temp_dir} \
             2>&1 | tee {log}
         """
 
@@ -221,11 +247,11 @@ rule combine_flanking_sequences:
             target_domain=wildcards.target_domain
         )
     output:
-        utr5 = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream.fasta",
-        cds = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_cds.fasta",
-        utr3 = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_downstream.fasta"
+        utr5 = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_upstream.fasta",
+        cds = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_cds.fasta",
+        utr3 = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_downstream.fasta"
     log:
-        "logs/02_sequence_selection/03_combined/{target_domain}_flanking_sequence_combination.log"
+        "logs/02_sequence_selection/03_combined/{target_domain}/{target_domain}_flanking_sequence_combination.log"
     conda:
         "envs/domain_analysis_env.yaml"
     resources:
@@ -240,15 +266,15 @@ rule combine_flanking_sequences:
 
 rule filter_flanking_sequences:
     input:
-        sequences = "results/02_sequence_selection/03_combined/{seq_file}.fasta"
+        sequences = "results/02_sequence_selection/03_combined/{target_domain}/{seq_file}.fasta"
     output:
-        filtered = "results/02_sequence_selection/03_combined/{seq_file}_filtered.fasta"
+        filtered = "results/02_sequence_selection/03_combined/{target_domain}/{seq_file}_filtered.fasta"
     params:
         script = "workflow/src/filter_seqs.py",
         length_threshold = config["flanking"]["length_threshold"],
         gc_content_threshold = config["flanking"]["gc_content_threshold"]
     log:
-        "logs/02_sequence_selection/03_combined/filter_flanking_sequences_{seq_file}.log"
+        "logs/02_sequence_selection/03_combined/{target_domain}/filter_flanking_sequences_{seq_file}.log"
     conda:
         "envs/domain_analysis_env.yaml"
     resources:
@@ -266,11 +292,11 @@ rule filter_flanking_sequences:
 
 rule motif_discovery:
     input:
-        sequences = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream.fasta"
+        sequences = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_upstream.fasta"
     output:
-        motifs = "results/02_sequence_selection/04_motif_discovery/{target_domain}_upstream_motifs"
+        motifs = "results/02_sequence_selection/04_motif_discovery/{target_domain}/{target_domain}_upstream_motifs"
     log:
-        "logs/02_sequence_selection/04_motif_discovery/motif_discovery_{target_domain}.log"
+        "logs/02_sequence_selection/04_motif_discovery/{target_domain}/motif_discovery_{target_domain}.log"
     conda:
         "envs/rna_motif_env.yaml"
     shell:
@@ -280,7 +306,7 @@ rule motif_discovery:
 
 rule meme_motif_discovery:
     input:
-        fasta = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
+        fasta = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_upstream_filtered.fasta"
     output:
         directory("results/02_sequence_selection/04_motif_discovery/meme_out/{target_domain}")
     conda:

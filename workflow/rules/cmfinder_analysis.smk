@@ -6,10 +6,9 @@ Based on Narunsky et al., NAR 2024 (doi: 10.1093/nar/gkae248)
 # Checkpoint: Initial CMfinder run to identify candidate RNA structures
 checkpoint cmfinder_initial:
     input:
-        fasta = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
+        fasta = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_upstream_filtered.fasta"
     output:
         outdir = directory("results/03_motif_discovery/{target_domain}/01_initial_discovery"),
-        metadata = "results/03_motif_discovery/{target_domain}/01_initial_discovery/motif_metadata.json",
         flag = touch("results/03_motif_discovery/{target_domain}/01_initial_discovery/.complete")
     params:
         basename = "{target_domain}"
@@ -38,108 +37,56 @@ checkpoint cmfinder_initial:
         echo "CMfinder initial run completed. Generated files:" >> {log}
         ls -lh {output.outdir}/*.cm.h* {output.outdir}/*.motif.h* 2>/dev/null >> {log} || echo "No motif files found" >> {log}
         
-        # Generate metadata JSON with discovered motif IDs
-        python3 << 'PYSCRIPT'
-        import json
-        import re
-        from pathlib import Path
-        
-        motif_dir = Path("{output.outdir}")
-        cm_files = list(motif_dir.glob("*.cm.h*"))
-        
-        motif_ids = []
-        for cm_file in cm_files:
-            match = re.search(r'\.(h\d+_\d+)$', cm_file.stem)
-            if match:
-                motif_ids.append(match.group(1))
-        
-        motif_ids = sorted(set(motif_ids))
-        
-        metadata = {{
-            "motifs": motif_ids,
-            "count": len(motif_ids),
-            "basename": "{params.basename}"
-        }}
-        
-        with open("{output.metadata}", "w") as f:
-            json.dump(metadata, f, indent=2)
-        
-        print(f"Discovered {{len(motif_ids)}} motifs: {{motif_ids}}")
-        PYSCRIPT
         """
 
 # Helper function to get motif IDs from checkpoint metadata
 def get_motifs(wildcards):
-    """Extract motif IDs from CMfinder checkpoint metadata."""
-    from json import load
-    
-    # Pass the target_domain wildcard to the checkpoint
-    checkpoint_output = checkpoints.cmfinder_initial.get(target_domain=wildcards.target_domain)
-    with open(checkpoint_output.output.metadata) as f:
-        metadata = load(f)
-    return metadata["motifs"]
+    import json
+    import re
+    from pathlib import Path
 
-# Rule 2: Organize and prepare individual covariance models
-rule organize_cm_model:
-    input:
-        cmfinder_dir = "results/03_motif_discovery/{target_domain}/01_initial_discovery",
-        metadata = "results/03_motif_discovery/{target_domain}/01_initial_discovery/motif_metadata.json"
-    output:
-        cm = "results/03_motif_discovery/{target_domain}/02_models/organized/{motif_id}.cm",
-        motif = "results/03_motif_discovery/{target_domain}/02_models/organized/{motif_id}.motif"
-    log:
-        "logs/cmfinder/{target_domain}_02_organize_{motif_id}.log"
-    shell:
-        """
-        echo "Organizing motif {wildcards.motif_id}" > {log}
-        
-        # Find the source files
-        cm_source="{input.cmfinder_dir}/{wildcards.target_domain}.fasta.cm.{wildcards.motif_id}"
-        motif_source="{input.cmfinder_dir}/{wildcards.target_domain}.fasta.motif.{wildcards.motif_id}"
-        
-        if [ -f "$cm_source" ]; then
-            cp "$cm_source" {output.cm}
-            echo "Copied CM: $cm_source -> {output.cm}" >> {log}
-        else
-            echo "ERROR: CM file not found: $cm_source" >> {log}
-            exit 1
-        fi
-        
-        if [ -f "$motif_source" ]; then
-            cp "$motif_source" {output.motif}
-            echo "Copied motif: $motif_source -> {output.motif}" >> {log}
-        else
-            echo "WARNING: Motif file not found: $motif_source" >> {log}
-        fi
-        """
+    motif_dir = Path(checkpoints.cmfinder_initial.get(target_domain=wildcards.target_domain).output.outdir)
+    cm_files = list(motif_dir.glob("*.cm.h*"))
+
+    print(cm_files)
+
+    # cm file will be named like: {target_domain}.fasta.cm.h1_1, {target_domain}.fasta.cm.h2_1, etc., ids we want are the h1_1, h2_1, etc. parts
+
+    motif_ids = []
+    for cm_file in cm_files:
+        match = re.search(r"\.cm\.(h\d+_\d+)$", cm_file.name)
+        if match:
+            motif_ids.append(match.group(1))
+
+    motif_ids = sorted(set(motif_ids))
+
+    print(f"Identified motif IDs for {wildcards.target_domain}: {motif_ids}")
+
+    return motif_ids
 
 # Rule 3: Calibrate individual covariance models
 rule calibrate_cm_model:
     input:
-        cm = "results/03_motif_discovery/{target_domain}/02_models/organized/{motif_id}.cm"
+        cm = "results/03_motif_discovery/{target_domain}/01_initial_discovery/{target_domain}.fasta.cm.{motif_id}"
     output:
         cm = "results/03_motif_discovery/{target_domain}/02_models/calibrated/{motif_id}.cm"
+    conda:
+        "../envs/rna_motif_env.yaml"
     threads: 4
     resources:
         mem_mb=8000,
         runtime=120
     log:
         "logs/cmfinder/{target_domain}_03_calibrate_{motif_id}.log"
-    shell:
+    shell: # NEED TO BUILD CM FROM .MOTIF FILES, CMFINDER MAKES TOO OLD FORMAT!!!!
         """
         echo "Calibrating motif {wildcards.motif_id}" > {log}
         
-        # Copy CM to calibration directory
-        cp {input.cm} {output.cm}
-        
-        # Calibrate in place
-        outdir=$(dirname {output.cm})
-        
-        docker run --rm --platform linux/amd64 \
-            -v "$(pwd)/$outdir":/data \
-            cmfinder:latest \
-            cmcalibrate --cpu {threads} /data/{wildcards.motif_id}.cm \
-            2>&1 | tee -a {log}
+        # convert to modern Infernal format if needed (some older CMfinder versions produce older format)
+        cmconvert -o {output.cm}.converted {input.cm}
+
+        # Calibrate in place with  Infernal
+        cmcalibrate --cpu {threads} {output.cm}.converted 2>&1 | tee -a {log}
         
         echo "Calibration complete for {wildcards.motif_id}" >> {log}
         """
@@ -148,7 +95,7 @@ rule calibrate_cm_model:
 rule search_for_homologs:
     input:
         cm = "results/03_motif_discovery/{target_domain}/02_models/calibrated/{motif_id}.cm",
-        database = "results/03_combined/{target_domain}_domain_flanking_upstream.fasta"
+        database = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_upstream_filtered.fasta"
     output:
         hits_tbl = "results/03_motif_discovery/{target_domain}/03_homolog_search/hits/{motif_id}_hits.tblout",
         hits_sto = "results/03_motif_discovery/{target_domain}/03_homolog_search/hits/{motif_id}_hits.sto"
@@ -193,39 +140,24 @@ rule search_for_homologs:
 rule extract_homolog_sequences:
     input:
         hits_tbl = "results/03_motif_discovery/{target_domain}/03_homolog_search/hits/{motif_id}_hits.tblout",
-        database = "results/03_combined/{target_domain}_domain_flanking_upstream.fasta"
+        database = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_upstream_filtered.fasta"
     output:
         fasta = "results/03_motif_discovery/{target_domain}/03_homolog_search/expanded_seqs/{motif_id}_expanded.fasta",
-        ids = "results/03_motif_discovery/{target_domain}/03_homolog_search/expanded_seqs/{motif_id}_ids.txt"
+        ids = "results/03_motif_discovery/{target_domain}/03_homolog_search/expanded_seqs/{motif_id}_ids.json"
+    params:
+        script = "workflow/src/extract_motif_sequences.py"
     log:
         "logs/cmfinder/{target_domain}_05_extract_{motif_id}.log"
+    conda:
+        "../envs/domain_analysis_env.yaml"
     shell:
         """
-        echo "Extracting sequences for motif {wildcards.motif_id}" > {log}
-        
-        outdir=$(dirname {output.fasta})
-        mkdir -p $outdir
-        
-        # Extract sequence IDs from hits (skip header lines)
-        grep -v "^#" {input.hits_tbl} | awk '{{print $1}}' | sort -u > {output.ids}
-        
-        count=$(wc -l < {output.ids})
-        echo "Extracted $count unique sequence IDs" >> {log}
-        
-        if [ $count -gt 0 ]; then
-            # Extract sequences using grep (simple approach)
-            > {output.fasta}
-            while read seq_id; do
-                # Extract this sequence and the following line
-                grep -A 1 "^>$seq_id" {input.database} >> {output.fasta}
-            done < {output.ids}
-            
-            final_count=$(grep -c "^>" {output.fasta})
-            echo "Extracted $final_count sequences to {output.fasta}" >> {log}
-        else
-            echo "No hits found, creating empty file" >> {log}
-            touch {output.fasta}
-        fi
+        python {params.script} \
+        --fasta-file {input.database} \
+        --motif-hits-tbl {input.hits_tbl} \
+        --output-fasta {output.fasta} \
+        --output-ids {output.ids} \
+        2>&1 | tee {log}
         """
 
 # Rule 6: Refine alignment with expanded sequences

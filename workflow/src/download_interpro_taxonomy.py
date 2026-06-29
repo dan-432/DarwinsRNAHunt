@@ -8,6 +8,7 @@ from DarwinsRNAHunt.interpro_access import download_and_save_taxanomic_info
 
 
 def main():
+    print("Starting up download_interpro_taxonomy.py...")
     parser = argparse.ArgumentParser(
         description='Download InterPro taxonomy data'
     )

@@ -21,6 +21,7 @@ def parse_hmmer_hits(tblout_file, evalue_threshold=1e-5):
     return hit_ids
 
 def parse_fasta(fasta_file):
+    """Parses fasta file to dictionary of Seq IO records"""
     return SeqIO.to_dict(SeqIO.parse(fasta_file, 'fasta'))
 
 
@@ -195,30 +196,31 @@ def get_next_gene_distance(annotation_db, genes, upstream=True):
 
     return distances
 
-        
 
-
-def write_fasta_output(regions, utr5_path, cds_path, utr3_path):
-    """Write extracted regions to separate FASTA files.
+def write_fasta_output(regions, output_file):
+    """Write extracted regions to a single FASTA file.
     Args: regions: list of dicts with sequence info
-          utr5_path: path to output FASTA for 5' UTRs
-          cds_path: path to output FASTA for CDS
-          utr3_path: path to output FASTA for 3' UTRs"""
-    with open(utr5_path, "w") as f5, \
-         open(cds_path, "w") as fcds, \
-         open(utr3_path, "w") as f3:
+          output_file: path to output FASTA file"""
+    with open(output_file, "w") as f:
         for region in regions:
             header = (
                 f">{region['protein_id']}|{region['type']}|"
                 f"{region['seqid']}:{region['start']}-{region['end']}({region['strand']})"
             )
-            out = {
-                "utr5": f5,
-                "cds": fcds,
-                "utr3": f3
-            }[region["type"]]
-            out.write(header + "\n")
-            out.write(str(region["sequence"]) + "\n")
+            f.write(header + "\n")
+            f.write(str(region["sequence"]) + "\n")        
+
+
+def write_fasta_outputs(regions, utr5_path, cds_path, utr3_path):
+    """Write extracted regions to separate FASTA files.
+    Args: regions: list of dicts with sequence info
+          utr5_path: path to output FASTA for 5' UTRs
+          cds_path: path to output FASTA for CDS
+          utr3_path: path to output FASTA for 3' UTRs"""
+    write_fasta_output([r for r in regions if r['type'] == 'utr5'], utr5_path)
+    write_fasta_output([r for r in regions if r['type'] == 'cds'], cds_path)
+    write_fasta_output([r for r in regions if r['type'] == 'utr3'], utr3_path)
+
 
 def write_bed_output(regions, output_file):
     """Write extracted regions to BED format.
@@ -250,6 +252,13 @@ def load_genome_annotation(gff_file, db_path):
 
 def extract_flanking(protein_hits, annotation_db, upstream: int, downstream: int, genome_seqs: dict):
     """
+    Extracts flanking sequences for genes corresponding to HMMER hits.
+    Args: protein_hits: set of protein IDs from HMMER hits
+      annotation_db: gffutils database object with genome annotation loaded
+      upstream: number of bases to extract upstream of gene start (set to -1 to use full intergenic region)
+      downstream: number of bases to extract downstream of gene end (set to -1 to use full intergenic region)
+      genome_seqs: dictionary of genome sequences parsed from FASTA file
+    Returns: list of dicts with sequence info for utr5, cds, and utr3
     """
 
     gene_coords = get_cds_from_gff(annotation_db, protein_hits)
@@ -283,5 +292,93 @@ def extract_flanking(protein_hits, annotation_db, upstream: int, downstream: int
 
     return regions
 
-if __name__ == '__main__':
-    main()
+def parse_tblout(tblout_file):
+    """Parse motif hits from cmfinder tblout file.
+    Args: tblout_file: path to cmfinder tblout file
+    Returns: set of sequence IDs with motif hits"""
+    motif_hits = set()
+    with open(tblout_file, 'r') as f:
+        for line in f:
+            if not line.startswith('#'):
+                fields = line.strip().split()
+                if len(fields) >= 2:
+                    motif_hits.add(fields[0])
+    return motif_hits
+
+
+def get_cds_by_coordinates(annotation_db, seqid, motif_start, motif_end, net_size):
+    """Find CDS features flanking motif coordinates.
+    Args: annotation_db: gffutils database object with genome annotation loaded
+          seqid: sequence/chromosome ID
+          motif_start: motif start coordinate (1-based)
+          motif_end: motif end coordinate (1-based)
+          net_size: how far up and downstream to extract features
+    Returns: set of neighbouring gffutils.Feature objects"""
+
+    lower_bound = max(1, motif_start - net_size)
+    upper_bound = motif_end + net_size
+    
+    # # Query for CDS features on this sequence
+    # query = f"""
+    #     SELECT * FROM features
+    #     WHERE seqid = '{seqid}'
+    #     AND featuretype = 'CDS'
+    #     AND start <= {upper_bound}
+    #     AND end >= {lower_bound}
+    #     ORDER BY start
+    # """
+
+    # # collect anything in the bounds of our search net
+    
+    # cds_features = set(annotation_db.execute(query))
+    
+    # return cds_features
+
+    # Query for CDS features on this sequence using gffutils region()
+    cds_features = list(annotation_db.region(
+        seqid=seqid,
+        start=lower_bound,
+        end=upper_bound,
+        featuretype='CDS',
+        completely_within=False
+    ))
+    
+    return cds_features
+
+
+def extract_cds_protein(protein_id, proteome):
+    """Extract protein sequence by ID from proteome dictionary.
+    Args: protein_id: protein identifier
+          proteome: dictionary of protein sequences (from parse_fasta)
+    Returns: protein sequence string or None if not found"""
+    
+    # Try exact match first
+    if protein_id in proteome:
+        return str(proteome[protein_id].seq)
+    
+    # Try partial match (in case IDs are truncated or have prefixes)
+    for seq_id in proteome:
+        if protein_id in seq_id or seq_id in protein_id:
+            return str(proteome[seq_id].seq)
+    
+    return None
+
+
+def extract_protein_id_from_gff(attributes):
+    """Extract protein ID from GFF attributes dict.
+    Args: attributes: dictionary of GFF attributes
+    Returns: protein ID string or None"""
+    
+    # Try common attribute keys for protein IDs
+    for key in ['protein_id', 'Name', 'ID', 'Dbxref']:
+        if key in attributes:
+            value = attributes[key][0]
+            if key == 'Dbxref':
+                # Handle format like "protein_id:XP_001234567"
+                for item in value.split(','):
+                    if 'protein_id:' in item or 'RefSeq:' in item:
+                        return item.split(':')[1]
+            else:
+                return value
+    
+    return None

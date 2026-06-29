@@ -50,6 +50,48 @@
                 "--output-metadata",
                 "results/taxonomy/select_genomes_metadata.tsv.gzip"
             ]
+        },
+
+        {
+            "name": "Python Debugger: rfam_get_accession_ids",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/workflow/src/rfam_get_accession_ids.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--input",
+                "resources/rfam/Rfam.full_region",
+                "--family",
+                "RF00050",
+                "--output-list",
+                "results/00_controls/rfam/RF00050/accession_ids.json",
+                "--output-table",
+                "results/00_controls/rfam/RF00050/metadata.tsv",
+                "--entrez-email",
+                "bob@bob.com"
+            ]
+        },
+        {
+            "name": "Python Debugger: extract flanking CDS",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/workflow/src/extract_flanking_cds.py",
+            "console": "integratedTerminal",
+            "python":"/Users/daniel/Library/Mobile Documents/com~apple~CloudDocs/workspace/DarwinsRNAHunt/.snakemake/conda/4c6ccb00ec2b1c09c8ccad02044936d2_/bin/python",
+            "args": [
+                "--regions",
+                "results/00_controls/rfam/RF00050/GCF_014466955.1/motifs.tsv",
+                "--family",
+                "RF00050",
+                "--gff",
+                "resources/rfam_RF00050_genomes/GCF_014466955.1/geneannotation.gff",
+                "--proteome",
+                "resources/rfam_RF00050_genomes/GCF_014466955.1/protein.faa",
+                "--net-size",
+                "1000",
+                "--output",
+                "results/00_controls/rfam/RF00050/GCF_014466955.1/flanking_cds.faa"
+            ]
         }
     ]
 }
