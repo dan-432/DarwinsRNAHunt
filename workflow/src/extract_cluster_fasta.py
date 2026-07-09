@@ -12,7 +12,7 @@ Usage:
 import argparse
 from pathlib import Path
 import re
-from DarwinsRNAHunt.genome_analysis import parse_fasta, write_fasta_output
+from DarwinsRNAHunt.genome_analysis import parse_fasta, write_fasta_output, decode_prot_fasta_record
  
 def extract_cluster_proteins(clusters_file, cluster_id):
     """Extract protein IDs for a specific cluster from mmseqs2 TSV.
@@ -39,27 +39,6 @@ def extract_cluster_proteins(clusters_file, cluster_id):
                     proteins.add(member)
     
     return proteins
-
-def parse_protein_id(protein_id, sequence):
-    """Parse protein ID into its components.
-    YUCKY GROSS REGEX (VOMIT) it works
-    Example protein ID: GCA_000026285.1|CAR04672.1|CDS|CU928161.2:3405150-3406199(+)
-    Returns:
-        dict with keys: assembly, prot_id, seq_type, seq_id, start, end, strand
-    """
-    pattern = r'([^|]+)\|([^|]+)\|([^|]+)\|([^:]+):(\d+)-(\d+)\(([+-])\)'
-    match = re.match(pattern, protein_id)
-    if match:
-        return {
-            'protein_id': f"{match.group(1)}|{match.group(2)}",
-            'type': match.group(3),
-            'seqid': match.group(4),
-            'start': int(match.group(5)),
-            'end': int(match.group(6)),
-            'strand': match.group(7),
-            'sequence': sequence  # Fill in the actual sequence
-        }
-    return None
 
  
 def main():
@@ -89,7 +68,7 @@ def main():
             print(f"Extracting protein {protein_id}")
             seq = str(sequences[protein_id].seq)
 
-            protein_output.append(parse_protein_id(protein_id, seq))
+            protein_output.append(decode_prot_fasta_record(protein_id, seq))
         write_fasta_output(protein_output, output_path)
         print(f"Wrote {len(protein_output)} proteins to {args.output}")
     else:

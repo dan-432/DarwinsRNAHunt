@@ -3,6 +3,7 @@
 Functions for extracting sequences and basic gff and fasta parsing
 """
 
+import re
 import sys
 from Bio import SeqIO, SearchIO
 import gffutils
@@ -210,7 +211,47 @@ def write_fasta_output(regions, output_file):
                 f"{region['seqid']}:{region['start']}-{region['end']}({region['strand']})"
             )
             f.write(header + "\n")
-            f.write(str(region["sequence"]) + "\n")        
+            f.write(str(region["sequence"]) + "\n")      
+
+def decode_prot_fasta_record(protein_header, sequence):
+    """Parse protein ID into its components.
+    YUCKY GROSS REGEX (VOMIT) it works
+    Example protein ID: GCA_000026285.1|CAR04672.1|CDS|CU928161.2:3405150-3406199(+)
+    Returns:
+        dict with keys: assembly, prot_id, seq_type, seq_id, start, end, strand, sequence
+    """
+    pattern = r'([^|]+)\|([^|]+)\|([^|]+)\|([^:]+):(\d+)-(\d+)\(([+-])\)'
+    match = re.match(pattern, protein_header)
+    if match:
+        return {
+            'protein_id': f"{match.group(1)}|{match.group(2)}",
+            'type': match.group(3),
+            'seqid': match.group(4),
+            'start': int(match.group(5)),
+            'end': int(match.group(6)),
+            'strand': match.group(7),
+            'sequence': sequence  # Fill in the actual sequence
+        }
+    return None
+
+def decode_nuc_fasta_record(nuc_header, sequence):
+    """Decode FASTA header into its parts. Assumes format: >protein_id|type|seqid:start-end(strand)
+    Returns:
+        dict with keys: assembly, prot_id, seq_type, seq_id, start, end, strand, sequence"""
+    pattern = r'([^|]+)\|([^|]+)\|([^|]+):(\d+)-(\d+)\(([+-])\)'
+    match = re.match(pattern, nuc_header)
+    if match:
+        return {
+            'protein_id': match.group(1),
+            'type': match.group(2),
+            'seqid': match.group(3),
+            'start': int(match.group(4)),
+            'end': int(match.group(5)),
+            'strand': match.group(6),
+            'sequence': sequence  # Fill in the actual sequence
+        }
+    return None
+
 
 
 def write_fasta_outputs(regions, utr5_path, cds_path, utr3_path):

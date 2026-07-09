@@ -1,6 +1,23 @@
 import argparse
 import json
-from DarwinsRNAHunt.genome_analysis import parse_tblout, parse_fasta, write_fasta_output
+from DarwinsRNAHunt.genome_analysis import parse_tblout, parse_fasta, write_fasta_output, decode_nuc_fasta_record
+
+def format_seq(sequence):
+    """Parse bioseq record into its components.
+    Returns:
+        dict with keys: assembly, prot_id, seq_type, seq_id, start, end, strand
+    """
+
+    return {
+        'protein_id': sequence.id,
+        'type': "motif",
+        'seqid': "NA",
+        'start': sequence.start,
+        'end': sequence.end,
+        'strand': sequence.strand,
+        'sequence': sequence.seq  # Fill in the actual sequence
+    }
+
 
 def main():
     # example usage:
@@ -12,12 +29,32 @@ def main():
     parser.add_argument("--output-ids", help="Path to the output file for sequence IDs.")
     
     args = parser.parse_args()
+
+    print(f"Extracting motif sequences from {args.fasta_file} based on hits in {args.motif_hits_tbl}...")
     
     seqs = parse_fasta(args.fasta_file)
     motif_hits = parse_tblout(args.motif_hits_tbl)
 
-    filtered_records = [seqs[id] for id in motif_hits if id in seqs]
+    print(f"Found {len(motif_hits)} motif hits. Extracting corresponding sequences...")
+
+    filtered_records = []
+
+    for seq_id in motif_hits:
+        if seq_id in seqs:
+            record = seqs[seq_id]
+            filtered_records.append(decode_nuc_fasta_record(record.id, str(record.seq)))
+        else:
+            print(f"Warning: Sequence ID {seq_id} not found in FASTA file.")
+
+    print(f"Writing {len(filtered_records)} sequences to {args.output_fasta}...")
+
+    print(f"filtered_records: {filtered_records}")
 
     write_fasta_output(filtered_records, args.output_fasta)
 
+    print(f"Writing sequence IDs to {args.output_ids}...")
+
     json.dump(list(motif_hits), open(args.output_ids, 'w'), indent=2)
+
+if __name__ == "__main__":
+    main()

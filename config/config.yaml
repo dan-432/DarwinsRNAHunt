@@ -25,12 +25,14 @@ databases:
 interpro:
   target_interpro_ids: 
   #- "IPR007024"
-  - "IPR010079"
+  #- "IPR010079"
+  - "cluster_1282"
 
 # Taxonomy filtering
 taxonomy:
   #target_taxonomic_node: "36.0:f__Burkholderiaceae_C"
-  target_taxonomic_node: "74.0:f__Bacillaceae"
+  #target_taxonomic_node: "74.0:f__Bacillaceae"
+  target_taxonomic_node: "100:f__Microbacteriaceae"
   completeness_threshold: 99.9
   contamination_threshold: 1
 

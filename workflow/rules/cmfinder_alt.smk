@@ -6,10 +6,10 @@ Based on Narunsky et al., NAR 2024 (doi: 10.1093/nar/gkae248)
 # Checkpoint: Initial CMfinder run to identify candidate RNA structures
 checkpoint cmfinder_initial:
     input:
-        fasta = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_{region}_filtered.fasta"
+        fasta = "results/02_sequence_selection/{target_domain}/03_combined/{target_domain}_domain_flanking_{region}_filtered.fasta"
     output:
-        outdir = directory("results/03_motif_discovery/{target_domain}_{region}/01_initial_discovery/aligmnments"),
-        motif_list = "results/03_motif_discovery/{target_domain}_{region}/01_initial_discovery/motif_list.txt"
+        outdir = directory("results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments"),
+        motif_list = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments/motif_list.txt"
     params:
         basename = "{target_domain}_{region}",
         docker_image = config["cmfinder"]["docker_image"],
@@ -23,6 +23,7 @@ checkpoint cmfinder_initial:
         "logs/cmfinder/{target_domain}_{region}_01_initial.log"
     shell:
         """
+        mkdir -p {output.outdir}
         # Copy input file
         cp {input.fasta} {output.outdir}/{params.basename}.fasta
         
@@ -64,14 +65,14 @@ def get_initial_motifs(wildcards):
 # Rule 2: Build modern Infernal CM from Stockholm alignment (.motif file)
 rule build_cm_from_motif:
     input:
-        msa = "results/03_motif_discovery/{target_domain}_{region}/01_initial_discovery/alignments/{initial_motif}",
-        flag = "results/03_motif_discovery/{target_domain}_{region}/01_initial_discovery/.complete"
+        msa = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments/{initial_motif}",
+        motif_list = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments/motif_list.txt"
     output:
-        cm = "results/03_motif_discovery/{target_domain}_{region}/01_initial_discovery/models/{initial_motif}.cm",
+        cm = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/models/{initial_motif}_uncalibrated.cm",
     conda:
         "../envs/rna_motif_env.yaml"
     log:
-        "logs/cmfinder/{target_domain}_{region}_02_build_cm_{initial_motif}.log"
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_02_build_cm_{initial_motif}.log"
     shell:
         """
         echo "Building CM with cmbuild..." >> {log}
@@ -82,9 +83,9 @@ rule build_cm_from_motif:
 # Rule 3: Calibrate covariance models (OPTIONAL - can skip for faster results)
 rule calibrate_cm_model:
     input:
-        cm = "results/03_motif_discovery/{target_domain}_{region}/01_initial_discovery/models/{initial_motif}.cm"
+        cm = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/models/{initial_motif}_uncalibrated.cm"
     output:
-        cm = "results/03_motif_discovery/{target_domain}_{region}/01_initial_discovery/models/{initial_motif}_calibrated.cm"
+        cm = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/models/{initial_motif}_calibrated.cm"
     conda:
         "../envs/rna_motif_env.yaml"
     threads: config["cmfinder"]["threads"]["calibration"]
@@ -92,7 +93,7 @@ rule calibrate_cm_model:
         mem_mb= config["cmfinder"]["resources"]["calibration_mb"],
         runtime= config["cmfinder"]["resources"]["calibration_runtime"]
     log:
-        "logs/cmfinder/{target_domain}_{region}_03_calibrate_{initial_motif}.log"
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_03_calibrate_{initial_motif}.log"
     shell:
         """
         echo "Calibrating motif {wildcards.initial_motif}" > {log}
@@ -115,11 +116,11 @@ rule calibrate_cm_model:
 # Rule 4: Search for homologs with calibrated models
 rule search_for_homologs:
     input:
-        cm = "results/03_motif_discovery/{target_domain}_{region}/01_initial_discovery/models/{initial_motif}_calibrated.cm",
-        database = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_{region}_filtered.fasta"
+        cm = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/models/{initial_motif}_calibrated.cm",
+        database = "results/02_sequence_selection/{target_domain}/03_combined/{target_domain}_domain_flanking_{region}_filtered.fasta"
     output:
-        hits_tbl = "results/03_motif_discovery/{target_domain}_{region}/02_homolog_search/hits/{initial_motif}_hits.tblout",
-        hits_sto = "results/03_motif_discovery/{target_domain}_{region}/02_homolog_search/hits/{initial_motif}_hits.sto"
+        hits_tbl = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/02_homolog_search/hits/{initial_motif}_hits.tblout",
+        hits_sto = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/02_homolog_search/hits/{initial_motif}_hits.sto"
     params:
         evalue = config["cmfinder"]["evalue_threshold"]
     conda:
@@ -129,7 +130,7 @@ rule search_for_homologs:
         mem_mb= config["cmfinder"]["resources"]["homolog_search_mb"],
         runtime= config["cmfinder"]["resources"]["homolog_search_runtime"]
     log:
-        "logs/cmfinder/{target_domain}_{region}_04_cmsearch_{initial_motif}.log"
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_04_cmsearch_{initial_motif}.log"
     shell:
         """
         
@@ -155,313 +156,292 @@ rule search_for_homologs:
 # Rule 5: Extract homolog sequences
 rule extract_homolog_sequences:
     input:
-        hits_tbl = "results/03_motif_discovery/{target_domain}_{region}/02_homolog_search/hits/{initial_motif}_hits.tblout",
-        database = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_{region}_filtered.fasta"
+        hits_tbl = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/02_homolog_search/hits/{initial_motif}_hits.tblout",
+        database = "results/02_sequence_selection/{target_domain}/03_combined/{target_domain}_domain_flanking_{region}_filtered.fasta"
     output:
-        fasta = "results/03_motif_discovery/{target_domain}_{region}/02_homolog_search/expanded_seqs/{initial_motif}_expanded.fasta",
-        ids = "results/03_motif_discovery/{target_domain}_{region}/02_homolog_search/expanded_seqs/{initial_motif}_ids.txt"
+        fasta = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/02_homolog_search/expanded_seqs/{initial_motif}_expanded.fasta",
+        ids = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/02_homolog_search/expanded_seqs/{initial_motif}_ids.txt"
     conda:
-        "../envs/rna_motif_env.yaml"
+        "../envs/domain_analysis_env.yaml"
     params:
         script = "workflow/src/extract_motif_sequences.py"
     log:
-        "logs/cmfinder/{target_domain}_{region}_05_extract_{initial_motif}.log"
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_05_extract_{initial_motif}.log"
     shell:
         """
         python {params.script} \
             --fasta-file {input.database} \
-            --mmotif-hits-tbl {input.hits_tbl} \
+            --motif-hits-tbl {input.hits_tbl} \
             --output-fasta {output.fasta} \
             --output-ids {output.ids} \
             2>&1 | tee {log}"""
-        # """
-        # mkdir -p $(dirname {output.fasta})
-        
-        # echo "Extracting sequences for motif {wildcards.initial_motif}" > {log}
-        
-        # # Extract sequence IDs from hits (skip header lines)
-        # grep -v "^#" {input.hits_tbl} | awk '{{print $1}}' | sort -u > {output.ids}
-        
-        # count=$(wc -l < {output.ids})
-        # echo "Extracted $count unique sequence IDs" >> {log}
-        
-        # if [ $count -gt 0 ]; then
-        #     # Extract sequences using grep
-        #     > {output.fasta}
-        #     while read seq_id; do
-        #         grep -A 1 "^>$seq_id" {input.database} >> {output.fasta}
-        #     done < {output.ids}
-            
-        #     final_count=$(grep -c "^>" {output.fasta})
-        #     echo "Extracted $final_count sequences to {output.fasta}" >> {log}
-        # else
-        #     echo "No hits found, creating empty file" >> {log}
-        #     touch {output.fasta}
-        # fi
-        # """
 
-# Rule 6a: Check if refinement is feasible (sequence count threshold)
-# rule check_refinement_feasibility:
-#     input:
-#         fasta = "results/03_motif_discovery/{target_domain}_{region}/03_homolog_search/expanded_seqs/{initial_motif}_expanded.fasta"
-#     output:
-#         status = "results/03_motif_discovery/{target_domain}_{region}/04_refinement/{initial_motif}/.status"
-#     params:
-#         min_refinement_sequences = config["cmfinder"]["min_refinement_sequences"]
-#     conda:
-#         "../envs/rna_motif_env.yaml"
-#     log:
-#         "logs/cmfinder/{target_domain}_{region}_06a_check_feasibility_{initial_motif}.log"
-#     shell:
-#         """
-#         seq_count=$(grep -c "^>" {input.fasta})
-        
-#         echo "Checking refinement feasibility for motif {wildcards.initial_motif}" > {log}
-#         echo "Sequence count: $seq_count" >> {log}
-#         echo "Minimum required: {params.min_refinement_sequences}" >> {log}
-        
-#         if [ $seq_count -lt {params.min_refinement_sequences} ]; then
-#             echo "SKIP: Not enough sequences for refinement" >> {log}
-#             echo "SKIP" > {output.status}
-#         else
-#             echo "PROCEED: Sufficient sequences for refinement" >> {log}
-#             echo "PROCEED" > {output.status}
-#         fi
-#         """
 
-# Rule 6b: Refine alignment with CMfinder using manifest
 checkpoint refine_alignment_cmfinder:
     input:
-        fasta = lambda wildcards: expand(
-            "results/03_motif_discovery/{target_domain}_{region}/03_homolog_search/expanded_seqs/{initial_motif}_expanded.fasta",
-            initial_motif=get_initial_motifs(wildcards),
-            target_domain=wildcards.target_domain,
-            region=wildcards.region
-        )
-            #"results/03_motif_discovery/{target_domain}_{region}/03_homolog_search/expanded_seqs/{initial_motif}_expanded.fasta"
+        fasta = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/02_homolog_search/expanded_seqs/{initial_motif}_expanded.fasta"
     output:
-        outdir = directory("results/03_motif_discovery/{target_domain}_{region}/04_refinement"),
-        motif_list = "results/03_motif_discovery/{target_domain}_{region}/04_refinement/refined_motif_list.txt"
+        outdir = directory("results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/{initial_motif}"),
+        motif_list = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/{initial_motif}/refined_motif_list.txt"
     params:
         docker_image = config["cmfinder"]["docker_image"],
-        docker_platform = config["cmfinder"]["docker_platform"]
+        docker_platform = config["cmfinder"]["docker_platform"],
+        basename = "{initial_motif}_refined",
+        min_refinement_sequences = config["cmfinder"]["min_refinement_sequences"]
     threads: config["cmfinder"]["threads"]["refinement"]
     resources:
         mem_mb=config["cmfinder"]["resources"]["refinement_mb"],
         runtime=config["cmfinder"]["resources"]["refinement_runtime"]
     log:
-        "logs/cmfinder/{target_domain}_{region}_06b_refine_cmfinder_{initial_motif}.log"
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_06b_refine_{initial_motif}.log"
     shell:
         """
-        status=$(cat {input.status})
-        echo "Refinement status: $status" > {log}
-        
-        if [ "$status" = "SKIP" ]; then
-            echo "Refinement skipped due to insufficient sequences" >> {log}
+        mkdir -p {output.outdir}
+        seq_count=$(grep -c "^>" {input.fasta} || echo 0)
+
+        echo "Refinement for {wildcards.initial_motif}: $seq_count sequences (min {params.min_refinement_sequences})" > {log}
+
+        if [ "$seq_count" -lt "{params.min_refinement_sequences}" ]; then
+            echo "Insufficient sequences for refinement, skipping CMfinder" >> {log}
             touch {output.outdir}/insufficient_sequences.txt
             touch {output.motif_list}
-            touch {output.status_flag}
-            exit 0
+        else
+            cp {input.fasta} {output.outdir}/{params.basename}.fasta
+
+            docker run --rm --platform {params.docker_platform} \
+                -v "$(pwd)/{output.outdir}":/data \
+                --entrypoint /bin/bash \
+                {params.docker_image} \
+                -c "cd /data && /opt/cmfinder-0.4.1.18/bin/cmfinder04.pl -f 0.8 -cpu {threads} -motifList refined_motif_list.txt {params.basename}.fasta" \
+                2>&1 | tee -a {log}
+
+            echo "Generated refined motif list:" >> {log}
+            cat {output.motif_list} >> {log}
         fi
-        
-        echo "Running CMfinder refinement for motif {wildcards.initial_motif}" >> {log}
-        
-        # Copy to output directory
-        cp {input.fasta} {output.outdir}/{wildcards.initial_motif}.fasta
-        
-        # Run CMfinder refinement with higher stringency and motif list output
-        docker run --rm --platform {params.docker_platform} \
-            -v "$(pwd)/{output.outdir}":/data \
-            --entrypoint /bin/bash \
-            {params.docker_image} \
-            -c "cd /data && /opt/cmfinder-0.4.1.18/bin/cmfinder04.pl -f 0.8 -cpu {threads} -motifList refined_motif_list.txt {wildcards.initial_motif}.fasta" \
-            2>&1 | tee -a {log}
-        
-        echo "Refinement complete for {wildcards.initial_motif}" >> {log}
-        echo "Generated motif list:" >> {log}
-        cat {output.outdir}/refined_motif_list.txt >> {log}
+
+        touch {output.outdir}/.refinement_complete
         """
 
-# Helper function to get refined motifs
+
+# Helper: refined motif IDs for one initial_motif (unchanged from original,
+# just noting it now matches 6b's nested output structure)
 def get_refined_motifs(wildcards):
     from pathlib import Path
-    
+
     checkpoint_output = checkpoints.refine_alignment_cmfinder.get(**wildcards).output
+    outdir = Path(checkpoint_output.outdir)
     motif_list_file = Path(checkpoint_output.motif_list)
-    
-    refined_motif_ids = []
-    
-    # If refinement was skipped, return empty list
-    insufficient_flag = Path(checkpoint_output.outdir) / "insufficient_sequences.txt"
-    if insufficient_flag.exists():
-        print(f"Refinement was skipped for {wildcards.initial_motif} due to insufficient sequences")
+
+    if (outdir / "insufficient_sequences.txt").exists():
+        print(f"Refinement skipped for {wildcards.initial_motif} (insufficient sequences)")
         return []
-    
-    # Read refined motif list
+
+    refined_motif_ids = []
     if motif_list_file.exists():
         with open(motif_list_file) as f:
-            for line in f:
-                line = line.strip()
-                refined_motif_ids.append(line)
-    
-    refined_motif_ids = sorted(set(refined_motif_ids))
+            refined_motif_ids = sorted(set(line.strip() for line in f if line.strip()))
+
     print(f"Loaded {len(refined_motif_ids)} refined motifs for {wildcards.initial_motif}: {refined_motif_ids}")
-    
     return refined_motif_ids
 
-# Rule 7: Build final covariance model from refined alignment or use calibrated model
-rule build_final_model:
+
+# Helper: final CM target paths across ALL initial motifs for a
+# (target_domain, region) pair, covering both the "refined" and the
+# "skipped -> promoted calibrated model" cases. Used by gather/summary.
+def get_final_targets(wildcards):
+    from pathlib import Path
+
+    base = f"results/03_motif_discovery/{wildcards.target_domain}_domain_flanking_{wildcards.region}"
+    targets = []
+
+    for initial_motif in get_initial_motifs(wildcards):
+        sub_wc = dict(wildcards)
+        sub_wc["initial_motif"] = initial_motif
+        checkpoint_output = checkpoints.refine_alignment_cmfinder.get(**sub_wc).output
+        outdir = Path(checkpoint_output.outdir)
+
+        if (outdir / "insufficient_sequences.txt").exists():
+            targets.append(f"{base}/03_refinement/final/{initial_motif}_final.cm")
+        else:
+            motif_list_file = Path(checkpoint_output.motif_list)
+            if motif_list_file.exists():
+                refined_motifs = sorted(set(l.strip() for l in open(motif_list_file) if l.strip()))
+                for refined_motif in refined_motifs:
+                    # NOTE: refined_motif filenames already contain initial_motif
+                    # as a prefix (CMfinder basename = "{initial_motif}_refined"),
+                    # so we nest by initial_motif directory rather than
+                    # concatenating it into the filename again.
+                    targets.append(f"{base}/03_refinement/final/{initial_motif}/{refined_motif}_final.cm")
+
+    return targets
+
+
+# ---------------------------------------------------------------------
+# Rule 7a: Build final CM from a successfully refined alignment
+# ---------------------------------------------------------------------
+rule build_final_model_refined:
     input:
-        refined_dir = "results/03_motif_discovery/{target_domain}_{region}/04_refinement/{initial_motif}/{refined_motif}",
-        refinement_flag = "results/03_motif_discovery/{target_domain}_{region}/04_refinement/{initial_motif}/.refinement_complete",
-        calibrated_cm = "results/03_motif_discovery/{target_domain}_{region}/02_models/calibrated/{initial_motif}.cm"
+        refined_msa = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/{initial_motif}/{refined_motif}",
+        refinement_flag = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/{initial_motif}/.refinement_complete"
     output:
-        cm = "results/03_motif_discovery/{target_domain}_{region}/04_refinement/final/{motif_id}_final.cm"
+        cm = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/final/{initial_motif}/{refined_motif}_final.cm"
     threads: config["cmfinder"]["threads"]["calibration"]
     conda:
         "../envs/rna_motif_env.yaml"
     log:
-        "logs/cmfinder/{target_domain}_{region}_07_final_{motif_id}.log"
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_07a_final_{initial_motif}_{refined_motif}.log"
     shell:
         """
-        echo "Building final model for motif {wildcards.motif_id}" > {log}
-        
-        # Check if refinement was skipped
-        if [ -f {input.refined_dir}/insufficient_sequences.txt ]; then
-            echo "Refinement was skipped, using calibrated model as final" >> {log}
-            cp {input.calibrated_cm} {output.cm}
-            echo "Using pre-calibrated model" >> {log}
-            cmstat {output.cm} >> {log}
-            exit 0
-        fi
-        
-        # Look for refined .motif files (Stockholm alignments) from refined_motif_list.txt
-        motif_list="{input.refined_dir}/refined_motif_list.txt"
-        
-        if [ ! -f "$motif_list" ] || [ ! -s "$motif_list" ]; then
-            echo "No refined motif list found, using calibrated model as final" >> {log}
-            cp {input.calibrated_cm} {output.cm}
-            cmstat {output.cm} >> {log}
-            exit 0
-        fi
-        
-        # Extract first refined motif from list
-        refined_motif=$(head -1 "$motif_list" | tr -d '\n' | sed 's/[[:space:]]*$//')
-        refined_motif_path="{input.refined_dir}/$refined_motif"
-        
-        if [ -z "$refined_motif" ] || [ ! -f "$refined_motif_path" ]; then
-            echo "Refined motif file not found: $refined_motif_path" >> {log}
-            echo "Using calibrated model as fallback" >> {log}
-            cp {input.calibrated_cm} {output.cm}
-            cmstat {output.cm} >> {log}
-            exit 0
-        fi
-        
-        echo "Building final CM from refined alignment: $refined_motif" >> {log}
-        
-        # Build and calibrate final CM using Infernal
-        cmbuild -F {output.cm} "$refined_motif_path" 2>&1 | tee -a {log}
-        
+        echo "Building final model from refined alignment {wildcards.refined_motif}" > {log}
+
+        cmbuild -F {output.cm} {input.refined_msa} 2>&1 | tee -a {log}
+
         echo "Calibrating final model..." >> {log}
         cmcalibrate --cpu {threads} {output.cm} 2>&1 | tee -a {log}
-        
-        echo "Final model complete for {wildcards.motif_id}" >> {log}
+
+        echo "Final model complete for {wildcards.initial_motif}_{wildcards.refined_motif}" >> {log}
         cmstat {output.cm} >> {log}
         """
 
-# Rule 8: Visualize structure with R2R (if available)
-# Rule 8: Visualize structure with multiple fallback options
-rule visualize_structure:
+
+# ---------------------------------------------------------------------
+# Rule 7b: Refinement was skipped (too few sequences) -> promote the
+# already-calibrated initial CM to be the "final" model for this motif.
+# ---------------------------------------------------------------------
+rule build_final_model_skipped:
     input:
-        refined_dir = "results/03_motif_discovery/{target_domain}_{region}/04_refinement/{motif_id}",
-        #original_alignment = "results/03_motif_discovery/{target_domain}_{region}/02_models/built/{motif_id}.sto",
-        refinement_flag = "results/03_motif_discovery/{target_domain}_{region}/04_refinement/{motif_id}/.refinement_complete"
+        calibrated_cm = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/models/{initial_motif}_calibrated.cm",
+        refinement_flag = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/{initial_motif}/.refinement_complete"
     output:
-        pdf = "results/03_motif_discovery/{target_domain}_{region}/05_visualizations/{motif_id}_structure.pdf",
-        svg = "results/03_motif_discovery/{target_domain}_{region}/05_visualizations/{motif_id}_structure.svg",
-        txt = "results/03_motif_discovery/{target_domain}_{region}/05_visualizations/{motif_id}_structure.txt"
+        cm = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/final/{initial_motif}_final.cm"
+    conda:
+        "../envs/rna_motif_env.yaml"
+    log:
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_07b_final_skipped_{initial_motif}.log"
+    shell:
+        """
+        echo "Refinement was skipped for {wildcards.initial_motif}, using calibrated model as final" > {log}
+        cp {input.calibrated_cm} {output.cm}
+        cmstat {output.cm} >> {log}
+        """
+
+
+# ---------------------------------------------------------------------
+# Rule 8: Visualize structure with R2R (falls back to text/basic PDF)
+# Matches whichever final-CM pattern produced {motif_id}: split on the
+# same refined/skipped distinction so the right source alignment is used.
+# ---------------------------------------------------------------------
+rule visualize_structure_refined:
+    input:
+        refined_msa = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/{initial_motif}/{refined_motif}"
+    output:
+        pdf = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/04_visualizations/{initial_motif}/{refined_motif}_structure.pdf"
     conda:
         "../envs/rna_motif_env.yaml"
     params:
-        script = "workflow/src/visualize_structure.py"
+        script = "workflow/src/visualise_motifs.py",
+        motif_id = "{initial_motif}_{refined_motif}"
     log:
-        "logs/cmfinder/{target_domain}_{region}_08_visualize_{motif_id}.log"
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_08_visualize_{initial_motif}_{refined_motif}.log"
     shell:
         """
-        echo "Generating visualization for motif {wildcards.motif_id}" > {log}
-        
-        # Determine which alignment to use
-        if [ -f {input.refined_dir}/insufficient_sequences.txt ]; then
-            echo "Refinement was skipped, using original alignment" >> {log}
-            sto_file="{input.original_alignment}"
-        else
-            # Find refined Stockholm alignment
-            sto_file=$(find {input.refined_dir} -name "*.motif.h*" | head -1)
-            if [ -z "$sto_file" ] || [ ! -f "$sto_file" ]; then
-                echo "No refined alignment, using original" >> {log}
-                sto_file="{input.original_alignment}"
-            fi
-        fi
-        
-        echo "Using alignment: $sto_file" >> {log}
-        
-        # Method 1: Try R2R (often crashes)
-        echo "Attempting R2R visualization..." >> {log}
-        if command -v r2r &> /dev/null; then
-            if r2r --GSC-weighted-consensus "$sto_file" {output.pdf} 2>> {log}; then
-                echo "R2R visualization successful" >> {log}
-                # Also try SVG
-                r2r --GSC-weighted-consensus "$sto_file" {output.svg} 2>> {log} || echo "R2R SVG failed" >> {log}
-            else
-                echo "R2R crashed or failed" >> {log}
-            fi
-        else
-            echo "R2R not available" >> {log}
-        fi
-        
-        # Method 2: Use Infernal's esl-alipid for text visualization
-        echo "" >> {log}
-        echo "Creating text-based structure visualization..." >> {log}
-        if command -v esl-alipid &> /dev/null; then
-            esl-alipid "$sto_file" > {output.txt} 2>> {log}
-            echo "Text visualization created: {output.txt}" >> {log}
-        else
-            echo "esl-alipid not available, extracting structure from Stockholm file" >> {log}
-            # Extract structure annotation from Stockholm file
-            grep -E "^#=GC SS_cons|^#=GR .* SS" "$sto_file" > {output.txt} 2>> {log} || \
-                echo "Could not extract structure" > {output.txt}
-        fi
-        
-        # Method 3: Create a simple PDF from text if R2R failed
-        if [ ! -s {output.pdf} ]; then
-            echo "Creating fallback PDF visualization..." >> {log}
+        echo "Generating visualization for {params.motif_id}" > {log}
 
-            python {params.script} \
-                --stockholm "$sto_file" \
-                --output {output.pdf} \
-                --motif-id {wildcards.motif_id} \
-                2>> {log}
+        python {params.script} \
+            --stockholm {input.refined_msa} \
+            --output {output.pdf} \
+            --motif-id {params.motif_id} \
+            2>&1 | tee -a {log}
 
-            echo "Fallback PDF visualization created" >> {log}
-        fi
-        
-        # Ensure all output files exist
-        touch {output.pdf} {output.svg} {output.txt}
-        
         echo "Visualization complete" >> {log}
         """
 
 
-
-rule annotate_motif_families_comprehensive:
+rule visualize_structure_skipped:
     input:
-        expanded_seqs = "results/03_motif_discovery/{target_domain}_{region}/03_homolog_search/expanded_seqs/{motif_id}_expanded.fasta",
-        original_alignment = "results/03_motif_discovery/{target_domain}_{region}/02_models/built/{motif_id}.sto",
+        original_alignment = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments/{initial_motif}"
+    output:
+        pdf = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/04_visualizations/{initial_motif}_structure.pdf"
+    conda:
+        "../envs/rna_motif_env.yaml"
+    params:
+        script = "workflow/src/visualise_motifs.py"
+    log:
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_08_visualize_skipped_{initial_motif}.log"
+    shell:
+        """
+        echo "Generating visualization for {wildcards.initial_motif} (refinement was skipped)" > {log}
+
+        python {params.script} \
+            --stockholm {input.original_alignment} \
+            --output {output.pdf} \
+            --motif-id {wildcards.initial_motif} \
+            2>&1 | tee -a {log}
+
+        echo "Visualization complete" >> {log}
+        """
+
+
+# ---------------------------------------------------------------------
+# Rule (annotation): comprehensive Rfam annotation, split the same way
+# ---------------------------------------------------------------------
+rule annotate_motif_refined:
+    input:
+        expanded_seqs = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/02_homolog_search/expanded_seqs/{initial_motif}_expanded.fasta",
         rfam_db = "resources/rfam/Rfam.cm"
     output:
-        rfam_hits = "results/03_motif_discovery/{target_domain}_{region}/06_annotation/{motif_id}_rfam_hits.tblout",
-        rfam_summary = "results/03_motif_discovery/{target_domain}_{region}/06_annotation/{motif_id}_rfam_summary.txt",
-        novel_flag = "results/03_motif_discovery/{target_domain}_{region}/06_annotation/{motif_id}_novelty.txt"
+        rfam_hits = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/05_annotation/{initial_motif}/{refined_motif}_rfam_hits.tblout",
+        rfam_summary = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/05_annotation/{initial_motif}/{refined_motif}_rfam_summary.txt",
+        novel_flag = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/05_annotation/{initial_motif}/{refined_motif}_novelty.txt"
+    params:
+        evalue = 0.01,
+        script = "workflow/src/summarize_rfam_hits.py",
+        motif_id = "{initial_motif}_{refined_motif}"
+    conda:
+        "../envs/rna_motif_env.yaml"
+    threads: 8
+    resources:
+        mem_mb=16000,
+        runtime=120
+    log:
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_annotate_{initial_motif}_{refined_motif}.log"
+    shell:
+        """
+        echo "Rfam annotation for {params.motif_id}" > {log}
+
+        if [ ! -f {input.rfam_db}.i1m ]; then
+            cmpress {input.rfam_db} 2>&1 | tee -a {log}
+        fi
+
+        seq_count=$(grep -c "^>" {input.expanded_seqs} 2>/dev/null || echo 0)
+        echo "Searching $seq_count sequences against Rfam" >> {log}
+
+        cmscan \
+            --cpu {threads} \
+            -E {params.evalue} \
+            --tblout {output.rfam_hits} \
+            {input.rfam_db} \
+            {input.expanded_seqs} \
+            2>&1 | tee -a {log}
+
+        python {params.script} \
+            --rfam-hits {output.rfam_hits} \
+            --motif-id {params.motif_id} \
+            --seq-count $seq_count \
+            --output-summary {output.rfam_summary} \
+            --output-flag {output.novel_flag} \
+            2>&1 | tee -a {log}
+        """
+
+
+rule annotate_motif_skipped:
+    input:
+        original_alignment = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments/{initial_motif}",
+        rfam_db = "resources/rfam/Rfam.cm"
+    output:
+        rfam_hits = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/05_annotation/{initial_motif}_rfam_hits.tblout",
+        rfam_summary = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/05_annotation/{initial_motif}_rfam_summary.txt",
+        novel_flag = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/05_annotation/{initial_motif}_novelty.txt"
     params:
         evalue = 0.01,
         script = "workflow/src/summarize_rfam_hits.py"
@@ -472,33 +452,21 @@ rule annotate_motif_families_comprehensive:
         mem_mb=16000,
         runtime=120
     log:
-        "logs/cmfinder/{target_domain}_{region}_08_annotate_{motif_id}.log"
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_annotate_skipped_{initial_motif}.log"
     shell:
         """
-        echo "Comprehensive Rfam annotation for motif {wildcards.motif_id}" > {log}
-        
-        # Index Rfam if needed
+        echo "Rfam annotation for {wildcards.initial_motif} (no refinement, using original alignment)" > {log}
+
         if [ ! -f {input.rfam_db}.i1m ]; then
-            echo "Indexing Rfam database..." >> {log}
             cmpress {input.rfam_db} 2>&1 | tee -a {log}
         fi
-        
-        # Decide which sequences to search
-        if [ -s {input.expanded_seqs} ]; then
-            search_file="{input.expanded_seqs}"
-            echo "Using expanded sequences (with homologs)" >> {log}
-        else
-            # Extract sequences from original alignment
-            search_file=$(mktemp --suffix=.fasta)
-            echo "Extracting sequences from original alignment" >> {log}
-            grep -v "^#" {input.original_alignment} | grep -v "^//" | \
-                awk '{{print ">"$1"\\n"$2}}' > $search_file
-        fi
-        
+
+        search_file=$(mktemp --suffix=.fasta)
+        grep -v "^#" {input.original_alignment} | grep -v "^//" | \
+            awk '{{print ">"$1"\\n"$2}}' > $search_file
         seq_count=$(grep -c "^>" $search_file 2>/dev/null || echo 0)
         echo "Searching $seq_count sequences against Rfam" >> {log}
-        
-        # Search against Rfam
+
         cmscan \
             --cpu {threads} \
             -E {params.evalue} \
@@ -506,75 +474,81 @@ rule annotate_motif_families_comprehensive:
             {input.rfam_db} \
             $search_file \
             2>&1 | tee -a {log}
-        
-        # Use Python script to parse and summarize results
+
         python {params.script} \
             --rfam-hits {output.rfam_hits} \
-            --motif-id {wildcards.motif_id} \
+            --motif-id {wildcards.initial_motif} \
             --seq-count $seq_count \
             --output-summary {output.rfam_summary} \
             --output-flag {output.novel_flag} \
             2>&1 | tee -a {log}
-        
-        # Clean up temp file if created
-        if [ ! -s {input.expanded_seqs} ]; then
-            rm -f $search_file
-        fi
+
+        rm -f $search_file
         """
 
+
+# ---------------------------------------------------------------------
 # Rule 9: Gather all motif analysis outputs
+# Uses get_final_targets() to derive matching visualization/annotation
+# paths for both refined and skipped motifs, so nothing gets dropped.
+# ---------------------------------------------------------------------
+def get_visualization_and_annotation_targets(wildcards):
+    from pathlib import Path
+
+    finals = get_final_targets(wildcards)
+    viz, annot = [], []
+    for f in finals:
+        p = Path(f)
+        base = f.rsplit("/03_refinement/", 1)[0]
+        rel_parts = p.relative_to(Path(base) / "03_refinement" / "final").parts
+
+        if len(rel_parts) == 2:
+            # Refined case: final/{initial_motif}/{refined_motif}_final.cm
+            initial_motif, fname = rel_parts
+            refined_motif = fname[: -len("_final.cm")]
+            viz.append(f"{base}/04_visualizations/{initial_motif}/{refined_motif}_structure.pdf")
+            annot.append(f"{base}/05_annotation/{initial_motif}/{refined_motif}_novelty.txt")
+        else:
+            # Skipped case: final/{initial_motif}_final.cm
+            motif_id = rel_parts[0][: -len("_final.cm")]
+            viz.append(f"{base}/04_visualizations/{motif_id}_structure.pdf")
+            annot.append(f"{base}/05_annotation/{motif_id}_novelty.txt")
+
+    return viz + annot
+
+
 rule gather_motif_analysis:
     input:
-        final_models = lambda wildcards: expand(
-            "results/03_motif_discovery/{target_domain}_{region}/02_models/final/{motif_id}_final.cm",
-            target_domain=wildcards.target_domain,
-            region=wildcards.region,
-            motif_id=get_motifs(wildcards)
-        ),
-        visualizations = lambda wildcards: expand(
-            "results/03_motif_discovery/{target_domain}_{region}/05_visualizations/{motif_id}_structure.pdf",
-            target_domain=wildcards.target_domain,
-            region=wildcards.region,
-            motif_id=get_motifs(wildcards)
-        ),
-        search_results = lambda wildcards: expand(
-            "results/03_motif_discovery/{target_domain}_{region}/03_homolog_search/hits/{motif_id}_hits.tblout",
-            target_domain=wildcards.target_domain,
-            region=wildcards.region,
-            motif_id=get_motifs(wildcards)
-        ),
-        annotations = lambda wildcards: expand(
-            "results/03_motif_discovery/{target_domain}_{region}/06_annotation/{motif_id}_novelty.txt",
-            target_domain=wildcards.target_domain,
-            region=wildcards.region,
-            motif_id=get_motifs(wildcards)
-        )
+        final_models = get_final_targets,
+        viz_and_annotations = get_visualization_and_annotation_targets
     output:
-        touch("results/03_motif_discovery/{target_domain}_{region}/.motif_analysis_complete")
+        touch("results/03_motif_discovery/{target_domain}_domain_flanking_{region}/.motif_analysis_complete")
     log:
-        "logs/cmfinder/{target_domain}_{region}_09_gather.log"
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_09_gather.log"
     shell:
         """
         echo "All motif analysis complete for {wildcards.target_domain}_{wildcards.region}" > {log}
         echo "Final models: $(echo {input.final_models} | wc -w)" >> {log}
-        echo "Visualizations: $(echo {input.visualizations} | wc -w)" >> {log}
-        echo "Search results: $(echo {input.search_results} | wc -w)" >> {log}
+        echo "Visualizations + annotations: $(echo {input.viz_and_annotations} | wc -w)" >> {log}
         """
 
-# Rule 10: Summarize all results
+
+# ---------------------------------------------------------------------
+# Rule 10: Summarize all results (unchanged from original)
+# ---------------------------------------------------------------------
 rule summarize_cmfinder_results:
     input:
-        gather_flag = "results/03_motif_discovery/{target_domain}_{region}/.motif_analysis_complete"
+        gather_flag = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/.motif_analysis_complete"
     output:
-        summary = "results/03_motif_discovery/{target_domain}_{region}/07_reports/analysis_summary.txt",
-        report = "results/03_motif_discovery/{target_domain}_{region}/07_reports/report.html"
+        summary = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/06_reports/analysis_summary.txt",
+        report = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/06_reports/report.html"
     params:
         script = "workflow/src/summarize_cmfinder.py",
-        cmfinder_dir = "results/03_motif_discovery/{target_domain}_{region}"
+        cmfinder_dir = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}"
     conda:
         "../envs/rna_motif_env.yaml"
     log:
-        "logs/cmfinder/{target_domain}_{region}_10_summary.log"
+        "logs/cmfinder/{target_domain}_domain_flanking_{region}_10_summary.log"
     shell:
         """
         python {params.script} \

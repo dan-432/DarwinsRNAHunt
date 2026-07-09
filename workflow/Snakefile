@@ -1,6 +1,6 @@
 configfile: "config/config.yaml"
 
-#include: "rules/cmfinder_alt.smk"
+include: "rules/cmfinder_alt.smk"
 #include: "rules/tests-and-controls.smk"
 include: "rules/rfam_positive_controls.smk"
 
@@ -18,9 +18,9 @@ def get_accessions(wildcards):
 rule all:
     input:
         # update to where we're currently up to
-        expand("results/03_motif_discovery/{target_domain}/07_reports/analysis_summary.txt",
+        expand("results/03_motif_discovery/{target_domain}_domain_flanking_upstream/06_reports/analysis_summary.txt",
                target_domain=config["interpro"]["target_interpro_ids"]),
-        expand("results/03_motif_discovery/{target_domain}/07_reports/report.html",
+        expand("results/03_motif_discovery/{target_domain}_domain_flanking_upstream/06_reports/report.html",
                target_domain=config["interpro"]["target_interpro_ids"])
 
 rule download_interpro_taxonomy:
@@ -93,8 +93,8 @@ rule download_rfam:
 rule select_genomes:
     input:
         tree = "resources/gtdb/bac120.tree",
-        metadata = "resources/gtdb/bac120_metadata.tsv.gz",
-        to_keep = "resources/interpro/{target_domain}_taxonomy.json"
+        metadata = "resources/gtdb/bac120_metadata.tsv.gz"
+        #to_keep = "resources/interpro/{target_domain}_taxonomy.json"
     output:
         tree = "results/01_species_selection/{target_domain}_taxonomy/filtered_tree.tree",
         metadata = "results/01_species_selection/{target_domain}_taxonomy/filtered_metadata.tsv.gz",
@@ -114,7 +114,6 @@ rule select_genomes:
         python {params.script} \
             --input-tree {input.tree} \
             --metadata {input.metadata} \
-            --to-keep {input.to_keep} \
             --target-taxanomic-order "{params.target_order}" \
             --completeness {params.completeness} \
             --contamination {params.contamination} \
@@ -149,6 +148,7 @@ checkpoint download_genomes:
             {input.genome_accessions} \
             {params.outdir} \
             {params.genome_log} \
+            {output.metadata} \
             {params.formats} \
             {params.batch_size} \
             {params.temp_dir} \
@@ -175,12 +175,12 @@ rule locate_domains:
         protein = "resources/genomes/{genome}/protein.faa",
         flag = lambda wildcards: checkpoints.download_genomes.get(target_domain=wildcards.target_domain).output.metadata
     output:
-        hits = "results/02_sequence_selection/01_domain_hits/{target_domain}/{genome}_protdomain_hits.tsv"
+        hits = "results/02_sequence_selection/{target_domain}/01_domain_hits/{genome}_protdomain_hits.tsv"
     params:
         e = config["hmmer"]["e"],
         script = "workflow/src/scripts/search_for_domain.py"
     log:
-        "logs/02_sequence_selection/01_domain_hits/{target_domain}_{genome}_protdomain_search.log"
+        "logs/02_sequence_selection/{target_domain}/01_domain_hits/{target_domain}_{genome}_protdomain_search.log"
     conda:
         "envs/domain_analysis_env.yaml"
     threads: 2
@@ -199,21 +199,21 @@ rule locate_domains:
 
 rule extract_flanking_sequences:
     input: 
-        domain_hit = "results/02_sequence_selection/01_domain_hits/{target_domain}/{genome}_protdomain_hits.tsv",
+        domain_hit = "results/02_sequence_selection/{target_domain}/01_domain_hits/{genome}_protdomain_hits.tsv",
         genome = "resources/genomes/{genome}/genomic.fna",
         annotation = "resources/genomes/{genome}/geneannotation.gff"
     output:
-        utr5 = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_upstream.fasta",
-        cds = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_cds.fasta",
-        utr3 = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_downstream.fasta",
-        coords = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_domain_flanking_coords.bed"
+        utr5 = "results/02_sequence_selection/{target_domain}/02_flanking_seqs/{genome}_upstream.fasta",
+        cds = "results/02_sequence_selection/{target_domain}/02_flanking_seqs/{genome}_cds.fasta",
+        utr3 = "results/02_sequence_selection/{target_domain}/02_flanking_seqs/{genome}_downstream.fasta",
+        coords = "results/02_sequence_selection/{target_domain}/02_flanking_seqs/{genome}_domain_flanking_coords.bed"
     params:
         script = "workflow/src/extract_flanking_intergenic.py",
         upstream = config["flanking"]["upstream"],
         downstream = config["flanking"]["downstream"],
         temp_dir = ".temp"
     log:
-        "logs/02_sequence_selection/02_flanking_seqs/{target_domain}_{genome}_flanking_sequence_extraction.log"
+        "logs/02_sequence_selection/{target_domain}/02_flanking_seqs/{target_domain}_{genome}_flanking_sequence_extraction.log"
     conda:
         "envs/domain_analysis_env.yaml"
     resources:
@@ -239,24 +239,24 @@ rule extract_flanking_sequences:
 rule combine_flanking_sequences:
     input:
         utr5 = lambda wildcards: expand(
-            "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{accession}_upstream.fasta",
+            "results/02_sequence_selection/{target_domain}/02_flanking_seqs/{accession}_upstream.fasta",
             accession=get_accessions(wildcards),
             target_domain=wildcards.target_domain
         ),
         cds = lambda wildcards: expand(
-            "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{accession}_cds.fasta",
+            "results/02_sequence_selection/{target_domain}/02_flanking_seqs/{accession}_cds.fasta",
             accession=get_accessions(wildcards),
             target_domain=wildcards.target_domain
         ),
         utr3 = lambda wildcards: expand(
-            "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{accession}_downstream.fasta",
+            "results/02_sequence_selection/{target_domain}/02_flanking_seqs/{accession}_downstream.fasta",
             accession=get_accessions(wildcards),
             target_domain=wildcards.target_domain
         )
     output:
-        utr5 = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_upstream.fasta",
-        cds = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_cds.fasta",
-        utr3 = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_downstream.fasta"
+        utr5 = "results/02_sequence_selection/{target_domain}/03_combined/{target_domain}_domain_flanking_upstream.fasta",
+        cds = "results/02_sequence_selection/{target_domain}/03_combined/{target_domain}_domain_flanking_cds.fasta",
+        utr3 = "results/02_sequence_selection/{target_domain}/03_combined/{target_domain}_domain_flanking_downstream.fasta"
     log:
         "logs/02_sequence_selection/03_combined/{target_domain}/{target_domain}_flanking_sequence_combination.log"
     conda:
@@ -273,15 +273,15 @@ rule combine_flanking_sequences:
 
 rule filter_flanking_sequences:
     input:
-        sequences = "results/02_sequence_selection/03_combined/{target_domain}/{seq_file}.fasta"
+        sequences = "results/02_sequence_selection/{target_domain}/03_combined/{target_domain}_domain_flanking_{region}.fasta"
     output:
-        filtered = "results/02_sequence_selection/03_combined/{target_domain}/{seq_file}_filtered.fasta"
+        filtered = "results/02_sequence_selection/{target_domain}/03_combined/{target_domain}_domain_flanking_{region}_filtered.fasta"
     params:
         script = "workflow/src/filter_seqs.py",
         length_threshold = config["flanking"]["length_threshold"],
         gc_content_threshold = config["flanking"]["gc_content_threshold"]
     log:
-        "logs/02_sequence_selection/03_combined/{target_domain}/filter_flanking_sequences_{seq_file}.log"
+        "logs/02_sequence_selection/03_combined/{target_domain}/filter_flanking_sequences_{region}.log"
     conda:
         "envs/domain_analysis_env.yaml"
     resources:
@@ -297,74 +297,74 @@ rule filter_flanking_sequences:
             2>&1 | tee {log}
         """
 
-rule motif_discovery:
-    input:
-        sequences = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_upstream.fasta"
-    output:
-        motifs = "results/02_sequence_selection/04_motif_discovery/{target_domain}/{target_domain}_upstream_motifs"
-    log:
-        "logs/02_sequence_selection/04_motif_discovery/{target_domain}/motif_discovery_{target_domain}.log"
-    conda:
-        "envs/rna_motif_env.yaml"
-    shell:
-        """
-        meme {input.sequences} -dna -mod zoops -nmotifs 3 -o {output.motifs} 2>&1 | tee {log}
-        """
+# rule motif_discovery:
+#     input:
+#         sequences = "results/02_sequence_selection/{target_domain}/03_combined/{target_domain}_domain_flanking_upstream.fasta"
+#     output:
+#         motifs = "results/02_sequence_selection/04_motif_discovery/{target_domain}/{target_domain}_upstream_motifs"
+#     log:
+#         "logs/02_sequence_selection/04_motif_discovery/{target_domain}/motif_discovery_{target_domain}.log"
+#     conda:
+#         "envs/rna_motif_env.yaml"
+#     shell:
+#         """
+#         meme {input.sequences} -dna -mod zoops -nmotifs 3 -o {output.motifs} 2>&1 | tee {log}
+#         """
 
-rule meme_motif_discovery:
-    input:
-        fasta = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_upstream_filtered.fasta"
-    output:
-        directory("results/02_sequence_selection/04_motif_discovery/meme_out/{target_domain}")
-    conda:
-        "envs/rna_motif_env.yaml"
-    shell:
-        """
-        meme {input.fasta} -dna -oc {output} -mod zoops -nmotifs 10 -minw 6 -maxw 20
-        """
+# rule meme_motif_discovery:
+#     input:
+#         fasta = "results/02_sequence_selection/03_combined/{target_domain}/{target_domain}_domain_flanking_upstream_filtered.fasta"
+#     output:
+#         directory("results/02_sequence_selection/04_motif_discovery/meme_out/{target_domain}")
+#     conda:
+#         "envs/rna_motif_env.yaml"
+#     shell:
+#         """
+#         meme {input.fasta} -dna -oc {output} -mod zoops -nmotifs 10 -minw 6 -maxw 20
+#         """
 
-rule scan_motif:
-    input:
-        meme_out = "results/03_motif_discovery/meme_out/{target_domain}",
-        fasta = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
-    output:
-        directory("results/fimo_out/{target_domain}")
-    conda:
-        "envs/rna_motif_env.yaml"
-    shell:
-        """
-        fimo --oc {output} {input.meme_out}/meme.txt {input.fasta}
-        """
+# rule scan_motif:
+#     input:
+#         meme_out = "results/03_motif_discovery/meme_out/{target_domain}",
+#         fasta = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
+#     output:
+#         directory("results/fimo_out/{target_domain}")
+#     conda:
+#         "envs/rna_motif_env.yaml"
+#     shell:
+#         """
+#         fimo --oc {output} {input.meme_out}/meme.txt {input.fasta}
+#         """
 
-rule multiple_sequence_alignment:
-    input:
-        fasta = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
-    output:
-        alignment = "results/03_motif_discovery/alignments/{target_domain}_upstream_alignment.sto"
-    conda:
-        "envs/rna_motif_env.yaml"
-    shell:
-        """
-        clustalo -i {input.fasta} -o {output.alignment} --force --outfmt=stockholm
-        """
+# rule multiple_sequence_alignment:
+#     input:
+#         fasta = "results/02_sequence_selection/{target_domain}/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
+#     output:
+#         alignment = "results/03_motif_discovery/alignments/{target_domain}_upstream_alignment.sto"
+#     conda:
+#         "envs/rna_motif_env.yaml"
+#     shell:
+#         """
+#         clustalo -i {input.fasta} -o {output.alignment} --force --outfmt=stockholm
+#         """
 
 
-rule cmfinder_motif_discovery:
-    input:
-        fasta = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
-    output:
-        sto="results/03_motif_discovery/cmfinder_results_simple/{target_domain}.sto"
-    threads: 4
-    resources:
-        mem_mb=8000
-    log:
-        "logs/03_motif_discovery/cmfinder_simple/{target_domain}.log"
-    shell:
-        """
-        docker run --rm --platform linux/amd64 -v "$(pwd)":/data \
-        --entrypoint /bin/bash \
-        cmfinder:latest \
-        -c "cd /opt/cmfinder-0.4.1.18/bin && ./cmfinder.pl /data/{input.fasta}"
-        --
-        2> {log}
-        """
+# rule cmfinder_motif_discovery:
+#     input:
+#         fasta = "results/02_sequence_selection/03_combined/{target_domain}_domain_flanking_upstream_filtered.fasta"
+#     output:
+#         sto="results/03_motif_discovery/cmfinder_results_simple/{target_domain}.sto"
+#     threads: 4
+#     resources:
+#         mem_mb=8000
+#     log:
+#         "logs/03_motif_discovery/cmfinder_simple/{target_domain}.log"
+#     shell:
+#         """
+#         docker run --rm --platform linux/amd64 -v "$(pwd)":/data \
+#         --entrypoint /bin/bash \
+#         cmfinder:latest \
+#         -c "cd /opt/cmfinder-0.4.1.18/bin && ./cmfinder.pl /data/{input.fasta}"
+#         --
+#         2> {log}
+#         """
