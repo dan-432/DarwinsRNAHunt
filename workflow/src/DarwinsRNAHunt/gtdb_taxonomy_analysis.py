@@ -14,49 +14,53 @@ from ete3 import Tree
 def trim_tree_to_taxa(tree, taxa_of_interest):
     """
     Prune tree to only include specified taxa.
-    
     Args:
         tree: ete3.Tree object
         taxa_of_interest: list of GTDB IDs to keep (e.g., ['RS_GCF_950073225.1', ...])
-        
+        representative_map: optional dict mapping GTDB ID -> GTDB species representative ID.
+            If a taxon is missing from the tree and this is supplied, the taxon's
+            representative will be substituted in instead (if the representative
+            is itself in the tree).
     Returns:
-        ete3.Tree: Pruned tree containing only specified taxa
+        ete3.Tree: Pruned tree containing only specified taxa (or their representatives)
     """
     print(f"Trimming tree to {len(taxa_of_interest)} taxa...")
-    
-    # Create a copy of the tree
+
     subtree = deepcopy(tree)
-
     tree_leaves = {leaf.name for leaf in tree.iter_leaves()}
-    
-    # Find which taxa are actually in the tree
-    taxa_in_tree = [taxon for taxon in taxa_of_interest if taxon in tree_leaves]
-    taxa_not_in_tree = [taxon for taxon in taxa_of_interest if taxon not in tree_leaves]
-    
-    # Report findings
-    print(f"  Taxa in tree: {len(taxa_in_tree)}/{len(taxa_of_interest)}")
-    
-    if taxa_not_in_tree:
-        print(f"  WARNING: {len(taxa_not_in_tree)} taxa not found in tree")
-        if len(taxa_not_in_tree) <= 10:
-            print(f"  Missing taxa:")
-            for taxon in taxa_not_in_tree:
-                print(f"    - {taxon}")
-        else:
-            print(f"  First 10 missing taxa:")
-            for taxon in taxa_not_in_tree[:10]:
-                print(f"    - {taxon}")
 
-    # Check if we have any taxa to keep
-    if len(taxa_in_tree) == 0:
-        raise ValueError("ERROR: None of the specified taxa were found in the tree!")
-    
-    # Prune to just the taxa of interest
-    # ete3's prune method keeps only the specified leaves
-    subtree.prune(taxa_in_tree, preserve_branch_length=True)
-    
+    taxa_in_tree = set()
+    substituted = []
+    taxa_not_in_tree = []
+
+    for taxon in taxa_of_interest:
+        if taxon in tree_leaves:
+            taxa_in_tree.add(taxon)
+            continue
+
+        taxa_not_in_tree.append(taxon)
+
+    print(f"  Taxa in tree: {len(taxa_in_tree) - len(substituted)}/{len(taxa_of_interest)} directly")
+
+    if substituted:
+        print(f"  Substituted {len(substituted)} missing taxa with their GTDB representative:")
+        for taxon, rep in substituted[:10]:
+            print(f"    - {taxon} -> {rep}")
+        if len(substituted) > 10:
+            print(f"    ... and {len(substituted) - 10} more")
+
+    if taxa_not_in_tree:
+        print(f"  WARNING: {len(taxa_not_in_tree)} taxa not found in tree (no usable representative)")
+        for taxon in taxa_not_in_tree[:10]:
+            print(f"    - {taxon}")
+        if len(taxa_not_in_tree) > 10:
+            print(f"    ... and {len(taxa_not_in_tree) - 10} more")
+
+    if not taxa_in_tree:
+        raise ValueError("ERROR: None of the specified taxa (or their representatives) were found in the tree!")
+
+    subtree.prune(list(taxa_in_tree), preserve_branch_length=True)
     print(f"Trimmed tree has {len(list(subtree.iter_leaves()))} leaves")
-    
     return subtree
 
 def trim_tree_to_order(tree, taxorder_of_interest):

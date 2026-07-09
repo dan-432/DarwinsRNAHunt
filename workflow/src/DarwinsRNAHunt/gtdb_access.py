@@ -267,3 +267,101 @@ def get_ncbi_to_gtdb_dict(metadata_file, loadfile=True):
     taxa_dict = md.groupby('ncbi_taxid')['accession'].apply(list).to_dict()
     
     return taxa_dict
+
+def normalize_accession(accession):
+    """
+    Normalize genome accession by stripping prefixes, GCF_, GCA_, RS_, GB_
+    Args:
+        accession (str): Genome accession string
+    Returns:
+        str: Normalized accession string
+    """
+    accession = str(accession).strip()
+    prefixes = ("RS_", "GB_", "GCF_", "GCA_")
+    changed = True
+    while changed:
+        changed = False
+        for prefix in prefixes:
+            if accession.startswith(prefix):
+                accession = accession[len(prefix):]
+                changed = True
+    return accession
+
+def get_assembly_to_gtdb_dict(metadata_file, loadfile=True):
+    """
+    Create a mapping from NCBI assembly accessions to representative GTDB accession numbers.
+    
+    This is useful for converting between NCBI assembly identifiers (used by
+    many databases like InterPro, UniProt) and GTDB accession numbers (used in
+    the phylogenetic tree).
+    
+    Args:
+        metadata_file (String): 
+        loadfile (bool, optional): If True, load from existing local file. 
+                              If False, download fresh metadata. Default: True
+        
+    Returns:
+        dict: Dictionary mapping NCBI assembly accessions to lists of GTDB accessions
+            Format: {assembly_accession: [accession1, accession2, ...]}
+            
+    Example:
+        >>> assembly_to_gtdb = get_assembly_to_gtdb_dict()
+        >>> assembly_to_gtdb['GCA_000005845.2']  # E. coli assembly accession
+        ['GCA_000005845.2', 'GCA_000008865.2', ...]
+        
+    Note:
+        One NCBI assembly accession can map to multiple GTDB accessions because GTDB reclassifies
+        
+    Raises:
+        Exception: If loading fails, suggests trying with load=False to re-download
+    """
+    if loadfile:
+        try:
+            md = load_metadata(metadata_file)
+        except Exception as e:
+            print("TRY DOWNLOADING METADATA AGAIN WITH load=False PARAMETER, "
+                  "ALSO DOUBLE CHECK DOWNLOAD LOCATION")
+            raise e
+    else:
+        md = download_and_load_metadata(metadata_file)
+
+    md = md.dropna(subset=["ncbi_genbank_assembly_accession"]).copy()
+    md["_normalized_key"] = md["ncbi_genbank_assembly_accession"].apply(normalize_accession)
+
+    # keys: normalized assembly accession (matches GCA_ or GCF_ query IDs)
+    # values: original GTDB 'accession' column, RS_/GB_ prefix intact —
+    # needed as-is later since that's the format tree leaf names use
+    assembly_dict = md.groupby("_normalized_key")["gtdb_genome_representative"].apply(list).to_dict()
+
+    return assembly_dict
+
+def ncbi_accessions_to_gtdb(accessions, assembly_to_gtdb_dict):
+    """
+    Map a list of NCBI assembly accessions to a flat, deduplicated list of
+    GTDB representative accessions (RS_/GB_ prefix intact, tree-leaf format).
+
+    Args:
+        accessions: list of NCBI assembly accessions, e.g. ['GCA_000005845.2', ...]
+        assembly_to_gtdb_dict: dict from your get_assembly_to_gtdb_dict()
+            {normalized_ncbi_accession: [gtdb_genome_representative, ...]}
+
+    Returns:
+        (gtdb_accessions, unmapped): flat sorted list of unique GTDB accessions,
+        and the list of input accessions that had no entry in the dict
+    """
+    gtdb_accessions = set()
+    unmapped = []
+
+    for accession in accessions:
+        normalized = normalize_accession(accession)
+        matches = assembly_to_gtdb_dict.get(normalized)
+        if matches:
+            gtdb_accessions.update(matches)
+        else:
+            unmapped.append(accession)
+
+    if unmapped:
+        print(f"{len(unmapped)}/{len(accessions)} accessions had no GTDB mapping "
+              f"(showing up to 10): {unmapped[:10]}")
+
+    return sorted(gtdb_accessions), unmapped

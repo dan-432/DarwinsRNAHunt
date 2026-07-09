@@ -53,6 +53,9 @@ rule download_gtdb_data:
         script = "workflow/src/download_gtdb.py"
     log:
         "logs/gtdb/download_gtdb_data.log"
+    resources:
+        mem_mb=8000,
+        disk_mb=50000
     conda:
         "envs/domain_taxonomy_env.yaml"
     shell:
@@ -118,6 +121,7 @@ rule select_genomes:
             --output-tree {output.tree} \
             --output-metadata {output.metadata} \
             --output-genomes {output.genomes} \
+            --from-interpro \
             2>&1 | tee {log}
         """
 
@@ -125,27 +129,30 @@ checkpoint download_genomes:
     input:
         genome_accessions = "results/01_species_selection/{target_domain}_taxonomy/select_genome_accessions.json"
     output:
-        metadata = "resources/pfam_{target_domain}_genomes/download_metadata.json",
-        flag = "resources/pfam_{target_domain}_genomes/.ncbi_download_complete.flag"
+        metadata = "results/01_species_selection/{target_domain}_taxonomy/genomes_available_metadata.json",
     params:
         script = "workflow/src/download_ncbi_genomes.sh",
-        outdir = "resources/pfam_{target_domain}_genomes",
+        outdir = "resources/genomes",
         formats = "gff3,genome,protein",
-        batch_size = config["databases"]["ncbi"]["batch_size"]
+        batch_size = config["databases"]["ncbi"]["batch_size"],
+        genome_log = "resources/genomes/genome_log.json",
+        temp_dir = ".temp"
     log:
         "logs/genomes/download_genomes_{target_domain}.log"
     conda:
         "envs/genome_download_env.yaml"
     shell:
         """
+        mkdir -p {params.outdir}
+        mkdir -p {params.temp_dir}
         bash {params.script} \
             {input.genome_accessions} \
             {params.outdir} \
+            {params.genome_log} \
             {params.formats} \
             {params.batch_size} \
+            {params.temp_dir} \
             2>&1 | tee {log}
-        
-        touch {output.flag}
         """
 
 # rule validate_downloaded_genome_files:
@@ -165,8 +172,8 @@ checkpoint download_genomes:
 rule locate_domains:
     input:
         hmm = "resources/profiles/{target_domain}_domain_profile.hmm",
-        protein = "resources/pfam_{target_domain}_genomes/{genome}/protein.faa",
-        flag = lambda wildcards: checkpoints.download_genomes.get(target_domain=wildcards.target_domain).output.flag
+        protein = "resources/genomes/{genome}/protein.faa",
+        flag = lambda wildcards: checkpoints.download_genomes.get(target_domain=wildcards.target_domain).output.metadata
     output:
         hits = "results/02_sequence_selection/01_domain_hits/{target_domain}/{genome}_protdomain_hits.tsv"
     params:
@@ -193,8 +200,8 @@ rule locate_domains:
 rule extract_flanking_sequences:
     input: 
         domain_hit = "results/02_sequence_selection/01_domain_hits/{target_domain}/{genome}_protdomain_hits.tsv",
-        genome = "resources/pfam_{target_domain}_genomes/{genome}/genomic.fna",
-        annotation = "resources/pfam_{target_domain}_genomes/{genome}/geneannotation.gff"
+        genome = "resources/genomes/{genome}/genomic.fna",
+        annotation = "resources/genomes/{genome}/geneannotation.gff"
     output:
         utr5 = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_upstream.fasta",
         cds = "results/02_sequence_selection/02_flanking_seqs/{target_domain}/{genome}_cds.fasta",

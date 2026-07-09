@@ -21,9 +21,11 @@ def parse_hmmer_hits(tblout_file, evalue_threshold=1e-5):
     return hit_ids
 
 def parse_fasta(fasta_file):
-    """Parses fasta file to dictionary of Seq IO records"""
-    return SeqIO.to_dict(SeqIO.parse(fasta_file, 'fasta'))
-
+    """Parses fasta file to dictionary of Seq IO records, deduplicates by sequence ID."""
+    seq_dict = {}
+    for record in SeqIO.parse(fasta_file, 'fasta'):
+        seq_dict[record.id] = record
+    return seq_dict
 
 def get_cds_from_gff(annotation_db, hmmer_hit_ids):
     """

@@ -16,9 +16,10 @@ databases:
     rfam_genome_index_url: "https://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/Rfam.full_region.gz"
   entrez:
     email: "dacda462@student.otago.ac.nz"
-dirs:
-  data: "resources"
-  results: "results"
+# dirs:
+#   data: "resources"
+#   genomes: "resources/genomes"
+#   results: "results"
 
 # InterPro
 interpro:
@@ -69,8 +70,16 @@ cmfinder:
 
 clustering:
   mmseqs2:
-    sensitivity: 7.5 # arbitrary for now, can be refined later
-    min_seq_id: 0.5
+  # set these parameters based on the desired clustering sensitivity and specificity for finding distant homologs which can be small domains of entire proteins
+    sensitivity: 7.5
+    min_seq_id: 0.25
+    coverage_threshold: 0.2
+    cov_mode: 3
+    cluster_mode: 1
+    threads: 4
 
 controls:
   cds_search_area: 1000
+  min_cluster_size: 5
+  rfam_families:
+    - "RF00050" # FMN riboswitch

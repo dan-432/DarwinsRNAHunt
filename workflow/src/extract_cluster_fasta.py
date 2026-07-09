@@ -40,6 +40,27 @@ def extract_cluster_proteins(clusters_file, cluster_id):
     
     return proteins
 
+def parse_protein_id(protein_id, sequence):
+    """Parse protein ID into its components.
+    YUCKY GROSS REGEX (VOMIT) it works
+    Example protein ID: GCA_000026285.1|CAR04672.1|CDS|CU928161.2:3405150-3406199(+)
+    Returns:
+        dict with keys: assembly, prot_id, seq_type, seq_id, start, end, strand
+    """
+    pattern = r'([^|]+)\|([^|]+)\|([^|]+)\|([^:]+):(\d+)-(\d+)\(([+-])\)'
+    match = re.match(pattern, protein_id)
+    if match:
+        return {
+            'protein_id': f"{match.group(1)}|{match.group(2)}",
+            'type': match.group(3),
+            'seqid': match.group(4),
+            'start': int(match.group(5)),
+            'end': int(match.group(6)),
+            'strand': match.group(7),
+            'sequence': sequence  # Fill in the actual sequence
+        }
+    return None
+
  
 def main():
     parser = argparse.ArgumentParser(
@@ -59,29 +80,21 @@ def main():
     print(f"Extracting cluster {args.cluster_id} from {args.clusters}")
     proteins = extract_cluster_proteins(args.clusters, args.cluster_id)
     print(f"Found {len(proteins)} proteins in cluster {args.cluster_id}")
+
+    output_path = Path(args.output)
     
     if proteins:
-        output_path = Path(args.output)
         protein_output = []
         for protein_id in proteins:
-            seq = sequences[protein_id]
+            print(f"Extracting protein {protein_id}")
+            seq = str(sequences[protein_id].seq)
 
-            # header eg: GCA_000026285.1|CAR04672.1|CDS|CU928161.2:3405150-3406199(+)
-            assembly, prot_id, seq_type, seq_id, start, end, strand = re.split(r'|:()-', protein_id)
-            protein_output.append({
-                        "protein_id": f"{assembly}|{prot_id}",
-                        "type": seq_type,
-                        "seqid": seq_id,
-                        "start": start,
-                        "end": end,
-                        "strand": strand,
-                        "sequence": seq
-                    })
+            protein_output.append(parse_protein_id(protein_id, seq))
         write_fasta_output(protein_output, output_path)
         print(f"Wrote {len(protein_output)} proteins to {args.output}")
     else:
         print(f"Warning: No proteins found for cluster {args.cluster_id}")
-        Path(args.output).touch()
+        output_path.touch()
  
 if __name__ == "__main__":
     main()

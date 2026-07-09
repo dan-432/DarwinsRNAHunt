@@ -78,12 +78,19 @@ def download_and_save_taxanomic_info(ip_protein_id, file, base_url):
     
     return tax_list
 
-def load_taxonomic_info(file):
+def load_taxonomic_info(file, children=False):
+    """
+    Load taxonomic info from a JSON file and return a list of taxa IDs.
+    Args:
+        file (str): Path to the JSON file containing taxonomic info.
+        children (bool): Whether to include child taxa IDs.
+    Returns:
+        list: List of taxa IDs extracted from the JSON file."""
     info = []
     with open(file) as f:
         info = json.load(f)
 
-    return info
+    return get_taxa_ids(info, children=children)
 
 def get_taxa_ids(taxa_info, children=False):
     taxa_ids = []

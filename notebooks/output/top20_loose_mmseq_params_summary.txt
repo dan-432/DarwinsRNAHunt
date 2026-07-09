@@ -1,0 +1,13 @@
+Clusters analysed: 20 (top 20 by genome count)
+Genomes in matrix: 2009
+Cluster genome-count range: 43-915
+
+Observed mean pairwise Jaccard similarity: 0.0297
+Null mean Jaccard across 1000 permutations: 0.0272 (sd 0.0007)
+Permutation p-value (observed >= null): 0.000999
+
+Interpretation: a low p-value means these top clusters co-occur on the same
+genomes more than expected if each cluster were independently scattered at
+its own observed prevalence - i.e. the visual pattern in the iTOL tree is
+unlikely to be a coincidence of shared prevalence alone. Check
+*_pairwise_fisher.tsv for which specific cluster pairs drive this.

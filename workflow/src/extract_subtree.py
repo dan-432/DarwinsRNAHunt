@@ -4,8 +4,9 @@ Extract subtree of domain containing species of specified taxa and save accessio
 """
 
 import argparse
+import json
 from pathlib import Path
-from DarwinsRNAHunt.gtdb_access import load_tree, load_metadata, save_tree_image, get_ncbi_to_gtdb_dict, save_tree, save_metadata, save_genome_list
+from DarwinsRNAHunt.gtdb_access import load_tree, load_metadata, save_tree_image, get_ncbi_to_gtdb_dict, save_tree, save_metadata, save_genome_list, get_assembly_to_gtdb_dict, normalize_accession
 from DarwinsRNAHunt.gtdb_taxonomy_analysis import trim_tree_to_taxa, trim_tree_to_order, get_tree_accession_ids
 from DarwinsRNAHunt.interpro_access import load_taxonomic_info, get_taxa_ids 
 
@@ -33,6 +34,8 @@ def main():
                        help='Output text file with list of filtered genome accession IDs', )
     parser.add_argument('--output-image', required=False,
                        help='Output tree image')
+    parser.add_argument('--from-interpro', action='store_true',
+                       help='If set, will load taxanomic info from Interpro JSON file')
     
     args = parser.parse_args()
     
@@ -44,27 +47,48 @@ def main():
     metadata = load_metadata(str(args.metadata))
 
     if args.to_keep:
-        # load taxanomic info from file and extract taxa ids
-        ncbi_taxa = get_taxa_ids(load_taxonomic_info(str(args.to_keep)))
+        print(f"Loading taxa to keep from {args.to_keep}...")
 
-        print(f"Trimming tree to {len(ncbi_taxa)} NCBI taxa")
+        if args.from_interpro:
+            print("InterPro input detected; extracting NCBI taxa IDs...")
+            taxa_to_keep = load_taxonomic_info(str(args.to_keep))
+            accession_mapping = get_ncbi_to_gtdb_dict(args.metadata)
 
-        # translate from ncbi to gtdb
+            print(f"Trimming tree to {len(taxa_to_keep)} target taxa")
 
-        taxa_dict = get_ncbi_to_gtdb_dict(args.metadata)
+            gtdb_taxaids = set()
+            unmapped_count = 0
 
-        gtdb_taxaids = set()
-        no_mapping_count = 0
+            for taxon_id in taxa_to_keep:
+                if taxon_id in accession_mapping:
+                    gtdb_taxaids.update(accession_mapping[taxon_id])
+                else:
+                    unmapped_count += 1
 
-        for ncbi_id in ncbi_taxa:
-            if ncbi_id in taxa_dict.keys():
-                gtdb_taxaids.update(taxa_dict[ncbi_id])
-            else:
-                no_mapping_count += 1
+        if not args.from_interpro:
+            taxa_to_keep = []
+            # if not from interpro, then we assume the user has provided a list of assembly accession IDs to keep
+            with open(args.to_keep) as f:
+                taxa_to_keep = json.load(f)
 
-        print(f"NCBI taxonomy IDs which do not map to GTDB accessions: {no_mapping_count} of a total {len(ncbi_taxa)}")
+            print("Using assembly accession IDs...")
+            accession_mapping = get_assembly_to_gtdb_dict(args.metadata)
 
-        # trim tree
+            print(f"Trimming tree to {len(taxa_to_keep)} target taxa")
+
+            gtdb_taxaids = set()
+            unmapped_count = 0
+
+            for taxon_id in taxa_to_keep:
+                normalized_id = normalize_accession(taxon_id)
+                if normalized_id in accession_mapping:
+                    gtdb_taxaids.update(accession_mapping[normalized_id])
+                else:
+                    unmapped_count += 1
+
+        print(
+            f"{unmapped_count} of {len(taxa_to_keep)} IDs could not be mapped to GTDB accessions"
+        )
         tree = trim_tree_to_taxa(tree, gtdb_taxaids)
 
     if args.target_taxanomic_order:
