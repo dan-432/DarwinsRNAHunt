@@ -26,7 +26,8 @@ interpro:
   target_interpro_ids: 
   #- "IPR007024"
   #- "IPR010079"
-  - "cluster_1282"
+  #- "cluster_1282"
+  - "rfam_sequences_control"
 
 # Taxonomy filtering
 taxonomy:

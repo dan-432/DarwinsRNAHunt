@@ -11,7 +11,7 @@ checkpoint cmfinder_initial:
         outdir = directory("results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments"),
         motif_list = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments/motif_list.txt"
     params:
-        basename = "{target_domain}_{region}",
+        basename = "{region}",
         docker_image = config["cmfinder"]["docker_image"],
         docker_platform = config["cmfinder"]["docker_platform"],
         expected_initial_frequency = 0.1
@@ -44,9 +44,13 @@ checkpoint cmfinder_initial:
 def get_initial_motifs(wildcards):
     from pathlib import Path
 
+    print(f"Retrieving initial motifs for {wildcards.target_domain} in region {wildcards.region}")
+
     # Access checkpoint output
     checkpoint_output = checkpoints.cmfinder_initial.get(**wildcards).output
     motif_list_file = Path(checkpoint_output.motif_list)
+
+    print(f"Motif list file path: {motif_list_file}")
     
     # Read motif list from file
     motif_ids = []
@@ -65,8 +69,7 @@ def get_initial_motifs(wildcards):
 # Rule 2: Build modern Infernal CM from Stockholm alignment (.motif file)
 rule build_cm_from_motif:
     input:
-        msa = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments/{initial_motif}",
-        motif_list = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments/motif_list.txt"
+        msa = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments/{initial_motif}"
     output:
         cm = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/models/{initial_motif}_uncalibrated.cm",
     conda:
@@ -218,8 +221,6 @@ checkpoint refine_alignment_cmfinder:
             echo "Generated refined motif list:" >> {log}
             cat {output.motif_list} >> {log}
         fi
-
-        touch {output.outdir}/.refinement_complete
         """
 
 
@@ -255,6 +256,7 @@ def get_final_targets(wildcards):
     targets = []
 
     for initial_motif in get_initial_motifs(wildcards):
+        print(f"Checking refinement status for initial motif {initial_motif}")
         sub_wc = dict(wildcards)
         sub_wc["initial_motif"] = initial_motif
         checkpoint_output = checkpoints.refine_alignment_cmfinder.get(**sub_wc).output
@@ -282,7 +284,6 @@ def get_final_targets(wildcards):
 rule build_final_model_refined:
     input:
         refined_msa = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/{initial_motif}/{refined_motif}",
-        refinement_flag = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/{initial_motif}/.refinement_complete"
     output:
         cm = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/final/{initial_motif}/{refined_motif}_final.cm"
     threads: config["cmfinder"]["threads"]["calibration"]
@@ -311,7 +312,6 @@ rule build_final_model_refined:
 rule build_final_model_skipped:
     input:
         calibrated_cm = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/models/{initial_motif}_calibrated.cm",
-        refinement_flag = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/{initial_motif}/.refinement_complete"
     output:
         cm = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/final/{initial_motif}_final.cm"
     conda:
@@ -528,8 +528,8 @@ rule gather_motif_analysis:
     shell:
         """
         echo "All motif analysis complete for {wildcards.target_domain}_{wildcards.region}" > {log}
-        echo "Final models: $(echo {input.final_models} | wc -w)" >> {log}
-        echo "Visualizations + annotations: $(echo {input.viz_and_annotations} | wc -w)" >> {log}
+        echo "Final models: {input.final_models}" >> {log}
+        echo "Visualizations + annotations: {input.viz_and_annotations}" >> {log}
         """
 
 

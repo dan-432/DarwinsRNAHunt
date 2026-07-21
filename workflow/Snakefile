@@ -18,9 +18,9 @@ def get_accessions(wildcards):
 rule all:
     input:
         # update to where we're currently up to
-        expand("results/03_motif_discovery/{target_domain}_domain_flanking_upstream/06_reports/analysis_summary.txt",
+        expand("results/03_motif_discovery/{target_domain}_domain_flanking_all/06_reports/analysis_summary.txt",
                target_domain=config["interpro"]["target_interpro_ids"]),
-        expand("results/03_motif_discovery/{target_domain}_domain_flanking_upstream/06_reports/report.html",
+        expand("results/03_motif_discovery/{target_domain}_domain_flanking_all/06_reports/report.html",
                target_domain=config["interpro"]["target_interpro_ids"])
 
 rule download_interpro_taxonomy:

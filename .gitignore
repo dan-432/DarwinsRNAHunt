@@ -6,6 +6,7 @@
 # Data files
 results/
 resources/
+notebooks/output/
 
 .conda/
 .snakemake/
@@ -88,6 +89,8 @@ ScaffoldingReadMe.txt
 
 # StyleCop
 StyleCopReport.xml
+
+*.DS_Store
 
 # Files built by Visual Studio
 *_i.c
