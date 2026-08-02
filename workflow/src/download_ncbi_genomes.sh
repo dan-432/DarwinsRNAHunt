@@ -224,8 +224,14 @@ write_genome_log() {
 
 write_availability() {
     local all_available
-    all_available=$(cat "$TMPDIR/available.txt" \
-            "${TMPDIR}/newly_downloaded.txt" 2>/dev/null | sort -u | jq -R . | jq -s .)
+    # Combine already available and newly downloaded accessions, sort uniquely, and convert to JSON array
+    # Handle the case where newly_downloaded.txt may not exist
+    if [[ ! -f "$TMPDIR/newly_downloaded.txt" ]]; then
+        all_available=$(cat "$TMPDIR/available.txt" | sort -u | jq -R . | jq -s .)
+    else
+        all_available=$(cat "$TMPDIR/available.txt" \
+                "${TMPDIR}/newly_downloaded.txt" 2>/dev/null | sort -u | jq -R . | jq -s .)
+    fi
 
     local analysis_date
     analysis_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")

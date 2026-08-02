@@ -12,9 +12,9 @@ checkpoint cmfinder_initial:
         motif_list = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments/motif_list.txt"
     params:
         basename = "{region}",
-        docker_image = config["cmfinder"]["docker_image"],
-        docker_platform = config["cmfinder"]["docker_platform"],
         expected_initial_frequency = 0.1
+    conda:
+        "../envs/cmfinder_env.yaml"
     threads: config["cmfinder"]["threads"]["initial_discovery"]
     resources:
         mem_mb= config["cmfinder"]["resources"]["initial_discovery_mb"],
@@ -24,17 +24,12 @@ checkpoint cmfinder_initial:
     shell:
         """
         mkdir -p {output.outdir}
-        # Copy input file
         cp {input.fasta} {output.outdir}/{params.basename}.fasta
-        
-        # Run CMfinder - generates .motif.h* (Stockholm)
-        docker run --rm --platform {params.docker_platform} \
-            -v "$(pwd)/{output.outdir}":/data \
-            --entrypoint /bin/bash \
-            {params.docker_image} \
-            -c "cd /data && /opt/cmfinder-0.4.1.18/bin/cmfinder04.pl -f {params.expected_initial_frequency} -cpu {threads} -combine -motifList motif_list.txt {params.basename}.fasta" \
+
+        (cd {output.outdir} && \
+            cmfinder04.pl -f {params.expected_initial_frequency} -cpu {threads} -combine -motifList motif_list.txt {params.basename}.fasta) \
             2>&1 | tee {log}
-        
+
         echo "" >> {log}
         echo "CMfinder initial run completed. Generated motif list:" >> {log}
         cat {output.outdir}/motif_list.txt >> {log}
@@ -187,10 +182,10 @@ checkpoint refine_alignment_cmfinder:
         outdir = directory("results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/{initial_motif}"),
         motif_list = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/03_refinement/{initial_motif}/refined_motif_list.txt"
     params:
-        docker_image = config["cmfinder"]["docker_image"],
-        docker_platform = config["cmfinder"]["docker_platform"],
         basename = "{initial_motif}_refined",
         min_refinement_sequences = config["cmfinder"]["min_refinement_sequences"]
+    conda:
+        "../envs/cmfinder_env.yaml"
     threads: config["cmfinder"]["threads"]["refinement"]
     resources:
         mem_mb=config["cmfinder"]["resources"]["refinement_mb"],
@@ -211,11 +206,8 @@ checkpoint refine_alignment_cmfinder:
         else
             cp {input.fasta} {output.outdir}/{params.basename}.fasta
 
-            docker run --rm --platform {params.docker_platform} \
-                -v "$(pwd)/{output.outdir}":/data \
-                --entrypoint /bin/bash \
-                {params.docker_image} \
-                -c "cd /data && /opt/cmfinder-0.4.1.18/bin/cmfinder04.pl -f 0.8 -cpu {threads} -motifList refined_motif_list.txt {params.basename}.fasta" \
+            (cd {output.outdir} && \
+                cmfinder04.pl -f 0.8 -cpu {threads} -motifList refined_motif_list.txt {params.basename}.fasta) \
                 2>&1 | tee -a {log}
 
             echo "Generated refined motif list:" >> {log}
@@ -388,7 +380,7 @@ rule visualize_structure_skipped:
 rule annotate_motif_refined:
     input:
         expanded_seqs = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/02_homolog_search/expanded_seqs/{initial_motif}_expanded.fasta",
-        rfam_db = "resources/rfam/Rfam.cm"
+        rfam_db = "data/rfam/Rfam.cm"
     output:
         rfam_hits = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/05_annotation/{initial_motif}/{refined_motif}_rfam_hits.tblout",
         rfam_summary = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/05_annotation/{initial_motif}/{refined_motif}_rfam_summary.txt",
@@ -437,7 +429,7 @@ rule annotate_motif_refined:
 rule annotate_motif_skipped:
     input:
         original_alignment = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/01_initial_discovery/alignments/{initial_motif}",
-        rfam_db = "resources/rfam/Rfam.cm"
+        rfam_db = "data/rfam/Rfam.cm"
     output:
         rfam_hits = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/05_annotation/{initial_motif}_rfam_hits.tblout",
         rfam_summary = "results/03_motif_discovery/{target_domain}_domain_flanking_{region}/05_annotation/{initial_motif}_rfam_summary.txt",

@@ -1,7 +1,8 @@
 configfile: "config/config.yaml"
 
-include: "rules/cmfinder_alt.smk"
+#include: "rules/cmfinder_86x.smk"
 #include: "rules/tests-and-controls.smk"
+include: "rules/cluster_and_rscape.smk"
 include: "rules/rfam_positive_controls.smk"
 
 DOMAINS = config["interpro"]["target_interpro_ids"]
@@ -17,15 +18,25 @@ def get_accessions(wildcards):
 
 rule all:
     input:
+        "results/00_controls/rfam/family_phylo_summary.tsv"
         # update to where we're currently up to
-        expand("results/03_motif_discovery/{target_domain}_domain_flanking_all/06_reports/analysis_summary.txt",
-               target_domain=config["interpro"]["target_interpro_ids"]),
-        expand("results/03_motif_discovery/{target_domain}_domain_flanking_all/06_reports/report.html",
-               target_domain=config["interpro"]["target_interpro_ids"])
+        # expand("results/03_motif_discovery/{target_domain}_domain_flanking_upstream/06_reports/analysis_summary.txt",
+        #        target_domain=config["interpro"]["target_interpro_ids"]),
+        # expand("results/03_motif_discovery/{target_domain}_domain_flanking_upstream/06_reports/report.html",
+        #        target_domain=config["interpro"]["target_interpro_ids"]),
+        # expand("results/03_motif_discovery/{target_domain}_domain_flanking_downstream/06_reports/analysis_summary.txt",
+        #        target_domain=config["interpro"]["target_interpro_ids"]),
+        # expand("results/03_motif_discovery/{target_domain}_domain_flanking_downstream/06_reports/report.html",
+        #        target_domain=config["interpro"]["target_interpro_ids"])
+        # expand("results/03_manual_motif_discovery/{target_domain}_domain_flanking_upstream/final_report.txt",
+        #        target_domain=config["interpro"]["target_interpro_ids"]),
+        # expand("results/03_manual_motif_discovery/{target_domain}_domain_flanking_downstream/final_report.txt",
+        #        target_domain=config["interpro"]["target_interpro_ids"])
+
 
 rule download_interpro_taxonomy:
     output:
-        taxonomy = "resources/interpro/{target_domain}_taxonomy.json"
+        taxonomy = "data/interpro/{target_domain}_taxonomy.json"
     params:
         interpro_id = "{target_domain}",
         interpro_base_url = lambda wildcards: config["databases"]["interpro"]["tax_base_url"],
@@ -45,8 +56,8 @@ rule download_interpro_taxonomy:
 
 rule download_gtdb_data:
     output:
-        tree = "resources/gtdb/bac120.tree",
-        metadata = "resources/gtdb/bac120_metadata.tsv.gz"
+        tree = "data/gtdb/bac120.tree",
+        metadata = "data/gtdb/bac120_metadata.tsv.gz"
     params:
         tree_url = config["databases"]["gtdb"]["gtdb_bacteria_tree_url"],
         metadata_url = config["databases"]["gtdb"]["gtdb_bacteria_metadata_url"],
@@ -70,8 +81,8 @@ rule download_gtdb_data:
 
 rule download_rfam:
     output:
-        cm = "resources/rfam/Rfam.cm",
-        genome_index = "resources/rfam/Rfam.full_region"
+        cm = "data/rfam/Rfam.cm",
+        genome_index = "data/rfam/Rfam.full_region"
     params:
         rfam_cm_url = config["databases"]["rfam"]["rfam_cm_url"],
         rfam_genome_index_url = config["databases"]["rfam"]["rfam_genome_index_url"],
@@ -90,11 +101,26 @@ rule download_rfam:
             2>&1 | tee {log}
         """
 
+rule extract rfam_cm:
+    input:
+        cm = "data/rfam/Rfam.cm"
+    output:
+        cm = "data/rfam/covariance_models/{family}.cm"
+    params:
+        key = "{family}"
+    conda:
+        "envs/rna_motif_env.yaml"
+    log:
+        "logs/rfam/extract_{family}_cm.log"
+    shell:
+        "cmfetch {input.cm} {params.key} > {output.cm} 2> {log}"
+
+        
 rule select_genomes:
     input:
-        tree = "resources/gtdb/bac120.tree",
-        metadata = "resources/gtdb/bac120_metadata.tsv.gz"
-        #to_keep = "resources/interpro/{target_domain}_taxonomy.json"
+        tree = "data/gtdb/bac120.tree",
+        metadata = "data/gtdb/bac120_metadata.tsv.gz"
+        #to_keep = "data/interpro/{target_domain}_taxonomy.json"
     output:
         tree = "results/01_species_selection/{target_domain}_taxonomy/filtered_tree.tree",
         metadata = "results/01_species_selection/{target_domain}_taxonomy/filtered_metadata.tsv.gz",
@@ -131,10 +157,10 @@ checkpoint download_genomes:
         metadata = "results/01_species_selection/{target_domain}_taxonomy/genomes_available_metadata.json",
     params:
         script = "workflow/src/download_ncbi_genomes.sh",
-        outdir = "resources/genomes",
+        outdir = "data/genomes",
         formats = "gff3,genome,protein",
         batch_size = config["databases"]["ncbi"]["batch_size"],
-        genome_log = "resources/genomes/genome_log.json",
+        genome_log = "data/genomes/genome_log.json",
         temp_dir = ".temp"
     log:
         "logs/genomes/download_genomes_{target_domain}.log"
@@ -159,9 +185,9 @@ checkpoint download_genomes:
 #     input:
 #         flag = lambda wildcards: checkpoints.download_genomes.get().output.flag
 #     output:
-#         protein = "resources/pfam_{target_domain}_genomes/{genome}/protein.faa",
-#         genome = "resources/pfam_{target_domain}_genomes/{genome}/genomic.fna",
-#         annotation = "resources/pfam_{target_domain}_genomes/{genome}/geneannotation.gff"
+#         protein = "data/pfam_{target_domain}_genomes/{genome}/protein.faa",
+#         genome = "data/pfam_{target_domain}_genomes/{genome}/genomic.fna",
+#         annotation = "data/pfam_{target_domain}_genomes/{genome}/geneannotation.gff"
 #     run:
 #         # might be worth doing other validations here too, but for now just check that the expected files exist after the download step
 #         import os
@@ -171,8 +197,8 @@ checkpoint download_genomes:
 
 rule locate_domains:
     input:
-        hmm = "resources/profiles/{target_domain}_domain_profile.hmm",
-        protein = "resources/genomes/{genome}/protein.faa",
+        hmm = "data/profiles/{target_domain}_domain_profile.hmm",
+        protein = "data/genomes/{genome}/protein.faa",
         flag = lambda wildcards: checkpoints.download_genomes.get(target_domain=wildcards.target_domain).output.metadata
     output:
         hits = "results/02_sequence_selection/{target_domain}/01_domain_hits/{genome}_protdomain_hits.tsv"
@@ -200,8 +226,8 @@ rule locate_domains:
 rule extract_flanking_sequences:
     input: 
         domain_hit = "results/02_sequence_selection/{target_domain}/01_domain_hits/{genome}_protdomain_hits.tsv",
-        genome = "resources/genomes/{genome}/genomic.fna",
-        annotation = "resources/genomes/{genome}/geneannotation.gff"
+        genome = "data/genomes/{genome}/genomic.fna",
+        annotation = "data/genomes/{genome}/geneannotation.gff"
     output:
         utr5 = "results/02_sequence_selection/{target_domain}/02_flanking_seqs/{genome}_upstream.fasta",
         cds = "results/02_sequence_selection/{target_domain}/02_flanking_seqs/{genome}_cds.fasta",

@@ -1,5 +1,5 @@
 # Configuration parameters
-MULTI_CM_FILE = "resources/rmfam/RMfam.cm"  # Path to the multi-CM file from Rfam
+MULTI_CM_FILE = "data/rmfam/RMfam.cm"  # Path to the multi-CM file from Rfam
 NUM_SEQS_TO_KEEP = 50          
 INITIAL_POOL_SIZE = 500        
 BIT_SCORE_THRESHOLD = 20.0     

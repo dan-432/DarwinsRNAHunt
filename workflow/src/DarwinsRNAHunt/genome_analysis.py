@@ -1,12 +1,26 @@
-#!/usr/bin/env python3
 """
-Functions for extracting sequences and basic gff and fasta parsing
+Functions for extracting sequences and basic gff and fasta parsing.
+
+Sequence data is now modeled via the Sequence/NucleotideSequence/
+ProteinSequence class hierarchy in DarwinsRNAHunt.sequence, rather than
+hand-built dicts with a 'type' string key. Header encoding/decoding and
+FASTA/BED writing are now methods on those classes (to_header, to_fasta,
+to_bed_line) instead of free functions here.
 """
 
-import re
 import sys
 from Bio import SeqIO, SearchIO
 import gffutils
+
+from DarwinsRNAHunt.sequence import (
+    Strand,
+    NucleotideSequence,
+    CDSSequence,
+    UTR5Sequence,
+    UTR3Sequence,
+    ProteinSequence,
+)
+
 
 def parse_hmmer_hits(tblout_file, evalue_threshold=1e-5):
     """Parses HMMER3 tblout file and returns a set of unique target IDs.
@@ -21,12 +35,14 @@ def parse_hmmer_hits(tblout_file, evalue_threshold=1e-5):
                 hit_ids.add(hit.id)
     return hit_ids
 
+
 def parse_fasta(fasta_file):
     """Parses fasta file to dictionary of Seq IO records, deduplicates by sequence ID."""
     seq_dict = {}
     for record in SeqIO.parse(fasta_file, 'fasta'):
         seq_dict[record.id] = record
     return seq_dict
+
 
 def get_cds_from_gff(annotation_db, hmmer_hit_ids):
     """
@@ -35,15 +51,12 @@ def get_cds_from_gff(annotation_db, hmmer_hit_ids):
     Args: annotation_db: gffutils database object with genome annotation loaded
           hmmer_hit_ids: set of protein IDs from HMMER hits
     Returns: list of gffutils.Feature objects for matched genes"""
-    
+
     matched_genes = []
-        
-    # Iterate through hits and find corresponding genes in GFF
+
     for hit_id in hmmer_hit_ids:
         try:
-            # look for cds feature with matching protein_id
             feature = annotation_db["cds-" + hit_id]
-            # If hit is not gene itself, get parent gene feature
             if feature.featuretype != 'CDS':
                 print(f"Warning: Feature {feature.id} is not a CDS, skipping", file=sys.stderr)
                 continue
@@ -51,32 +64,22 @@ def get_cds_from_gff(annotation_db, hmmer_hit_ids):
             matched_genes.append(feature)
         except gffutils.exceptions.FeatureNotFoundError:
             continue
-    
+
     return matched_genes
 
 
-def extract_segment(seq, start, end, strand):
-    """Extracts a segment from a sequence and reverse complements if on minus strand.
-    Args: seq: Bio.Seq object
-          start: 0-based start position
-          end: 0-based end position
-          strand: '+' or '-'
-    Returns: extracted segment as Bio.Seq object"""
-    segment = seq[start:end]
-    return segment.reverse_complement() if strand == '-' else segment
-
 def extract_gene_regions(genome_seqs, gene_coords, upstream_bp, downstream_bp):
     """Extract 5' UTR, CDS, and 3' UTR regions for each gene.
-    Args: genome_seqs: FASTA parsed to dictionary
+    Args: genome_seqs: FASTA parsed to dictionary (id -> SeqRecord)
           gene_coords: list of gffutils.Feature objects for matched genes
           upstream_bp: dictionary {protein_id: number of bases to extract upstream of gene start}
           downstream_bp: dictionary {protein_id: number of bases to extract downstream of gene end}
-    Returns: list of dicts with sequence info for utr5, cds, and utr3"""
+    Returns: list of NucleotideSequence subclass instances (UTR5Sequence, CDSSequence, UTR3Sequence)"""
     extracted_regions = []
 
     for feature in gene_coords:
         seqid = feature.chrom
-        strand = feature.strand
+        strand = Strand(feature.strand)
         gene_start = int(feature.start)
         gene_end = int(feature.end)
 
@@ -88,7 +91,7 @@ def extract_gene_regions(genome_seqs, gene_coords, upstream_bp, downstream_bp):
         py_start = gene_start - 1
         py_end = gene_end
 
-        if strand == '+':
+        if strand is Strand.POSITIVE:
             utr5_start = max(0, py_start - upstream_bp[feature.id])
             utr5_end = py_start
             utr3_start = py_end
@@ -99,75 +102,48 @@ def extract_gene_regions(genome_seqs, gene_coords, upstream_bp, downstream_bp):
             utr3_start = max(0, py_start - downstream_bp[feature.id])
             utr3_end = py_start
 
-        utr5_seq = extract_segment(seq, utr5_start, utr5_end, strand)
-        cds_seq = extract_segment(seq, py_start, py_end, strand)
-        utr3_seq = extract_segment(seq, utr3_start, utr3_end, strand)
-
         extracted_regions.extend([
-            {
-                'protein_id': feature.id,
-                'type': "utr5",
-                'seqid': seqid,
-                'start': utr5_start + 1,
-                'end': utr5_end,
-                'strand': strand,
-                'gene_start': gene_start,
-                'gene_end': gene_end,
-                'sequence': utr5_seq
-            },
-            {
-                'protein_id': feature.id,
-                'type': "cds",
-                'seqid': seqid,
-                'start': py_start + 1,
-                'end': py_end,
-                'strand': strand,
-                'gene_start': gene_start,
-                'gene_end': gene_end,
-                'sequence': cds_seq
-            },
-            {
-                'protein_id': feature.id,
-                'type': "utr3",
-                'seqid': seqid,
-                'start': utr3_start + 1,
-                'end': utr3_end,
-                'strand': strand,
-                'gene_start': gene_start,
-                'gene_end': gene_end,
-                'sequence': utr3_seq
-            }
+            UTR5Sequence.from_genome(
+                seq, seqid, utr5_start, utr5_end, strand, feature.id,
+                gene_start=gene_start, gene_end=gene_end
+            ),
+            CDSSequence.from_genome(
+                seq, seqid, py_start, py_end, strand, feature.id,
+                gene_start=gene_start, gene_end=gene_end
+            ),
+            UTR3Sequence.from_genome(
+                seq, seqid, utr3_start, utr3_end, strand, feature.id,
+                gene_start=gene_start, gene_end=gene_end
+            ),
         ])
 
     return extracted_regions
 
+
 def get_next_gene_distance(annotation_db, genes, upstream=True):
-    """Calculate distance to next gene in specified direction for each gene.
+    """Calculate distance to the next CDS on the SAME STRAND in the specified
+    direction for each gene, for use as the full intergenic flanking distance.
     Args: annotation_db: gffutils database object
           genes: list of gffutils.Feature objects for matched genes
           upstream: True for upstream, False for downstream
-    Returns: dict {protein_id: distance to next gene in specified direction}"""
-    
-    distances = {}
-    
-    for feature in genes:
-        direcion = "<="
-        if upstream:
-            if feature.strand == '+':
-                direcion = "<="
-            else:
-                direcion = ">="
-        else:
-            if feature.strand == '+':
-                direcion = ">="
-            else:
-                direcion = "<="
+    Returns: dict {protein_id: distance to next same-strand gene in specified direction}"""
 
-        # Find nearest neighbor in specified direction
+    distances = {}
+
+    for feature in genes:
+        if upstream:
+            direcion = "<=" if feature.strand == '+' else ">="
+        else:
+            direcion = ">=" if feature.strand == '+' else "<="
+
+        # AND strand filter ensures we find the nearest CDS on the SAME
+        # strand -- the opposite-strand nearest neighbor isn't the right
+        # boundary for this gene's own intergenic region.
         query = f"""
                 SELECT * FROM features
                 WHERE seqid = '{feature.seqid}'
                 AND featuretype = 'CDS'
+                AND strand = '{feature.strand}'
                 AND start {direcion} {feature.start if upstream else feature.end}
                 AND id != '{feature.id}'
                 ORDER BY ABS(start - {feature.start if upstream else feature.end})
@@ -180,8 +156,6 @@ def get_next_gene_distance(annotation_db, genes, upstream=True):
 
         # note this give sqlite3.row object, not gffutils.Feature, so we need to convert it back to a Feature
         neighbor = neighbor[0]
-        # Calculate gap
-        # Return absolute distance between gene and neighbor, ensuring it's non-negative and being strand-aware
         if feature.strand == '+':
             if upstream:
                 distance = max(0, feature.start - neighbor["end"])
@@ -202,95 +176,44 @@ def get_next_gene_distance(annotation_db, genes, upstream=True):
 
 def write_fasta_output(regions, output_file):
     """Write extracted regions to a single FASTA file.
-    Args: regions: list of dicts with sequence info
+    Args: regions: list of Sequence (or subclass) instances
           output_file: path to output FASTA file"""
     with open(output_file, "w") as f:
         for region in regions:
-            header = (
-                f">{region['protein_id']}|{region['type']}|"
-                f"{region['seqid']}:{region['start']}-{region['end']}({region['strand']})"
-            )
-            f.write(header + "\n")
-            f.write(str(region["sequence"]) + "\n")      
-
-def decode_prot_fasta_record(protein_header, sequence):
-    """Parse protein ID into its components.
-    YUCKY GROSS REGEX (VOMIT) it works
-    Example protein ID: GCA_000026285.1|CAR04672.1|CDS|CU928161.2:3405150-3406199(+)
-    Returns:
-        dict with keys: assembly, prot_id, seq_type, seq_id, start, end, strand, sequence
-    """
-    pattern = r'([^|]+)\|([^|]+)\|([^|]+)\|([^:]+):(\d+)-(\d+)\(([+-])\)'
-    match = re.match(pattern, protein_header)
-    if match:
-        return {
-            'protein_id': f"{match.group(1)}|{match.group(2)}",
-            'type': match.group(3),
-            'seqid': match.group(4),
-            'start': int(match.group(5)),
-            'end': int(match.group(6)),
-            'strand': match.group(7),
-            'sequence': sequence  # Fill in the actual sequence
-        }
-    return None
-
-def decode_nuc_fasta_record(nuc_header, sequence):
-    """Decode FASTA header into its parts. Assumes format: >protein_id|type|seqid:start-end(strand)
-    Returns:
-        dict with keys: assembly, prot_id, seq_type, seq_id, start, end, strand, sequence"""
-    pattern = r'([^|]+)\|([^|]+)\|([^|]+):(\d+)-(\d+)\(([+-])\)'
-    match = re.match(pattern, nuc_header)
-    if match:
-        return {
-            'protein_id': match.group(1),
-            'type': match.group(2),
-            'seqid': match.group(3),
-            'start': int(match.group(4)),
-            'end': int(match.group(5)),
-            'strand': match.group(6),
-            'sequence': sequence  # Fill in the actual sequence
-        }
-    return None
-
+            f.write(region.to_fasta())
 
 
 def write_fasta_outputs(regions, utr5_path, cds_path, utr3_path):
-    """Write extracted regions to separate FASTA files.
-    Args: regions: list of dicts with sequence info
+    """Write extracted regions to separate FASTA files, split by class.
+    Args: regions: list of Sequence (or subclass) instances
           utr5_path: path to output FASTA for 5' UTRs
           cds_path: path to output FASTA for CDS
           utr3_path: path to output FASTA for 3' UTRs"""
-    write_fasta_output([r for r in regions if r['type'] == 'utr5'], utr5_path)
-    write_fasta_output([r for r in regions if r['type'] == 'cds'], cds_path)
-    write_fasta_output([r for r in regions if r['type'] == 'utr3'], utr3_path)
+    write_fasta_output([r for r in regions if isinstance(r, UTR5Sequence)], utr5_path)
+    write_fasta_output([r for r in regions if isinstance(r, CDSSequence)], cds_path)
+    write_fasta_output([r for r in regions if isinstance(r, UTR3Sequence)], utr3_path)
 
 
 def write_bed_output(regions, output_file):
     """Write extracted regions to BED format.
-    Args: regions: list of dicts with sequence info
+    Args: regions: list of Sequence (or subclass) instances
           output_file: path to output BED file"""
     with open(output_file, 'w') as f:
         f.write("# chrom\tstart\tend\tname\tscore\tstrand\ttype\tgene_start\tgene_end\n")
         for region in regions:
-            bed_start = region['start'] - 1
-            bed_end = region['end']
-            name = f"{region['protein_id']}|{region['type']}"
-            f.write(
-                f"{region['seqid']}\t{bed_start}\t{bed_end}\t{name}\t0\t"
-                f"{region['strand']}\t{region['type']}\t{region.get('gene_start', '')}\t{region.get('gene_end', '')}\n"
-            )
-    
+            f.write(region.to_bed_line() + "\n")
+
+
 def load_genome_annotation(gff_file, db_path):
     """Load genome annotation into a database.
     Args: gff_file: path to GFF file
           db_path: path to the database file
     Returns: gffutils.FeatureDB object with genome annotation loaded"""
-    
-    db = gffutils.create_db(gff_file, dbfn=db_path, force=True, 
-                            keep_order=True, merge_strategy='merge', 
-                            sort_attribute_values=True)
-    return db
 
+    db = gffutils.create_db(gff_file, dbfn=db_path, force=True,
+                             keep_order=True, merge_strategy='merge',
+                             sort_attribute_values=True)
+    return db
 
 
 def extract_flanking(protein_hits, annotation_db, upstream: int, downstream: int, genome_seqs: dict):
@@ -301,28 +224,25 @@ def extract_flanking(protein_hits, annotation_db, upstream: int, downstream: int
       upstream: number of bases to extract upstream of gene start (set to -1 to use full intergenic region)
       downstream: number of bases to extract downstream of gene end (set to -1 to use full intergenic region)
       genome_seqs: dictionary of genome sequences parsed from FASTA file
-    Returns: list of dicts with sequence info for utr5, cds, and utr3
+    Returns: list of NucleotideSequence subclass instances for utr5, cds, and utr3
     """
 
     gene_coords = get_cds_from_gff(annotation_db, protein_hits)
 
     print(f"Found coordinates for {len(gene_coords)} CDSs", file=sys.stderr)
-    
-    # make dictionaries of flanking distances if they are set to a specific value
+
     up_flanking = {feature.id: upstream for feature in gene_coords}
     down_flanking = {feature.id: downstream for feature in gene_coords}
-    
+
     if upstream == -1 or downstream == -1:
         print("Warning: Using full intergenic regions for flanking sequences", file=sys.stderr)
 
     if upstream == -1:
         print("Calculating full intergenic upstream regions...", file=sys.stderr)
-
         up_flanking = get_next_gene_distance(annotation_db, gene_coords, upstream=True)
         print(f"Calculated upstream flanking distances: {up_flanking}", file=sys.stderr)
     if downstream == -1:
         print("Calculating full intergenic downstream regions...", file=sys.stderr)
-
         down_flanking = get_next_gene_distance(annotation_db, gene_coords, upstream=False)
         print(f"Calculated downstream flanking distances: {down_flanking}", file=sys.stderr)
 
@@ -334,6 +254,7 @@ def extract_flanking(protein_hits, annotation_db, upstream: int, downstream: int
     )
 
     return regions
+
 
 def parse_tblout(tblout_file):
     """Parse motif hits from cmfinder tblout file.
@@ -356,37 +277,33 @@ def get_cds_by_coordinates(annotation_db, seqid, motif_start, motif_end, net_siz
           motif_start: motif start coordinate (1-based)
           motif_end: motif end coordinate (1-based)
           net_size: how far up and downstream to extract features
-    Returns: set of neighbouring gffutils.Feature objects"""
+    Returns: list of CDSSequence instances (seq=None -- no genome FASTA available here;
+             use CDSSequence.get_protein_id() + a proteome lookup, or slice the genome
+             separately and populate .seq, if the actual sequence is needed)"""
 
     lower_bound = max(1, motif_start - net_size)
     upper_bound = motif_end + net_size
-    
-    # # Query for CDS features on this sequence
-    # query = f"""
-    #     SELECT * FROM features
-    #     WHERE seqid = '{seqid}'
-    #     AND featuretype = 'CDS'
-    #     AND start <= {upper_bound}
-    #     AND end >= {lower_bound}
-    #     ORDER BY start
-    # """
 
-    # # collect anything in the bounds of our search net
-    
-    # cds_features = set(annotation_db.execute(query))
-    
-    # return cds_features
-
-    # Query for CDS features on this sequence using gffutils region()
-    cds_features = list(annotation_db.region(
+    cds_features = annotation_db.region(
         seqid=seqid,
         start=lower_bound,
         end=upper_bound,
         featuretype='CDS',
         completely_within=False
-    ))
-    
-    return cds_features
+    )
+
+    return [
+        CDSSequence(
+            id=feature.id,
+            seq=None,
+            seqid=feature.seqid,
+            start=feature.start,
+            end=feature.end,
+            strand=feature.strand,
+            attributes=dict(feature.attributes),
+        )
+        for feature in cds_features
+    ]
 
 
 def extract_cds_protein(protein_id, proteome):
@@ -394,34 +311,12 @@ def extract_cds_protein(protein_id, proteome):
     Args: protein_id: protein identifier
           proteome: dictionary of protein sequences (from parse_fasta)
     Returns: protein sequence string or None if not found"""
-    
-    # Try exact match first
+
     if protein_id in proteome:
         return str(proteome[protein_id].seq)
-    
-    # Try partial match (in case IDs are truncated or have prefixes)
+
     for seq_id in proteome:
         if protein_id in seq_id or seq_id in protein_id:
             return str(proteome[seq_id].seq)
-    
-    return None
 
-
-def extract_protein_id_from_gff(attributes):
-    """Extract protein ID from GFF attributes dict.
-    Args: attributes: dictionary of GFF attributes
-    Returns: protein ID string or None"""
-    
-    # Try common attribute keys for protein IDs
-    for key in ['protein_id', 'Name', 'ID', 'Dbxref']:
-        if key in attributes:
-            value = attributes[key][0]
-            if key == 'Dbxref':
-                # Handle format like "protein_id:XP_001234567"
-                for item in value.split(','):
-                    if 'protein_id:' in item or 'RefSeq:' in item:
-                        return item.split(':')[1]
-            else:
-                return value
-    
     return None

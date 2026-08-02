@@ -6,9 +6,9 @@ def get_rfam_motif_ids(wildcards):
 
 checkpoint get_accession_ids:
     input:
-        "resources/rfam/Rfam.full_region"
+        "data/rfam/Rfam.full_region"
     output:
-        accession_ids = "resources/rfam/{family}_taxonomy.json"
+        accession_ids = "data/rfam/{family}_taxonomy.json"
     params:
         script = "workflow/src/rfam_get_accession_ids.py",
         email = config["databases"]["entrez"]["email"]
@@ -31,9 +31,9 @@ checkpoint get_accession_ids:
 
 rule select_control_genomes:
     input:
-        tree = "resources/gtdb/bac120.tree",
-        metadata = "resources/gtdb/bac120_metadata.tsv.gz",
-        to_keep = "resources/rfam/{family}_taxonomy.json"
+        tree = "data/gtdb/bac120.tree",
+        metadata = "data/gtdb/bac120_metadata.tsv.gz",
+        to_keep = "data/rfam/{family}_taxonomy.json"
     output:
         tree = "results/00_controls/rfam/{family}/01_phylogeny/tree.nwk",
         metadata = "results/00_controls/rfam/{family}/01_phylogeny/filtered_metadata.tsv.gz",
@@ -75,10 +75,10 @@ checkpoint download_rfam_motif_genomes:
         metadata = "results/00_controls/rfam/{family}/01_phylogeny/genomes_available_metadata.json"
     params:
         script = "workflow/src/download_ncbi_genomes.sh",
-        outdir = "resources/genomes",
+        outdir = "data/genomes",
         formats = "gff3,genome,protein",
         batch_size = config["databases"]["ncbi"]["batch_size"],
-        genome_log = "resources/genomes/genome_log.json",
+        genome_log = "data/genomes/genome_log.json",
         temp_dir = ".temp"
     log:
         "logs/genomes/download_genomes_{family}.log"
@@ -101,9 +101,9 @@ checkpoint download_rfam_motif_genomes:
 
 rule extract_rfam_threshold:
     input:
-        family_txt = "resources/rfam/database_files/family.txt"
+        family_txt = "data/rfam/database_files/family.txt"
     output:
-        threshold = "resources/rfam/cmfind_thresholds/{family}.txt"
+        threshold = "data/rfam/cmfind_thresholds/{family}.txt"
     shell:
         """
         THRESHOLD=$(grep "^{wildcards.family}" {input.family_txt} | cut -f 14 | \
@@ -114,9 +114,9 @@ rule extract_rfam_threshold:
 rule find_motif:
     input:
         flag = lambda wildcards: checkpoints.download_rfam_motif_genomes.get(family=wildcards.family).output.metadata,
-        fasta = "resources/genomes/{genome}/genomic.fna",
-        cm_model = "resources/rfam/cm_models/{family}.cm",
-        threshold = "resources/rfam/cmfind_thresholds/{family}.txt"
+        fasta = "data/genomes/{genome}/genomic.fna",
+        cm_model = "data/rfam/covariance_models/{family}.cm",
+        threshold = "data/rfam/cmfind_thresholds/{family}.txt"
     output:
         "results/00_controls/rfam/{family}/02_flanking/{genome}/motifs.tsv"
     params:
@@ -153,10 +153,11 @@ rule find_motif:
 rule find_flanking_cds:
     input:
         motif_index = "results/00_controls/rfam/{family}/02_flanking/{genome}/motifs.tsv",
-        gff = "resources/genomes/{genome}/geneannotation.gff",
-        proteome = "resources/genomes/{genome}/protein.faa"
+        gff = "data/genomes/{genome}/geneannotation.gff",
+        proteome = "data/genomes/{genome}/protein.faa"
     output:
-        "results/00_controls/rfam/{family}/02_flanking/{genome}/flanking_cds.faa"
+        fasta = "results/00_controls/rfam/{family}/02_flanking/{genome}/flanking_cds.faa",
+        position_table = "results/00_controls/rfam/{family}/02_flanking/{genome}/flanking_cds_positions.tsv"
     params:
         script = "workflow/src/extract_flanking_cds.py",
         search_area = config["controls"]["cds_search_area"],
@@ -174,24 +175,38 @@ rule find_flanking_cds:
             --net-size {params.search_area} \
             --assembly-accession {params.genome_accession} \
             --proteome {input.proteome} \
-            --output {output} \
+            --output {output.fasta} \
+            --position-table {output.position_table} \
             2>&1 | tee {log}
         """
 
 rule combine_flanking_cds:
     input:
-        lambda wildcards: expand(
+        fasta = lambda wildcards: expand(
             "results/00_controls/rfam/{family}/02_flanking/{genome}/flanking_cds.faa",
+            genome=get_motif_accession_ids(wildcards),
+            family=wildcards.family
+        ),
+        position_table = lambda wildcards: expand(
+            "results/00_controls/rfam/{family}/02_flanking/{genome}/flanking_cds_positions.tsv",
             genome=get_motif_accession_ids(wildcards),
             family=wildcards.family
         )
     output:
-        "results/00_controls/rfam/{family}/02_flanking/combined_flanking_cds.faa"
+        fasta = "results/00_controls/rfam/{family}/02_flanking/combined_flanking_cds.faa",
+        position_table = "results/00_controls/rfam/{family}/02_flanking/combined_flanking_cds_positions.tsv"
     run:
-        with open(output[0], "w") as outfile:
-            for infile in input:
-                with open(infile) as f:
-                    outfile.write(f.read())
+        with open(output.fasta, 'w') as out_fasta, open(output.position_table, 'w') as out_table:
+            for fasta_file in input.fasta:
+                with open(fasta_file) as f:
+                    out_fasta.write(f.read())
+            # add header to position table only once
+            out_table.write(open(input.position_table[0]).readline())
+            for table_file in input.position_table:
+                with open(table_file) as f:
+                    # Skip the header line for subsequent files
+                    next(f)
+                    out_table.write(f.read())
 
 rule create_mmseq2_db:
     input:
@@ -370,7 +385,8 @@ rule cluster_spread_analysis:
         hmms = lambda wildcards: expand(
             "results/00_controls/rfam/{family}/06_hmm_profiles/cluster_{cluster_id}.hmm",
             cluster_id=get_cluster_ids(wildcards), family=wildcards.family
-        )
+        ),
+        position_table = "results/00_controls/rfam/{family}/02_flanking/combined_flanking_cds_positions.tsv"
     output:
         report = "results/00_controls/rfam/{family}/07_cluster_analysis/spread_report.tsv",
         presence_matrix = "results/00_controls/rfam/{family}/07_cluster_analysis/presence_absence_matrix.tsv",
@@ -389,6 +405,7 @@ rule cluster_spread_analysis:
             --metadata {input.metadata} \
             --output_report {output.report} \
             --output_presence_matrix {output.presence_matrix} \
+            --position_table {input.position_table} \
             --output_summary {output.summary} \
             2>&1 | tee {log}
         """

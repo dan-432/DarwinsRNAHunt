@@ -10,7 +10,6 @@ import errno
 import gzip
 import json
 import os
-import time
 import requests
 from Bio import SeqIO
 

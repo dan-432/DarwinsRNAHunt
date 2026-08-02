@@ -150,6 +150,24 @@
                 "--output",
                 "results/00_controls/rfam/RF00050/GCF_014466955.1/flanking_cds.faa"
             ]
+        },
+        { 
+            "name": "Python Debugger: analyse cluster spread",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/workflow/src/analyse_cluster_spread.py",
+            "console": "integratedTerminal",
+            "python": "/Users/daniel/Library/Mobile Documents/com~apple~CloudDocs/workspace/DarwinsRNAHunt/.snakemake/conda/4c6ccb00ec2b1c09c8ccad02044936d2_/bin/python",
+            "args": [
+                
+                "--clusters", "results/00_controls/rfam/RF00050/04_clusters/flanking_cds_clusters.tsv",
+                "--fasta", "results/00_controls/rfam/RF00050/02_flanking/combined_flanking_cds.faa",
+                "--position_table", "results/00_controls/rfam/RF00050/02_flanking/combined_flanking_cds_positions.tsv",
+                "--metadata", "results/00_controls/rfam/RF00050/01_phylogeny/genomes_available_metadata.json",
+                "--output_report", "results/00_controls/rfam/RF00050/07_cluster_analysis/spread_report.tsv",
+                "--output_presence_matrix", "results/00_controls/rfam/RF00050/07_cluster_analysis/presence_absence_matrix.tsv",
+                "--output_summary", "results/00_controls/rfam/RF00050/07_cluster_analysis/summary.txt"
+            ]  
         }
     ]
 }

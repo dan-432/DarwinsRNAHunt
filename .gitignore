@@ -5,6 +5,7 @@
 
 # Data files
 results/
+data/
 resources/
 notebooks/output/
 
@@ -20,6 +21,9 @@ logs/
 *.userosscache
 *.sln.docstates
 *.env
+
+**/.DS_Store
+.DS_Store
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -91,6 +95,7 @@ ScaffoldingReadMe.txt
 StyleCopReport.xml
 
 *.DS_Store
+*._
 
 # Files built by Visual Studio
 *_i.c

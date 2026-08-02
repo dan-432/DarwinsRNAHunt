@@ -1,5 +1,5 @@
 """
-author: Danil Dachs
+author: Daniel Dachs
 date: 16/05/2026
 version: 1
 

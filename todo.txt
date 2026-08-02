@@ -1,1 +1,3 @@
-have shared genome directory and just keep metadata for each purpose seperately in /results. Update script to check if genome is already downloaded.
+Make flanking region extraction strand aware (get reverse compliment for negative strand proteins) AND take intergenic to be the span to the next CDS of the same strand (not just any CDS)
+
+Finish implementing sequence classes: extract_cluster_fasta, etract_flanking_cds, extract_flanking_intergenic (this also needs work before its properly strand aware), extract_motif_sequences

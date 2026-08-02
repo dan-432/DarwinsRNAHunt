@@ -27,7 +27,8 @@ interpro:
   #- "IPR007024"
   #- "IPR010079"
   #- "cluster_1282"
-  - "rfam_sequences_control"
+  #- "rfam_sequences_control"
+  - "cluster_1341"
 
 # Taxonomy filtering
 taxonomy:
@@ -54,10 +55,10 @@ cmfinder:
   docker_image: "cmfinder:latest"
   docker_platform: "linux/amd64"
   threads:
-    initial_discovery: 4
+    initial_discovery: 1
     calibration: 4
     homolog_search: 4
-    refinement: 4
+    refinement: 1
     annotation: 4
   resources:
     initial_discovery_mb: 8000
@@ -81,8 +82,20 @@ clustering:
     cluster_mode: 1
     threads: 4
 
+motif_clustering:
+  mmseqs2:
+  # set these parameters based on the desired clustering sensitivity and specificity for finding distant homologs which can be small domains of entire proteins
+    sensitivity: 7.5
+    min_seq_id: 0.25
+    coverage_threshold: 0.2
+    cov_mode: 3
+    cluster_mode: 1
+    threads: 4
+
 controls:
   cds_search_area: 1000
   min_cluster_size: 5
   rfam_families:
     - "RF00050" # FMN riboswitch
+    - "RF00162" # SAM riboswitch
+    - "RF01734" # Fluoride riboswitch

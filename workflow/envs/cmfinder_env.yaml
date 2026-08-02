@@ -1,0 +1,9 @@
+name: cmfinder_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - cmfinder=0.4.1.9
+  - perl
+  - blast

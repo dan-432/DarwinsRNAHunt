@@ -21,6 +21,7 @@ snakemake \
   --conda-base-path ~/miniforge3 \
   --latency-wait 60 \
   --retries 2 --keep-going \
-  results/00_controls/rfam/family_phylo_summary.tsv
+  --rerun-incomplete
+  #results/00_controls/rfam/RF00050/07_cluster_analysis/phylo_report.tsv 
 
 # --unlock \ add this line if you need to unlock the working directory

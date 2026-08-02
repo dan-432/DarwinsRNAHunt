@@ -1,22 +1,12 @@
+"""
+Extract motif sequences from a FASTA file, filtered to the sequence IDs
+that had motif hits in a mmseqs tblout file.
+"""
+
 import argparse
 import json
-from DarwinsRNAHunt.genome_analysis import parse_tblout, parse_fasta, write_fasta_output, decode_nuc_fasta_record
-
-def format_seq(sequence):
-    """Parse bioseq record into its components.
-    Returns:
-        dict with keys: assembly, prot_id, seq_type, seq_id, start, end, strand
-    """
-
-    return {
-        'protein_id': sequence.id,
-        'type': "motif",
-        'seqid': "NA",
-        'start': sequence.start,
-        'end': sequence.end,
-        'strand': sequence.strand,
-        'sequence': sequence.seq  # Fill in the actual sequence
-    }
+from DarwinsRNAHunt.genome_analysis import parse_tblout, parse_fasta, write_fasta_output
+from DarwinsRNAHunt.sequence import NucleotideSequence
 
 
 def main():
@@ -27,11 +17,9 @@ def main():
     parser.add_argument("--motif-hits-tbl", help="Path to the motif hits table.")
     parser.add_argument("--output-fasta", help="Path to the output FASTA file.")
     parser.add_argument("--output-ids", help="Path to the output file for sequence IDs.")
-    
     args = parser.parse_args()
 
     print(f"Extracting motif sequences from {args.fasta_file} based on hits in {args.motif_hits_tbl}...")
-    
     seqs = parse_fasta(args.fasta_file)
     motif_hits = parse_tblout(args.motif_hits_tbl)
 
@@ -42,19 +30,28 @@ def main():
     for seq_id in motif_hits:
         if seq_id in seqs:
             record = seqs[seq_id]
-            filtered_records.append(decode_nuc_fasta_record(record.id, str(record.seq)))
+            # record.id is expected to be a header in
+            # 'protein_id|type|seqid:start-end(strand)' format, as written by
+            # NucleotideSequence.to_header() upstream -- from_header parses
+            # it and dispatches to the right subclass (CDSSequence/UTR5Sequence/
+            # UTR3Sequence/Motif) based on the type field.
+            parsed = NucleotideSequence.from_header(record.id, sequence=str(record.seq))
+            if parsed is None:
+                print(f"Warning: Could not parse header for sequence ID {seq_id}, skipping.")
+                continue
+            filtered_records.append(parsed)
         else:
             print(f"Warning: Sequence ID {seq_id} not found in FASTA file.")
 
     print(f"Writing {len(filtered_records)} sequences to {args.output_fasta}...")
 
-    print(f"filtered_records: {filtered_records}")
-
     write_fasta_output(filtered_records, args.output_fasta)
 
     print(f"Writing sequence IDs to {args.output_ids}...")
 
-    json.dump(list(motif_hits), open(args.output_ids, 'w'), indent=2)
+    with open(args.output_ids, 'w') as f:
+        json.dump(list(motif_hits), f, indent=2)
+
 
 if __name__ == "__main__":
     main()
