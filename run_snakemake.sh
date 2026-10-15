@@ -2,9 +2,10 @@
 #SBATCH --partition=aoraki
 #SBATCH --job-name=snakemake_dan
 #SBATCH --output=snakemake_%j.log
-#SBATCH --time=24:00:00
+#SBATCH --error=snakemake_%j.err
+#SBATCH --time=12:30:00
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=16          # Request more cores
+#SBATCH --cpus-per-task=64
 #SBATCH --mem=128GB                  # Request more memory
 #SBATCH --mail-type=BEGIN,END,FAIL
 #SBATCH --mail-user=dacda462@student.otago.ac.nz
@@ -16,7 +17,7 @@ conda activate snakemake
 # Run Snakemake locally on the compute node
 snakemake \
   --snakefile workflow/Snakefile \
-  --cores 16 \
+  --cores "$SLURM_CPUS_PER_TASK" \
   --use-conda \
   --conda-base-path ~/miniforge3 \
   --latency-wait 60 \

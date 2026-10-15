@@ -253,17 +253,17 @@ checkpoint cluster_flanking_cds:
         table = "results/00_controls/rfam/{family}/04_clusters/flanking_cds_clusters.tsv",
         cluster_db = directory("results/00_controls/rfam/{family}/03_mmseq_dbs/flanking_cds_clustering_db")
     params:
-        identity_threshold = config["clustering"]["mmseqs2"]["min_seq_id"],
-        coverage_threshold = config["clustering"]["mmseqs2"]["coverage_threshold"],
-        cov_mode = config["clustering"]["mmseqs2"]["cov_mode"],
-        cluster_mode = config["clustering"]["mmseqs2"]["cluster_mode"],
-        sensitivity = config["clustering"]["mmseqs2"]["sensitivity"],
+        identity_threshold = config["controls"]["clustering"]["mmseqs2"]["min_seq_id"],
+        coverage_threshold = config["controls"]["clustering"]["mmseqs2"]["coverage_threshold"],
+        cov_mode = config["controls"]["clustering"]["mmseqs2"]["cov_mode"],
+        cluster_mode = config["controls"]["clustering"]["mmseqs2"]["cluster_mode"],
+        sensitivity = config["controls"]["clustering"]["mmseqs2"]["sensitivity"],
         temp_dir = ".temp",
         cluster_db_prefix = "cluster_db",
         flanking_db_prefix = "db",
         refactor_script = "workflow/src/remap_cluster_ids.py"
     threads:
-        config["clustering"]["mmseqs2"]["threads"]
+        config["clustering"]["threads"]
     conda:
         "../envs/rna_motif_env.yaml"
     log:
@@ -306,7 +306,7 @@ checkpoint cluster_flanking_cds:
 #         summary.to_csv(output[0], sep="\t", index=False)
 
 
-rule extract_cluster_fasta:
+rule extract_protein_cluster_fasta:
     """Extract protein sequences for each cluster."""
     input:
         fasta="results/00_controls/rfam/{family}/02_flanking/combined_flanking_cds.faa",
@@ -314,11 +314,11 @@ rule extract_cluster_fasta:
     output:
         cluster_fasta="results/00_controls/rfam/{family}/04_clusters/cluster_{cluster_id}.faa"
     params:
-        script="workflow/src/extract_cluster_fasta.py"
+        script="workflow/src/extract_cluster_protein_fasta.py"
     conda:
         "../envs/domain_analysis_env.yaml"
     log:
-        "logs/rfam/{family}/extract_cluster_{cluster_id}.log"
+        "logs/rfam/{family}/extract_protein_cluster_{cluster_id}.log"
     shell:
         """
         python {params.script} \

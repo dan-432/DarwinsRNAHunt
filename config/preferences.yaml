@@ -1,0 +1,84 @@
+# config/preferences.yaml
+# Things you tune per experiment: which domain to search, which taxon to search it
+# in, and the science/quality thresholds that shape the results. Edit this file
+# freely between runs — it should never contain URLs, credentials, or
+# cluster/resource settings (see technical.yaml and resources.yaml for those).
+
+# Genome-quality filters applied to every target's taxon (GTDB completeness/
+# contamination) — these aren't domain- or taxon-specific, so they're shared
+# rather than repeated per pair.
+taxonomy:
+  completeness_threshold: 99.9
+  contamination_threshold: 1
+
+# Each entry is one (protein domain, taxonomic clade) pair. The pipeline runs
+# each pair independently, keyed on interpro_id.
+targets:
+  - interpro_id: "IPR005594"        # YadA-like membrane anchor domain (negative control)
+    taxonomic_node: "36.0:f__Burkholderiaceae_C"
+  - interpro_id: "IPR002208"        # SecY domain (negative control)
+    taxonomic_node: "36.0:f__Burkholderiaceae_C"
+  - interpro_id: "IPR021309"        # YgaP-like transmembrane domain (negative control)
+    taxonomic_node: "36.0:f__Burkholderiaceae_C"
+  - interpro_id: "IPR001029"        # Bacterial flagellin N-terminal helical region (negative control)
+    taxonomic_node: "36.0:f__Burkholderiaceae_C"
+  # - interpro_id: "IPR011527"        # ABC transporter transmembrane region (negative control)
+  #   taxonomic_node: "36.0:f__Burkholderiaceae_C"
+  - interpro_id: "IPR007024"      # bluf domain
+    taxonomic_node: "36.0:f__Burkholderiaceae_C"
+  - interpro_id: "cluster_1341"       # FMN riboswitch control
+    taxonomic_node: "100:f__Microbacteriaceae"   # good for RF00050 FMN riboswitch control
+  - interpro_id: "CRISPR_Cas2"       # crispr RNA direct repeat element control
+    taxonomic_node: "92.0:o__Lactobacillales"   # Caryophanaceae
+
+hmmer:
+  e: "1e-5"
+
+flanking:
+  upstream: -1
+  downstream: -1
+  length_threshold: 20 # mmseqs uses 6nt kmers 
+  cds_overlap: 5 # number of nucleotides the flanking sequence should bleed into a CDS
+  gc_content_threshold: 0
+
+cmfinder:
+  evalue_threshold: 0.1        # higher for now to be more inclusive, can be refined later
+  min_sequence_count: 5        # minimum sequences needed to run CMfinder
+  min_refinement_sequences: 3  # minimum sequences needed for refinement step
+
+
+
+motif_clustering:
+  mmseqs2:
+    min_seq_id: 0.4
+    coverage_threshold: 0.5
+    cov_mode: 3
+    cluster_mode: 0
+  min_cluster_size: 5
+
+trimming:
+  padding_nt: 15
+  min_trim_len: 15
+  max_trim_len: 1000
+
+cmcalibrate:
+  tailp: 0.05   # fit the null tail from the top 5% of the histogram, whatever its size
+  total_length_random_seq: 0.8  # trading off runtime for accuracy, the total length of random sequences to use for calibration (in multiples of the CM length). Default is 1.6
+
+controls:
+  cds_search_area: 1000
+  min_cluster_size: 5
+  rfam_families:
+    - "RF01315"   # CRISPR RNA direct repeat element
+    #- "RF00050"   # FMN riboswitch
+    #- "RF00162"   # SAM riboswitch
+    #- "RF01734"   # Fluoride riboswitch
+  clustering:
+    # Sensitivity/specificity for finding distant homologs, which can be small
+    # domains within entire proteins.
+    mmseqs2:
+      sensitivity: 7.5
+      min_seq_id: 0.25
+      coverage_threshold: 0.2
+      cov_mode: 3
+      cluster_mode: 1

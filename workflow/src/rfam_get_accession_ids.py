@@ -77,8 +77,13 @@ def gi_id_to_assembly_uid(gi_ids):
 
 def seq_accession_to_assembly_id(seq_accessions):
     id_string = ",".join(seq_accessions)
-    with Entrez.elink(dbfrom="nuccore", db="assembly", id=id_string, idtype="acc") as handle:
-        record = Entrez.read(handle)
+    try:
+        with Entrez.elink(dbfrom="nuccore", db="assembly", id=id_string, idtype="acc") as handle:
+            record = Entrez.read(handle)
+    except RuntimeError as e:
+        print(f"WARNING: batch of {len(seq_accessions)} accessions failed ({e}); skipping batch")
+        print(f"  Accessions: {seq_accessions}")
+        return {}
 
     seqacc_to_uid = {}
 
@@ -121,7 +126,7 @@ def uid_to_assembly(assembly_uids):
 
     return uid_to_gca
 
-def get_genome_assembly_acc(sequence_table, chunk_size=200):
+def get_genome_assembly_acc(sequence_table, chunk_size=75):
     sequence_table = sequence_table.copy()
     assembly_acc = []
 
@@ -130,18 +135,14 @@ def get_genome_assembly_acc(sequence_table, chunk_size=200):
 
         seq_to_uid = seq_accession_to_assembly_id(batch)
 
+        if not seq_to_uid:
+            continue
+
         uid_to_gca = uid_to_assembly(seq_to_uid.values())
 
-        # for seq in seq_to_uid.keys():
-        #     uid = seq_to_uid[seq]
-        #     gca = uid_to_gca[uid]
-
-            #sequence_table.loc[sequence_table["seq_accession"] == seq, "genome_accession"] = gca
-        #UNFORTUNATELY MAPPING DOESN'T WORK
         assembly_acc.extend(uid_to_gca.values())
 
     return assembly_acc
-
 
 def batch_map_sequences_to_assemblies(sequence_table, chunk_size=200):
     """

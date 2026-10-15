@@ -10,7 +10,6 @@ to_bed_line) instead of free functions here.
 
 import sys
 from Bio import SeqIO, SearchIO
-import gffutils
 
 from DarwinsRNAHunt.sequence import (
     Strand,
@@ -51,6 +50,8 @@ def get_cds_from_gff(annotation_db, hmmer_hit_ids):
     Args: annotation_db: gffutils database object with genome annotation loaded
           hmmer_hit_ids: set of protein IDs from HMMER hits
     Returns: list of gffutils.Feature objects for matched genes"""
+
+    import gffutils
 
     matched_genes = []
 
@@ -210,13 +211,15 @@ def load_genome_annotation(gff_file, db_path):
           db_path: path to the database file
     Returns: gffutils.FeatureDB object with genome annotation loaded"""
 
+    import gffutils
+
     db = gffutils.create_db(gff_file, dbfn=db_path, force=True,
                              keep_order=True, merge_strategy='merge',
                              sort_attribute_values=True)
     return db
 
 
-def extract_flanking(protein_hits, annotation_db, upstream: int, downstream: int, genome_seqs: dict):
+def extract_flanking(protein_hits, annotation_db, upstream: int, downstream: int, genome_seqs: dict, cds_overlap: int = 0):
     """
     Extracts flanking sequences for genes corresponding to HMMER hits.
     Args: protein_hits: set of protein IDs from HMMER hits
@@ -224,6 +227,7 @@ def extract_flanking(protein_hits, annotation_db, upstream: int, downstream: int
       upstream: number of bases to extract upstream of gene start (set to -1 to use full intergenic region)
       downstream: number of bases to extract downstream of gene end (set to -1 to use full intergenic region)
       genome_seqs: dictionary of genome sequences parsed from FASTA file
+      cds_overlap: bp a flank may extend into the neighbouring same-strand CDS (only used with -1)
     Returns: list of NucleotideSequence subclass instances for utr5, cds, and utr3
     """
 
@@ -240,10 +244,12 @@ def extract_flanking(protein_hits, annotation_db, upstream: int, downstream: int
     if upstream == -1:
         print("Calculating full intergenic upstream regions...", file=sys.stderr)
         up_flanking = get_next_gene_distance(annotation_db, gene_coords, upstream=True)
+        up_flanking = {pid: dist + cds_overlap for pid, dist in up_flanking.items()}
         print(f"Calculated upstream flanking distances: {up_flanking}", file=sys.stderr)
     if downstream == -1:
         print("Calculating full intergenic downstream regions...", file=sys.stderr)
         down_flanking = get_next_gene_distance(annotation_db, gene_coords, upstream=False)
+        down_flanking = {pid: dist + cds_overlap for pid, dist in down_flanking.items()}
         print(f"Calculated downstream flanking distances: {down_flanking}", file=sys.stderr)
 
     regions = extract_gene_regions(

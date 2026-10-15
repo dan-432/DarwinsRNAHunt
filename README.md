@@ -1,10 +1,10 @@
 # DarwinsRNAHunt
 
-A Snakemake-based honours project workflow for discovering RNA structures that are evolutionarily co-conserved in regulatory regions of genes.
+A Snakemake-based honours project workflow for discovering RNA structures that are evolutionarily co-conserved in non-coding flanking regions of genes.
 
 ## Overview
 
-This repository defines a genome-wide pipeline that:
+This repository defines a pipeline that:
 
 - downloads or consumes reference data from Rfam, GTDB, and InterPro;
 - selects target genomes and taxonomic subsets;
@@ -35,6 +35,7 @@ The workflow is organized so that heavy data preparation and control workflows a
 
 Snakemake is required, install following instructions from [Snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html). 
 I recommend the Conda installation method.
+envvionment.yaml in this directory defines a base conda environment for snakemake runs.
 
 There is a wrapper script for Slurm-based execution:
 

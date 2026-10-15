@@ -1,3 +1,1 @@
-Make flanking region extraction strand aware (get reverse compliment for negative strand proteins) AND take intergenic to be the span to the next CDS of the same strand (not just any CDS)
-
-Finish implementing sequence classes: extract_cluster_fasta, etract_flanking_cds, extract_flanking_intergenic (this also needs work before its properly strand aware), extract_motif_sequences
+Further to positive control generation, find what pfam domain our cluster is representing -> then get phylogenetic distribution of this domain and annotate on iTol

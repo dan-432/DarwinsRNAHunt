@@ -1,0 +1,23 @@
+# config/technical.yaml
+# Background machinery: download endpoints, credentials, container settings.
+# Update this only if a URL changes, you need to pin a specific data release,
+# or your infra changes (e.g. switching the CMfinder container).
+
+databases:
+  interpro:
+    tax_base_url: "https://www.ebi.ac.uk:443/interpro/api/taxonomy/uniprot/protein/entry/InterPro/{prot_id}/?page_size=200"
+  gtdb:
+    gtdb_bacteria_tree_url: "https://data.gtdb.ecogenomic.org/releases/release232/232.0/bac120_r232.tree"
+    gtdb_bacteria_metadata_url: "https://data.gtdb.ecogenomic.org/releases/release232/232.0/bac120_metadata.tsv.gz"
+  ncbi:
+    batch_size: 50
+  rfam:
+    rfam_cm_url: "https://ftp.ebi.ac.uk/pub/databases/Rfam/15.1/Rfam.cm.gz"
+    rfam_genome_index_url: "https://ftp.ebi.ac.uk/pub/databases/Rfam/15.1/Rfam.full_region.gz"
+
+  entrez:
+    email: "dacda462@student.otago.ac.nz"
+
+cmfinder:
+  docker_image: "cmfinder:latest"
+  docker_platform: "linux/amd64"

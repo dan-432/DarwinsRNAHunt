@@ -23,6 +23,12 @@ from enum import Enum
 from Bio.Seq import Seq
 
 
+_NUCLEOTIDE_TYPE_MAP = {
+    "cds": lambda **kwargs: CDSSequence(**kwargs),
+    "utr5": lambda **kwargs: UTR5Sequence(**kwargs),
+    "utr3": lambda **kwargs: UTR3Sequence(**kwargs),
+}
+
 class Strand(Enum):
     POSITIVE = "+"
     NEGATIVE = "-"

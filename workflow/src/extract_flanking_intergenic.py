@@ -47,6 +47,9 @@ def main():
         help='Bases upstream of gene start, -1 for full intergenic sequence (default: 500)')
     parser.add_argument('--downstream', type=int, default=500,
         help='Bases downstream of gene end, -1 for full intergenic sequence (default: 500)')
+    parser.add_argument('--cds-overlap', type=int, default=0,
+        help='Bases of overlap with neighbouring CDS allowed when extending '
+                'flanks into intergenic space (default: 0)')
     parser.add_argument('--evalue', type=float, default=1e-5,
         help='E-value threshold (default: 1e-5)')
     parser.add_argument('--temp-dir', default='.temp',
@@ -67,7 +70,7 @@ def main():
     annotation_db = load_genome_annotation(args.annotation, db_path)
 
     genome_seq = parse_fasta(args.genome)
-    regions = extract_flanking(protein_hits, annotation_db, args.upstream, args.downstream, genome_seq)
+    regions = extract_flanking(protein_hits, annotation_db, args.upstream, args.downstream, genome_seq, args.cds_overlap)
 
     write_fasta_outputs(
         regions,

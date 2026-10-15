@@ -1,0 +1,62 @@
+# config/resources.yaml
+# Compute allocation only — threads, memory, runtime. Change these to match
+# whatever machine/cluster you're running on; nothing in here should affect
+# scientific results.
+
+cmfinder:
+  threads:
+    initial_discovery: 1
+    calibration: 4
+    homolog_search: 4
+    refinement: 1
+    annotation: 4
+  mem_mb:
+    initial_discovery: 8000
+    calibration: 8000
+    homolog_search: 8000
+    refinement: 16000
+    annotation: 8000
+  runtime:
+    initial_discovery: 240
+    calibration: 120
+    homolog_search: 120
+    refinement: 360
+    annotation: 120
+
+clustering:
+  threads: 4
+
+motif_clustering:
+  threads: 4
+  esl:
+    threads: 1
+  mafft:
+    threads: 4
+
+infernal:
+  cmsearch:
+    threads: 4
+  cmcalibrate:
+    threads: 4
+    max_runtime: 1800
+    mem_mb: 8000          # budget per calibrate_cm_model job, in Mb
+    mem_safety_factor: 2  # Infernal's own recommended safety margin on --memreq
+
+# Per-rule resources for the earlier pipeline stages (moved out of the rules
+# themselves so they can be tuned without touching pipeline logic).
+genomes:
+  download_gtdb:
+    mem_mb: 8000
+    disk_mb: 50000
+  locate_domains:
+    mem_mb: 2000
+    runtime: 60
+  extract_flanking_sequences:
+    mem_mb: 1000
+    runtime: 30
+  combine_flanking_sequences:
+    mem_mb: 1000
+    runtime: 10
+  filter_flanking_sequences:
+    mem_mb: 1000
+    runtime: 10
