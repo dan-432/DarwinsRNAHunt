@@ -62,26 +62,28 @@ If Snakemake becomes locked, run `snakemake --unlock` before rerunning.
 
 ## Configuration
 
-The main configuration file is `config/config.yaml`.
+The main configuration files are `config/preferences.yaml`, `config/resources.yaml` and `config/technical.yaml`.
 
-It controls:
+`config/preferences.yaml` is the start place for changing how the pipeline runs, it controls:
 
-- database URLs and download endpoints if these change under `databases:`
 - target InterPro IDs, to set the targets for the pipeline, under `interpro.target_interpro_ids`
-- taxonomy filters under `taxonomy:`
 - HMMER search thresholds under `hmmer:`
 - flanking region extraction settings under `flanking:`
-- CMfinder thread and resource settings under `cmfinder:`
 - MMseqs2 clustering parameters under `clustering.mmseqs2:`
 - control workflow settings under `controls:`
 
+For resource control (changing the run time or memory alocation for particular steps) use `config/resources.yaml`.
+
+Technical setting like web API URLs are set in `config/technical.yaml`.
 
 ## File structure
 
 Top-level layout:
 
 - `config/`
-  - `config.yaml` - main Snakemake config file.
+  - `config/preferences.yaml` - main Snakemake config file.
+  - `config/resources.yaml`
+  - `config/technical.yaml`
 - `workflow/`
   - `Snakefile` - main workflow entrypoint.
   - `rules/` - Snakemake rule modules for pipeline stages.
@@ -91,9 +93,10 @@ Top-level layout:
 - `logs/` - Snakemake and rule-level log files.
 - `notebooks/` - analysis and debugging scripts and notebooks
 - `data/` - reference data downloads and local asset files used by rules.
+  - `data/genomes` - stores all genome files under accession folders, download checks for already existing genomes
 - `run_snakemake.sh` - example wrapper script for cluster execution.
 - `.tests` - unit tests
 
 ## Notes
 
-- `results/` is the primary destination for downstream analysis outputs.
+- `results/` is the primary destination for downstream analysis outputs. Look at `results/03_manual_motif_discovery/**domain**_domain_flanking_**position**/final_report.html` for a final report of discovered candidate structured RNAs.
